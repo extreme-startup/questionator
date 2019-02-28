@@ -1,0 +1,29 @@
+{
+  "name": "questionator",
+  "version": "0.0.0",
+  "description": "extreme-sturtup",
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd ./client && npm run build",
+    "build:server": "cd ./server && npm run build",
+    "install": "npm run install:client && npm run install:server",
+    "install:client": "cd ./client && npm install",
+    "install:server": "cd ./server && npm install",
+    "lint": "npm run lint:client && npm run lint:server",
+    "lint:client": "cd ./client && npm run lint",
+    "lint:server": "cd ./server && npm run lint",
+    "test": "npm run test:client && npm run test:server",
+    "test:client": "cd ./client && npm run test:unit",
+    "test:server": "cd ./client && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/extreme-startup/questionator.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/extreme-startup/questionator/issues"
+  },
+  "homepage": "https://github.com/extreme-startup/questionator#readme"
+}

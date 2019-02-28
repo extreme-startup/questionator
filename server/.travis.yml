@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "8"
+dist: trusty
+env:
+  - NODE_ENV=ci PORT=3000
+cache:
+  directories:
+    - dist
+    - node_modules
+install:
+  - npm install
+script:
+  - npm run lint
+  - npm run test
