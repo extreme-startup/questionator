@@ -1,7 +1,6 @@
 {
   "name": "questionator",
   "version": "0.0.0",
-  "description": "extreme-sturtup",
   "scripts": {
     "build": "npm run build:client && npm run build:server",
     "build:client": "cd ./client && npm run build",
@@ -14,7 +13,7 @@
     "lint:server": "cd ./server && npm run lint",
     "test": "npm run test:client && npm run test:server",
     "test:client": "cd ./client && npm run test:unit",
-    "test:server": "cd ./client && npm run test"
+    "test:server": "cd ./server && npm run test"
   },
   "repository": {
     "type": "git",

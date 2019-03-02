@@ -1,4 +1,4 @@
-# extreme-sturtup
+# questionator
 
 ## Project setup
 ```
