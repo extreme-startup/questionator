@@ -13,16 +13,21 @@
     "lint:server": "cd ./server && npm run lint",
     "test": "npm run test:client && npm run test:server",
     "test:client": "cd ./client && npm run test:unit",
-    "test:server": "cd ./server && npm run test"
+    "test:server": "cd ./server && npm run test",
+    "start:dev": "concurrently --kill-others \"npm run start:dev:client\" \"npm run start:dev:server\"",
+    "start:dev:client": "cd ./client && npm run serve",
+    "start:dev:server": "cd ./server && npm run start:dev"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/extreme-startup/questionator.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/extreme-startup/questionator/issues"
   },
-  "homepage": "https://github.com/extreme-startup/questionator#readme"
+  "homepage": "https://github.com/extreme-startup/questionator#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
 }

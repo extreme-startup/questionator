@@ -70,3 +70,6 @@ dist
 *.njsproj
 *.sln
 *.sw*
+
+# OS Specific files
+.DS_Store
