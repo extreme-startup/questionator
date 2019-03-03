@@ -1,4 +1,4 @@
-# questionator
+# Questionator [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/master/LICENSE) [![Build Status](https://travis-ci.org/extreme-startup/questionator.svg?branch=master)](https://travis-ci.org/extreme-startup/questionator) 
 
 The project, which the main goal is to give the solid experience of appearing in a startup environment with constantly changing market demand.
 
