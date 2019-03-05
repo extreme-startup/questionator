@@ -2,7 +2,7 @@
 
 PR meets the following requirements:
 
-<!-- Please check the one that applies to this PR using "x". -->
+<!-- Check fulfilled requirements using "x". -->
 
 - [ ] Changes follow our guidelines: [TODO: link to CONTRIBUTING.md]()
 - [ ] Tests for the changes have been added
@@ -12,7 +12,7 @@ PR meets the following requirements:
 
 PR introduces the following changes:
 
-<!-- Check relevant variant(s) using "x". -->
+<!-- Check relevant variant using "x". -->
 
 ```
 [ ] Bugfix
