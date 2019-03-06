@@ -1,0 +1,36 @@
+mutation {
+  firstUser: createUser(
+    data: {
+      email: "first-user2@gmail.com",
+      phone: "+38 (093) 645-45-92",
+      name: "First User"
+    }
+  ) {
+    id,
+    name,
+    email,
+    phone
+  }
+
+  firstQuestion: createQuestion(
+    data: {
+      description: "How old are you?",
+      answer: "7"
+    }
+  ) {
+    id,
+    description,
+    answer
+  }
+
+  secondQuestion: createQuestion(
+    data: {
+      description: "Where do you live?",
+      answer: "Kyiv"
+    }
+  ) {
+    id,
+    description,
+    answer
+  }
+}

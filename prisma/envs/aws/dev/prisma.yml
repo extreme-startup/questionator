@@ -1,0 +1,12 @@
+endpoint: http://localhost:4466/questinator_test/staging
+
+datamodel:
+  - ../../../models/user.prisma
+  - ../../../models/question.prisma
+
+generate:
+  - generator: typescript-client
+    output: ../../../../app/src/generated/prisma-client/
+
+seed:
+  import: ../../../database/seed.graphql

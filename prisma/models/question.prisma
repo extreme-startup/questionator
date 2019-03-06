@@ -1,0 +1,8 @@
+type Question {
+  id: ID! @unique
+  description: String!
+  answer: String!
+  frequency: Int @default(value: "1")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

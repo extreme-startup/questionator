@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  prisma:
+    image: prismagraphql/prisma:1.27
+    container_name: prisma-aws-dev
+    restart: always
+    ports:
+      - "4466:4466"
+    networks:
+      - prisma-network
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        # uncomment the next line and provide the env var PRISMA_MANAGEMENT_API_SECRET=my-secret to activate cluster security
+        # managementApiSecret: my-secret
+        databases:
+          questinator_test:
+            connector: mysql
+            host: ${AWS_DB_HOST}
+            port: ${AWS_DB_PORT}
+            user: ${AWS_DB_USERNAME}
+            password: ${AWS_DB_PASSWORD}
+            rawAccess: true
+            migrations: true
+
+networks:
+  prisma-network:
+    driver: bridge
