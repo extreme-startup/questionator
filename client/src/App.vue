@@ -1,12 +1,41 @@
 <template>
   <div id="app">
+    <div class="serverMsg successMsg" v-if="httpGetResponce">
+      Server responded with following message:
+      <strong>{{ httpGetResponce.data }}</strong>
+    </div>
+    <div class="serverMsg errorMsg" v-if="httpGetError">
+      The error message is following:
+      <strong>{{ httpGetError.message }}</strong>
+    </div>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+    <router-view/>
   </div>
 </template>
+
+<script>
+import { get } from "./http";
+
+export default {
+  name: "app",
+  data() {
+    return {
+      httpGetResponce: null,
+      httpGetError: null
+    };
+  },
+  mounted: async function() {
+    try {
+      this.httpGetResponce = await get("/hello");
+    } catch (err) {
+      this.httpGetError = err;
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -24,6 +53,28 @@
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+.serverMsg {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 2em;
+  border: 2px solid;
+  text-align: center;
+}
+.successMsg {
+  border-color: #096427;
+  background-color: #0cdf64;
+  &strong {
+    color: #154cc2;
+  }
+}
+.errorMsg {
+  border-color: #830909;
+  background-color: #f15151;
+  &strong {
+    color: #530947;
   }
 }
 </style>
