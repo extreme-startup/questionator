@@ -1,8 +1,9 @@
-import axios from "axios";
+import ax from "axios";
 import { config as baseConfig } from "./config";
 
-export const get = (url, config = {}) =>
-  axios.get(url, { ...baseConfig, ...config });
+const axios = ax.create(baseConfig);
+
+export const get = (url, config = {}) => axios.get(url, config);
 
 export const put = (url, data = null, config = {}) =>
-  axios.put(url, data, { ...baseConfig, ...config });
+  axios.put(url, data, config);
