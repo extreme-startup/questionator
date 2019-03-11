@@ -5,8 +5,7 @@ import { TYPES } from './types';
 import IConfiguration from './interfaces/IConfiguration';
 import IBootstraper from './interfaces/IBootstraper';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
-const packageJson = require('../package.json'); //tslint:disable-line
+import { description, version } from '../package.json';
 
 @injectable()
 export default class Bootstraper implements IBootstraper {
@@ -20,8 +19,8 @@ export default class Bootstraper implements IBootstraper {
     const app = await NestFactory.create(AppModule);
 
     const options = new DocumentBuilder()
-      .setTitle(packageJson.description)
-      .setVersion(packageJson.version)
+      .setTitle(description)
+      .setVersion(version)
       .build();
 
     const document = SwaggerModule.createDocument(app, options);
