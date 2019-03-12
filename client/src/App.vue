@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import { get } from "./http";
-
 export default {
   name: "app",
   data() {
@@ -29,7 +27,7 @@ export default {
   },
   mounted: async function() {
     try {
-      this.httpGetResponce = await get("/hello");
+      this.httpGetResponce = await this.$http.get("/hello");
     } catch (err) {
       this.httpGetError = err;
     }
