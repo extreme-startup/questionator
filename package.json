@@ -18,7 +18,8 @@
     "start:dev:server": "cd ./server && npm run start:dev",
     "start:prod:server": "cd ./server && npm run start:prod",
     "build": "npm run build:client && npm run build:server",
-    "start": "npm run start:prod:server"
+    "start": "npm run start:prod:server",
+    "ln:client:env": "lnk .env client"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/extreme-startup/questionator#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "lnk-cli": "^1.0.1"
   }
 }
