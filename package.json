@@ -2,7 +2,6 @@
   "name": "questionator",
   "version": "0.0.0",
   "scripts": {
-    "build": "npm run build:client && npm run build:server",
     "build:client": "cd ./client && npm run build",
     "build:server": "cd ./server && npm run build",
     "install": "npm run install:client && npm run install:server",
@@ -16,7 +15,11 @@
     "test:server": "cd ./server && npm run test",
     "start:dev": "concurrently --kill-others \"npm run start:dev:client\" \"npm run start:dev:server\"",
     "start:dev:client": "cd ./client && npm run serve",
-    "start:dev:server": "cd ./server && npm run start:dev"
+    "start:dev:server": "cd ./server && npm run start:dev",
+    "start:prod:server": "cd ./server && npm run start:prod",
+    "build": "npm run build:client && npm run build:server",
+    "start": "npm run start:prod:server",
+    "ln:client:env": "lnk .env client"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
   },
   "homepage": "https://github.com/extreme-startup/questionator#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "lnk-cli": "^1.0.1"
   }
 }

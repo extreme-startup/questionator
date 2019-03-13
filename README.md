@@ -7,6 +7,7 @@ The project, which the main goal is to give the solid experience of appearing in
 ### Project setup
 ```
 npm install
+npm run ln:client:env 
 ```
 
 ### Compiles and minifies for production

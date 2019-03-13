@@ -14,5 +14,11 @@
     "arrow-parens": false,
     "object-literal-sort-keys": false
   },
+  "linterOptions": {
+    "exclude": [
+      "*.json",
+      "**/*.json"
+    ]
+  },
   "rulesDirectory": []
 }
