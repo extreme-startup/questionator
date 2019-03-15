@@ -3,9 +3,14 @@ import { ConfigService } from './config';
 import { AppModule } from './app.module';
 import { description, version } from '../package.json';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as serveStatic from 'serve-static';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
+  app.use(serveStatic(path.join(__dirname, '../../../client/dist')));
+
   const configService: ConfigService = app.get(ConfigService);
 
   const options = new DocumentBuilder()

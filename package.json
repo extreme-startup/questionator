@@ -2,7 +2,6 @@
   "name": "questionator",
   "version": "0.0.0",
   "scripts": {
-    "build": "npm run build:client && npm run build:server",
     "build:client": "cd ./client && npm run build",
     "build:server": "cd ./server && npm run build",
     "install": "npm run install:client && npm run install:server",
@@ -20,6 +19,10 @@
     "format": "npm run format:client && npm run format:server",
     "format:client": "cd ./client && npm run prettier",
     "format:server": "cd ./server && npm run format"
+    "start:prod:server": "cd ./server && npm run start:prod",
+    "build": "npm run build:client && npm run build:server",
+    "start": "npm run start:prod:server",
+    "ln:client:env": "lnk .env client"
   },
   "repository": {
     "type": "git",
@@ -40,5 +43,7 @@
     "hooks": {
       "pre-commit": "npm run format; npm run lint; git add ."
     }
+    "concurrently": "^4.1.0",
+    "lnk-cli": "^1.0.1"
   }
 }
