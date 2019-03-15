@@ -14,18 +14,25 @@ Unfortunately, we are not able to investigate / fix bugs without a minimal repro
 
 ## Pull Request Process
 
-1. We have a [code review process](), please follow it in all your interactions with the project. //TODO: Add link to code review process
-2. README.md includes all details how to build project, run tests, etc.
-3. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
+Please use a Fork-and-Branch Git Workflow
 
+* Fork a GitHub repository.
+* Clone the forked repository to your local system.
+* Add a Git remote for the original repository.
+* Create a feature branch in which to place your changes.
+* Make your changes and commit the changes to the branch.
+* Push the branch to GitHub.
+* Open a pull request from the new branch to the original repo.
 
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, gender identity and expression, level of experience,
-nationality, personal appearance, race, religion, or sexual identity and
-orientation.
+* README.md includes all details how to build project, run tests, etc.
+* (Code Style)[https://github.com/extreme-startup/questionator/wiki/Code-style-guides]
+* (Git strategy)[https://github.com/extreme-startup/questionator/wiki/Git-strategy]
+
+### Merge
+
+* Verify that all checks are passed
+* Get at least two approves from project owners
+
 
 ### Our Standards
 
