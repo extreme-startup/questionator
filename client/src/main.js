@@ -5,7 +5,7 @@ import store from './store';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.VUE_APP_API_URL
+  baseURL: process.env.VUE_APP_API_URL,
 });
 Vue.prototype.$http = axiosInstance;
 

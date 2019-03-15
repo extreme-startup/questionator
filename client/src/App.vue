@@ -18,20 +18,20 @@
 
 <script>
 export default {
-  name: "app",
+  name: 'app',
   data() {
     return {
       httpGetResponce: null,
-      httpGetError: null
+      httpGetError: null,
     };
   },
   mounted: async function() {
     try {
-      this.httpGetResponce = await this.$http.get("/hello");
+      this.httpGetResponce = await this.$http.get('/hello');
     } catch (err) {
       this.httpGetError = err;
     }
-  }
+  },
 };
 </script>
 
@@ -54,7 +54,7 @@ export default {
   }
 }
 .serverMsg {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 2em;
