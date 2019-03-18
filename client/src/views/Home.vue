@@ -7,7 +7,7 @@
 import Trainings from '@/components/Trainings.vue';
 
 export default {
-    name: 'home',
+  name: 'home',
   components: {
     Trainings,
   },
