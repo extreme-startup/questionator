@@ -1,7 +1,2 @@
-import StyledButton from './Button';
-import StyledTitle from './Title';
-
-export default {
-  StyledButton,
-  StyledTitle,
-};
+export { default as Button } from './Button';
+export { default as Title } from './Title';

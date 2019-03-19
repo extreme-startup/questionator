@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import styledComponents from '../common/styledComponents';
+import { Button, Title } from '../common/styledComponents';
 
 export default {
   name: 'Trainings',
   components: {
-    'styled-button': styledComponents.StyledButton,
-    'styled-title': styledComponents.StyledTitle,
+    'styled-button': Button,
+    'styled-title': Title,
   },
 };
 </script>

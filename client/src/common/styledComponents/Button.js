@@ -2,7 +2,7 @@ import styled from 'vue-styled-components';
 
 const btnProps = { primary: Boolean };
 
-const StyledButton = styled('button', btnProps)`
+const Button = styled('button', btnProps)`
   font-size: 16px;
   padding: 5px 20px;
   border: none;
@@ -11,4 +11,4 @@ const StyledButton = styled('button', btnProps)`
   color: ${props => (props.primary ? 'grey' : 'white')};
 `;
 
-export default StyledButton;
+export default Button;
