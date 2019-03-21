@@ -4,7 +4,7 @@ PR meets the following requirements:
 
 <!-- Check fulfilled requirements using "x". -->
 
-- [ ] Changes follow our guidelines: [TODO: link to CONTRIBUTING.md]()
+- [ ] Changes follow our [guidelines](https://github.com/extreme-startup/questionator/wiki/Contributing)
 - [ ] Tests for the changes have been added
 - [ ] Docs have been added / updated
 
