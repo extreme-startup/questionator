@@ -1,2 +1,4 @@
 export { default as Button } from './Button';
-export { default as Title } from './Title';
+export { TitleH1, TitleH3 } from './Title';
+export { default as Section } from './Section';
+export { List, ListItem, ListItemTittle } from './List';
