@@ -37,13 +37,13 @@ const AddTraining = styled(Button)`
 
 const SortLink = styled.a`
   margin-left: auto;
-  color: #222222;
+  color: var(--text-color);
   font-size: 18px;
   text-decoration: none;
   font-weight: 500;
 
   &:focus {
-    color: #222222;
+    color: var(--text-color);
   }
 `;
 

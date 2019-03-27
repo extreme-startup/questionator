@@ -9,8 +9,8 @@ const Button = styled('button', btnProps)`
   border-radius: 0;
   font-weight: 600;
   text-transform: uppercase;
-  background: ${props => (props.primary ? 'yellow' : '#4F4F4F')};
-  color: ${props => (props.primary ? 'grey' : '#FFFFFF')};
+  background: ${props => (props.primary ? 'var(--btn-bg-primary)' : 'var(--btn-bg)')};
+  color: ${props => (props.primary ? 'var(--btn-color-primary)' : 'var(--btn-color)')};
 `;
 
 export default Button;

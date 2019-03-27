@@ -33,6 +33,17 @@ export default {
 
 <style lang="scss">
 @import '~reset-css';
+
+/*
+vars
+*/
+div {
+  --text-color: #222222;
+  --btn-bg: #4f4f4f;
+  --btn-color: #fff;
+  --btn-bg-primary: #eeeb49;
+  --btn-color-primary: #222222;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -12,7 +12,7 @@ export const ListItem = styled.div`
   margin: 0 10px 10px 0;
   padding: 8px 14px;
   font-size: 18px;
-  color: #222222;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
 

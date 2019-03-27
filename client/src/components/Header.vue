@@ -21,7 +21,7 @@ const Header = styled.header`
   top: 0;
   display: flex;
   justify-content: flex-end;
-  color: #222222;
+  color: var(--text-color);
   align-items: center;
   background: #fff;
   padding: 0 80px;
@@ -40,7 +40,7 @@ const Header = styled.header`
   }
 
   & a {
-    color: #222222;
+    color: var(--text-color);
     cursor: pointer;
     text-decoration: none;
   }
