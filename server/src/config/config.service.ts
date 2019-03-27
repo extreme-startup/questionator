@@ -8,7 +8,7 @@ export class ConfigService {
 
   private envVarsSchema: Joi.ObjectSchema = Joi.object({
     NODE_ENV: Joi.string()
-      .valid(['development', 'production', 'test'])
+      .valid(['development', 'production', 'test', 'ci'])
       .default('development'),
     PORT: Joi.number().default(3000),
   })
