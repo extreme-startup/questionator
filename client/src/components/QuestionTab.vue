@@ -1,18 +1,34 @@
 <template>
-  <div>
-    <Button>Add new question</Button>
-    <DataTable :columns="columns" :data="questions"/>
-  </div>
+  <Fragment>
+    <ButtonList>
+      <Button>Add new question</Button>
+      <Button primary="true">Question library</Button>
+    </ButtonList>
+    <DataTable :columns="columns" :data="questions" />
+  </Fragment>
 </template>
 
 <script>
+import { Fragment } from 'vue-fragment';
+import styled from 'vue-styled-components';
 import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
+
+const ButtonList = styled.div`
+  margin: 35px 0;
+  display: flex;
+
+  & > * {
+    margin-right: 40px;
+  }
+`;
 
 export default {
   name: 'question-tab',
   components: {
+    Fragment,
     DataTable,
+    ButtonList,
     Button,
   },
   data: () => ({
@@ -35,21 +51,17 @@ export default {
     try {
       this.training = await this.$http.get(`/training/${this.$route.params.id}`);
     } catch (err) {
-      // TODO: Remove this mock when '/training' endpoint implemented
+      /*
+      TODO: Remove this mock when '/training' endpoint implemented
       this.training = {
         id: 123,
         name: 'Test training',
         questions: [
           { text: 'some text', category: 'category', level: 1 },
-          { text: 'some text2', category: 'category1', level: 2 },
-          { text: 'some text1', category: 'category3', level: 2 },
         ],
       };
+      */
     }
   },
 };
 </script>
-
-<style>
-
-</style>

@@ -6,10 +6,12 @@
       <styled-sort-link href="/">Sort by: ???</styled-sort-link>
     </styled-title>
     <styled-list>
-      <styled-list-item>
-        <styled-list-title>Contest #64747</styled-list-title>
-        <div>23 sessions</div>
-      </styled-list-item>
+      <router-link to="/training/64747">
+        <styled-list-item>
+          <styled-list-title>Contest #64747</styled-list-title>
+          <div>23 sessions</div>
+        </styled-list-item>
+      </router-link>
     </styled-list>
   </styled-wrapper>
 </template>

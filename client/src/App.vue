@@ -1,13 +1,5 @@
 <template>
   <div id="app">
-    <div class="serverMsg successMsg" v-if="httpGetResponce">
-      Server responded with following message:
-      <strong>{{ httpGetResponce.data }}</strong>
-    </div>
-    <div class="serverMsg errorMsg" v-if="httpGetError">
-      The error message is following:
-      <strong>{{ httpGetError.message }}</strong>
-    </div>
     <router-view />
   </div>
 </template>
