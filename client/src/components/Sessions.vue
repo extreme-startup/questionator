@@ -6,33 +6,33 @@
     <styled-list>
       <styled-list-item>
         <styled-list-title>Contest #64747</styled-list-title>
-        <div>44 members</div>
-        <div>Trainer</div>
-        <div class="bottomItem">Start time</div>
+        <styled-div>44 members</styled-div>
+        <styled-div>Trainer</styled-div>
+        <styled-div class="bottomItem">Start time</styled-div>
       </styled-list-item>
       <styled-list-item>
         <styled-list-title>Contest #64747</styled-list-title>
-        <div>44 members</div>
-        <div>Trainer</div>
-        <div class="bottomItem">Start time</div>
+        <styled-div>44 members</styled-div>
+        <styled-div>Trainer</styled-div>
+        <styled-div class="bottomItem">Start time</styled-div>
       </styled-list-item>
       <styled-list-item>
         <styled-list-title>Contest #64747</styled-list-title>
-        <div>44 members</div>
-        <div>Trainer</div>
-        <div class="bottomItem">Start time</div>
+        <styled-div>44 members</styled-div>
+        <styled-div>Trainer</styled-div>
+        <styled-div class="bottomItem">Start time</styled-div>
       </styled-list-item>
       <styled-list-item>
         <styled-list-title>Contest #64747</styled-list-title>
-        <div>44 members</div>
-        <div>Trainer</div>
-        <div class="bottomItem">Start time</div>
+        <styled-div>44 members</styled-div>
+        <styled-div>Trainer</styled-div>
+        <styled-div class="bottomItem">Start time</styled-div>
       </styled-list-item>
       <styled-list-item>
         <styled-list-title>Contest #64747</styled-list-title>
-        <div>44 members</div>
-        <div>Trainer</div>
-        <div class="bottomItem">Start time</div>
+        <styled-div>44 members</styled-div>
+        <styled-div>Trainer</styled-div>
+        <styled-div class="bottomItem">Start time</styled-div>
       </styled-list-item>
     </styled-list>
   </styled-wrapper>
@@ -40,10 +40,14 @@
 
 <script>
 import styled from 'vue-styled-components';
-import { List, ListItem, Section, TitleH3, ListItemTittle } from '../common/styledComponents';
+import { List, ListItem, Section, TitleH3, ListItemTitle } from '../common/styledComponents';
 
 const Title = styled(TitleH3)`
-  margin-bottom: 25px;
+  margin: 0 0 25px;
+`;
+
+const ListDiv = styled.div`
+  margin-bottom: 8px;
 `;
 
 export default {
@@ -53,7 +57,8 @@ export default {
     'styled-title': Title,
     'styled-list': List,
     'styled-list-item': ListItem,
-    'styled-list-title': ListItemTittle,
+    'styled-list-title': ListItemTitle,
+    'styled-div': ListDiv,
   },
 };
 </script>

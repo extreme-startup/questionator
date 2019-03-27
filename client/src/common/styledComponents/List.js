@@ -1,5 +1,6 @@
 import styled from 'vue-styled-components';
 
+// export const List = styled.div`
 export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -16,17 +17,13 @@ export const ListItem = styled.div`
   display: flex;
   flex-direction: column;
 
-  & div {
-    margin-bottom: 8px;
-  }
-
   & .bottomItem {
     margin-top: auto;
     margin-bottom: 0;
   }
 `;
 
-export const ListItemTittle = styled.h4`
+export const ListItemTitle = styled.h4`
   font-weight: 500;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
 `;

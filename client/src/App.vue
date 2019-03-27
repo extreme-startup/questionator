@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~reset-css';
+@import '~normalize.css';
 
 /*
 vars
