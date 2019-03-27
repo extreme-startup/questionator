@@ -6,12 +6,12 @@ import { ConfigService } from '../../../config';
 
 @Injectable()
 export class LocalTunnelService {
-  private localTunnel: any = null;
+  private localTunnel: localTunnel.Tunnel = null;
   private host: string = '';
 
-  private readonly options = {
+  private readonly options: localTunnel.TunnelConfig = {
     subdomain: 'questinator',
-    port: this.configService.port(),
+    port: Number(this.configService.port()),
   };
 
   constructor(private readonly configService: ConfigService) {}
@@ -23,18 +23,21 @@ export class LocalTunnelService {
   public start(): Promise<string> {
     return new Promise((resolve, reject) => {
       if (!this.host) {
-        console.log('LOCAL TUNNEL: ', localTunnel, '\n\n');
-        localTunnel(this.options.port, this.options, (err: any, tunnel: any) => {
-          if (err) {
-            throw new Error(err);
-          }
+        localTunnel(
+          this.options.port,
+          this.options,
+          (err: string, tunnel: localTunnel.Tunnel) => {
+            if (err) {
+              throw new Error(err);
+            }
 
-          this.localTunnel = tunnel;
-          this.host = tunnel.url;
-          console.log(tunnel);
-          console.log(`local tunnel started on ${this.host}`);
-          return resolve(`local tunnel started on ${this.host}`);
-        });
+            this.localTunnel = tunnel;
+            this.host = tunnel.url;
+
+            console.log(`local tunnel started on ${this.host}`);
+            return resolve(`local tunnel started on ${this.host}`);
+          },
+        );
       } else {
         return reject(`local tunnel already started on ${this.host}`);
       }
