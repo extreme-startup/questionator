@@ -9,7 +9,7 @@
       <router-link to="/training/64747">
         <styled-list-item>
           <styled-list-title>Contest #64747</styled-list-title>
-          <div>23 sessions</div>
+          <styled-div>23 sessions</styled-div>
         </styled-list-item>
       </router-link>
     </styled-list>
@@ -24,11 +24,11 @@ import {
   Section,
   List,
   ListItem,
-  ListItemTittle,
+  ListItemTitle,
 } from '../common/styledComponents';
 
 const Title = styled(TitleH1)`
-  margin-bottom: 25px;
+  margin: 0 0 25px;
   display: flex;
   align-items: center;
 `;
@@ -37,16 +37,16 @@ const AddTraining = styled(Button)`
   margin-left: 45px;
 `;
 
+const ListDiv = styled.div`
+  margin-bottom: 8px;
+`;
+
 const SortLink = styled.a`
   margin-left: auto;
-  color: #222222;
+  color: var(--text-color);
   font-size: 18px;
   text-decoration: none;
   font-weight: 500;
-
-  &:focus {
-    color: #222222;
-  }
 `;
 
 export default {
@@ -58,7 +58,8 @@ export default {
     'styled-list': List,
     'styled-list-item': ListItem,
     'styled-sort-link': SortLink,
-    'styled-list-title': ListItemTittle,
+    'styled-list-title': ListItemTitle,
+    'styled-div': ListDiv,
   },
 };
 </script>
