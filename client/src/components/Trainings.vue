@@ -1,18 +1,63 @@
 <template>
-  <styled-title>
-    Trainings
-    <styled-button>Add new training</styled-button>
-  </styled-title>
+  <styled-wrapper>
+    <styled-title>
+      Trainings
+      <styled-button>Add new training</styled-button>
+      <styled-sort-link href="/">Sort by: ???</styled-sort-link>
+    </styled-title>
+    <styled-list>
+      <styled-list-item>
+        <styled-list-title>Contest #64747</styled-list-title>
+        <styled-div>23 sessions</styled-div>
+      </styled-list-item>
+    </styled-list>
+  </styled-wrapper>
 </template>
 
 <script>
-import { Button, Title } from '../common/styledComponents';
+import styled from 'vue-styled-components';
+import {
+  Button,
+  TitleH1,
+  Section,
+  List,
+  ListItem,
+  ListItemTitle,
+} from '../common/styledComponents';
+
+const Title = styled(TitleH1)`
+  margin: 0 0 25px;
+  display: flex;
+  align-items: center;
+`;
+
+const AddTraining = styled(Button)`
+  margin-left: 45px;
+`;
+
+const ListDiv = styled.div`
+  margin-bottom: 8px;
+`;
+
+const SortLink = styled.a`
+  margin-left: auto;
+  color: var(--text-color);
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: 500;
+`;
 
 export default {
   name: 'Trainings',
   components: {
-    'styled-button': Button,
+    'styled-wrapper': Section,
+    'styled-button': AddTraining,
     'styled-title': Title,
+    'styled-list': List,
+    'styled-list-item': ListItem,
+    'styled-sort-link': SortLink,
+    'styled-list-title': ListItemTitle,
+    'styled-div': ListDiv,
   },
 };
 </script>
