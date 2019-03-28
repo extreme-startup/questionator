@@ -8,7 +8,12 @@ import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: true,
+    methods: '*',
+    credentials: true,
+  });
+
   app.use(serveStatic(path.join(__dirname, '../../../client/dist')));
 
   const configService: ConfigService = app.get(ConfigService);
