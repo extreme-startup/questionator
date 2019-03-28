@@ -20,10 +20,11 @@ import { Fragment } from 'vue-fragment';
 import QuestionTab from './QuestionTab.vue';
 
 const TabList = styled.ul`
-  margin-top: 50px;
   margin-bottom: 15px;
+  padding: 0;
   display: flex;
   font-size: 1.2rem;
+  list-style-type: none;
 `;
 
 const Tab = styled.li`

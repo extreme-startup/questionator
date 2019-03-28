@@ -22,19 +22,21 @@ import styled from 'vue-styled-components';
 
 const Table = styled.table`
   width: 100%;
+  border-collapse: collapse;
 
   thead {
-    border: solid 1px #4f4f4f;
+    border: solid 1px var(--btn-bg);
   }
 
   th {
     font-size: 1.2rem;
     text-align: left;
+    font-weight: 500;
   }
 `;
 
 const ColumnTitle = styled.div`
-  padding: 10px;
+  padding: 8px;
 `;
 
 export default {

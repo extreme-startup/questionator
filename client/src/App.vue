@@ -35,6 +35,8 @@ div {
   --btn-color: #fff;
   --btn-bg-primary: #eeeb49;
   --btn-color-primary: #222222;
+  --btn-bg-secondary: #9c9c9c;
+  --btn-color-secondary: #fff;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

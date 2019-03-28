@@ -2,7 +2,7 @@
   <Fragment>
     <ButtonList>
       <Button>Add new question</Button>
-      <Button primary="true">Question library</Button>
+      <Button secondary>Question library</Button>
     </ButtonList>
     <DataTable :columns="columns" :data="questions" />
   </Fragment>
