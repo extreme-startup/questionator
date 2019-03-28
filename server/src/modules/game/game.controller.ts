@@ -45,4 +45,13 @@ export class GameController {
   public async stop(@Param('id') id: string) {
     await this.gameService.stop(id);
   }
+
+  @Get('answer')
+  public answer() {
+    // to test it, just open in browser http://localhost:3000/game/1/answer
+
+    let question = 'test question';
+    let userUrl = 'http://localhost:3000';
+    return this.gameService.getAnswer(question, userUrl)
+  }
 }
