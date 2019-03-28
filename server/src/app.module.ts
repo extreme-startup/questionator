@@ -14,6 +14,7 @@ import { UserModule } from './modules/User/user.module';
 import { AuthModule } from './modules/Auth/auth.module';
 import { SessionModule } from './modules/Session/session.module';
 import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
+import { ContestModule } from './modules/Contest/contest.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
     AuthModule,
     SessionModule,
   ],
+  imports: [ConfigModule, TypeOrmModule.forRoot(), CustomerModule, ContestModule],
   controllers: [AppController],
   providers: [AppService],
 })

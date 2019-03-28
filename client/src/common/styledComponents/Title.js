@@ -1,9 +1,12 @@
 import styled from 'vue-styled-components';
 
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  color: grey;
+export const TitleH1 = styled.h1`
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--text-color);
 `;
 
-export default Title;
+export const TitleH3 = styled(TitleH1)`
+  font-size: 18px;
+  font-weight: bold;
+`;
