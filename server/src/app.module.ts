@@ -9,11 +9,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CustomerModule } from './modules/Customer/customer.module';
 import { ConfigService } from './config/config.service';
-import { Sessions } from './entity/Sessions';
-import {UserModule} from './modules/User/user.module';
-import {AuthModule} from './modules/Auth/auth.module';
-import {SessionModule} from './modules/Session/session.module';
-import {ClearCookieMiddleware} from './midelwares/clearCookie.middleware';
+import { Session } from './entity/Session';
+import { UserModule } from './modules/User/user.module';
+import { AuthModule } from './modules/Auth/auth.module';
+import { SessionModule } from './modules/Session/session.module';
+import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 
 @Module({
   imports: [
@@ -35,7 +35,7 @@ export class AppModule {
     ExpressSessionMiddleware.configure({
       secret: this.configService.secretKey(),
       store: new TypeormStore({
-        repository: getConnection().getRepository(Sessions),
+        repository: getConnection().getRepository(Session),
       }),
       resave: false,
       saveUninitialized: false,

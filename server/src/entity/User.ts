@@ -1,11 +1,11 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
-export class Users {
+@Entity({name: 'users'})
+export class User {
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
   })
-  id: number;
+  id: string;
 
   @Column('varchar', {
     nullable: false,

@@ -11,7 +11,7 @@ export class AuthService {
   async createUser(user: LocalPayload): Promise<any> {
     const createdUser = await this.userService.createUser(user);
     if (createdUser) {
-      return Promise.resolve(user);
+      return Promise.resolve(createdUser);
     }
     return Promise.reject(false);
   }

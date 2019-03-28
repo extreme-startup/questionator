@@ -7,7 +7,6 @@ import {
   Body, UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import {AuthGuard} from './modules/Auth/auth.guard';
 
 @Controller()
 export class AppController {
@@ -18,9 +17,4 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  // @Get('secret')
-  // @UseGuards(AuthGuard)
-  // getSecret(): string {
-  //   return 'secret';
-  // }
 }
