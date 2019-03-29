@@ -25,9 +25,9 @@ import { QuestionModule } from './modules/Question/question.module';
     UserModule,
     AuthModule,
     SessionModule,
+    ContestModule,
+    QuestionModule,
   ],
-  imports: [ConfigModule, TypeOrmModule.forRoot(), CustomerModule, ContestModule],
-  imports: [ConfigModule, TypeOrmModule.forRoot(), CustomerModule, ContestModule, QuestionModule],
   controllers: [AppController],
   providers: [AppService],
 })
