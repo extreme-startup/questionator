@@ -17,6 +17,10 @@ const Button = styled('button', btnProps)`
   background: ${props => `var(--btn-bg${getButtonFlag(props)})`};
   color: ${props => `var(--btn-color${getButtonFlag(props)})`};
 
+  &:active {
+    background-color: ${props => (props.primary ? 'lightyellow' : 'lightgrey')};
+  }
+
   &:disabled {
     opacity: 0.6;
   }

@@ -2,7 +2,7 @@
   <styled-wrapper>
     <styled-title>
       Trainings
-      <styled-button>Add new training</styled-button>
+      <styled-button v-on:click="openCompetitionModal">Add new training</styled-button>
       <styled-sort-link href="/">Sort by: ???</styled-sort-link>
     </styled-title>
     <styled-list>
@@ -13,6 +13,11 @@
         </styled-list-item>
       </router-link>
     </styled-list>
+
+    <CompetitionDetailsModal
+      v-if="isCompetitionModalVisible"
+      v-on:close="onCompetitionModalClose"
+    />
   </styled-wrapper>
 </template>
 
@@ -26,6 +31,8 @@ import {
   ListItem,
   ListItemTitle,
 } from '../common/styledComponents';
+// eslint-disable-next-line max-len
+import CompetitionDetailsModal from '../competition/competition-details-modal/CompetitionDetailsModal';
 
 const Title = styled(TitleH1)`
   margin: 0 0 25px;
@@ -51,6 +58,11 @@ const SortLink = styled.a`
 
 export default {
   name: 'Trainings',
+  data: function() {
+    return {
+      isCompetitionModalVisible: false,
+    };
+  },
   components: {
     'styled-wrapper': Section,
     'styled-button': AddTraining,
@@ -60,6 +72,21 @@ export default {
     'styled-sort-link': SortLink,
     'styled-list-title': ListItemTitle,
     'styled-div': ListDiv,
+    CompetitionDetailsModal,
+  },
+  methods: {
+    openCompetitionModal: function() {
+      this.isCompetitionModalVisible = true;
+    },
+
+    onCompetitionModalClose: function(competitionDetails) {
+      this.isCompetitionModalVisible = false;
+      if (!competitionDetails) {
+        return;
+      }
+
+      this.$http.post('/contest', competitionDetails).then(() => alert('Competition is created!'));
+    },
   },
 };
 </script>
