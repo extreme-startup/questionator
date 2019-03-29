@@ -1,0 +1,15 @@
+{
+  "name": "contender",
+  "version": "0.0.0",
+  "description": "Node.js contender application example",
+  "main": "contender.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"node local-tunnel.js \" \"npm run serve\"",
+    "serve": "nodemon contender.js"
+  },
+  "dependencies": {
+    "concurrently": "4.1.0",
+    "localtunnel": "^1.9.1",
+    "nodemon": "^1.18.10"
+  }
+}
