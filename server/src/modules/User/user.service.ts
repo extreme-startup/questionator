@@ -21,4 +21,12 @@ export class UserService {
   async createUser(user): Promise<any> {
     return await this.userRepository.save(user);
   }
+
+  async findById(id: string): Promise<User> {
+    try {
+      return await this.userRepository.findOne({ id });
+    } catch (err) {
+      return err;
+    }
+  }
 }
