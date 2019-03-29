@@ -11,6 +11,10 @@ const Button = styled('button', btnProps)`
   text-transform: uppercase;
   background: ${props => (props.primary ? 'var(--btn-bg-primary)' : 'var(--btn-bg)')};
   color: ${props => (props.primary ? 'var(--btn-color-primary)' : 'var(--btn-color)')};
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `;
 
 export default Button;
