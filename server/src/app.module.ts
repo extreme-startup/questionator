@@ -15,6 +15,7 @@ import { AuthModule } from './modules/Auth/auth.module';
 import { SessionModule } from './modules/Session/session.module';
 import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
+import { QuestionModule } from './modules/Question/question.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ContestModule } from './modules/Contest/contest.module';
     SessionModule,
   ],
   imports: [ConfigModule, TypeOrmModule.forRoot(), CustomerModule, ContestModule],
+  imports: [ConfigModule, TypeOrmModule.forRoot(), CustomerModule, ContestModule, QuestionModule],
   controllers: [AppController],
   providers: [AppService],
 })
