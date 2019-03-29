@@ -32,6 +32,7 @@
     "localtunnel": "^1.9.1",
     "mysql": "^2.16.0",
     "reflect-metadata": "^0.1.13",
+    "request": "^2.88.0",
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
     "serve-static": "^1.13.2",

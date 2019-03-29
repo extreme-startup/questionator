@@ -3,10 +3,14 @@ import { GameRepository } from '../repository/game.repository';
 import { Game } from '../entity/game';
 import { ResponseDto } from '../interfaces/response.dto';
 import { GameResponseDto } from '../interfaces/game.dto';
+import { NotificationService } from './notification.service';
 
 @Injectable()
 export class GameService {
-  constructor(private readonly gameRepository: GameRepository) {}
+  constructor(
+    private readonly gameRepository: GameRepository,
+    private readonly notificationService: NotificationService,
+  ) {}
 
   public getList(): ResponseDto<GameResponseDto[]> {
     try {
@@ -43,6 +47,7 @@ export class GameService {
   public start(name: string): ResponseDto<GameResponseDto> {
     try {
       const game: Game = this.gameRepository.start(name);
+      this.notificationService.notifyPlayers(game);
 
       return {
         error: undefined,
