@@ -1,18 +1,74 @@
 import { Injectable } from '@nestjs/common';
-
-// tslint:disable:no-console
+import { GameRepository } from '../repository/game.repository';
+import { Game } from '../entity/game';
+import { ResponseDto } from '../interfaces/response.dto';
+import { GameResponseDto } from '../interfaces/game.dto';
 
 @Injectable()
 export class GameService {
-    public async register(id: string) {
-        console.log('Registered game with Id: ', id);
-    }
+  constructor(private readonly gameRepository: GameRepository) {}
 
-    public start(id: string) {
-        console.log('Game started with id: ', id);
-    }
+  public getList(): ResponseDto<GameResponseDto[]> {
+    try {
+      const list: Game[] = this.gameRepository.getList();
 
-    public stop(id: string) {
-        console.log('Stop game with id: ', id);
+      return {
+        error: undefined,
+        data: list as GameResponseDto[],
+      };
+    } catch (error) {
+      return {
+        error,
+        data: undefined,
+      };
     }
+  }
+
+  public create(game: Game): ResponseDto<GameResponseDto> {
+    try {
+      const registeredGame: Game = this.gameRepository.registerGame(game);
+
+      return {
+        error: undefined,
+        data: registeredGame,
+      };
+    } catch (error) {
+      return {
+        error,
+        data: undefined,
+      };
+    }
+  }
+
+  public start(name: string): ResponseDto<GameResponseDto> {
+    try {
+      const game: Game = this.gameRepository.start(name);
+
+      return {
+        error: undefined,
+        data: game,
+      };
+    } catch (error) {
+      return {
+        error,
+        data: undefined,
+      };
+    }
+  }
+
+  public stop(name: string) {
+    try {
+      const game: Game = this.gameRepository.stop(name);
+
+      return {
+        error: undefined,
+        model: game,
+      };
+    } catch (error) {
+      return {
+        error,
+        model: undefined,
+      };
+    }
+  }
 }

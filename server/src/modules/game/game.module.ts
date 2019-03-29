@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
-import { GameController } from './game.controller';
+import { GameController } from './controllers/game.controller';
 import { GameService } from './services/game.service';
-import { LocalTunnelService } from './services/local-tunnel.service';
 import { ConfigModule } from '../../config';
+import { PlayersController } from './controllers/players.controller';
+import { PlayersService } from './services/players.service';
+import { GameRepository } from './repository/game.repository';
+import { PlayersRepository } from './repository/players.repository';
 
 @Module({
   imports: [ConfigModule],
-  controllers: [GameController],
-  providers: [GameService, LocalTunnelService],
+  controllers: [GameController, PlayersController],
+  providers: [GameRepository, PlayersRepository, GameService, PlayersService],
 })
 export class GameModule {}
