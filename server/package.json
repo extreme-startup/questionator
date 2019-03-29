@@ -71,6 +71,21 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "../coverage",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,ts}",
+      "!main.ts",
+      "!**/*.{module,dto}.{js,ts}",
+      "!{**/migration/**,**/entity/**,}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 60
+      }
+    },
     "testEnvironment": "node"
   }
 }
