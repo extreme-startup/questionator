@@ -11,6 +11,7 @@ export class ConfigService {
       .valid(['development', 'production', 'test'])
       .default('development'),
     PORT: Joi.number().default(3000),
+    SECRET_KEY: Joi.string().default('QUESTIONATOR_SECRET'),
   })
     .unknown()
     .required();
@@ -43,5 +44,9 @@ export class ConfigService {
 
   port(): string {
     return this.envConfig.PORT;
+  }
+
+  secretKey(): string {
+    return this.envConfig.SECRET_KEY;
   }
 }

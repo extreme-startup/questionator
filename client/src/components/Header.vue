@@ -7,7 +7,7 @@
       <styled-search placeholder="Search" />
     </div>
     <div>
-      <styled-profile id="profile" href="/">Profile</styled-profile>
+      <styled-profile id="profile" href="/">{{ $store.state.user }}</styled-profile>
     </div>
   </styled-header>
 </template>

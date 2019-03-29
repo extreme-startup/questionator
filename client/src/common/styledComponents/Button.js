@@ -16,6 +16,10 @@ const Button = styled('button', btnProps)`
   text-transform: uppercase;
   background: ${props => `var(--btn-bg${getButtonFlag(props)})`};
   color: ${props => `var(--btn-color${getButtonFlag(props)})`};
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `;
 
 export default Button;
