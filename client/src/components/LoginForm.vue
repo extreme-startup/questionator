@@ -11,10 +11,10 @@
         />
       </Section>
       <Section v-if="$v.userEmail.$error">
-        <Paragraph v-if="!$v.userEmail.required" color="#f79483">
+        <Paragraph v-if="!$v.userEmail.required" class="invalid" color="#f79483">
           Email required.
         </Paragraph>
-        <Paragraph v-if="!$v.userEmail.email" color="#f79483">
+        <Paragraph v-if="!$v.userEmail.email" class="invalid" color="#f79483">
           Valid email required.
         </Paragraph>
       </Section>
