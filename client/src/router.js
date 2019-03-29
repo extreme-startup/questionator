@@ -4,7 +4,7 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Training from './views/Training.vue';
 import store from './store';
-import { getUserAuthenticated } from './api/auth';
+import { getUserAuthenticated, getUser } from './api/auth';
 
 Vue.use(Router);
 
@@ -44,8 +44,9 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !store.state.isUserLoggedIn) {
     getUserAuthenticated()
+      .then(response => getUser(response.data.user))
       .then(response => {
-        store.commit('setUser', response.data.user.email);
+        store.commit('setUser', response.data.email);
         next();
       })
       .catch(error => {

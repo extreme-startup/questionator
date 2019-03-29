@@ -11,3 +11,7 @@ export function logout() {
 export function getUserAuthenticated() {
   return Vue.axios.get('/auth/getUserAuthenticated');
 }
+
+export function getUser(userId) {
+  return Vue.axios.get(`/users/${userId}`);
+}
