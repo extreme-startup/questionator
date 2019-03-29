@@ -4,7 +4,7 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Training from './views/Training.vue';
 import store from './store';
-import { getUserAuthenticated } from './api/auth';
+import { getUserAuthenticated, getUser } from './api/auth';
 
 Vue.use(Router);
 
