@@ -55,8 +55,9 @@ router.beforeEach((to, from, next) => {
           query: { returnUrl: to.path },
         });
       });
+  } else {
+    next();
   }
-  next();
 });
 
 export default router;
