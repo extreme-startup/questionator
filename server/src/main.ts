@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { description, version } from '../package.json';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as serveStatic from 'serve-static';
+import * as history from 'connect-history-api-fallback';
 import * as path from 'path';
 
 async function bootstrap() {
@@ -14,6 +15,7 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.use(history({ index: '/' }));
   app.use(serveStatic(path.join(__dirname, '../../../client/dist')));
 
   const configService: ConfigService = app.get(ConfigService);
