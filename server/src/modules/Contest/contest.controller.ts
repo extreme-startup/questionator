@@ -1,9 +1,17 @@
-import { Controller, Post, Get, Put, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+} from '@nestjs/common';
 import { UpdateResult, DeleteResult, InsertResult } from 'typeorm';
 
 import { ContestService } from './contest.service';
 import { Contest } from '../../entity/Contest';
-import {IContestDto} from './contest.interface';
+import { IContestDto } from './contest.interface';
 
 @Controller('contest')
 export class ContestController {
@@ -25,7 +33,10 @@ export class ContestController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() contest: IContestDto): Promise<UpdateResult> {
+  update(
+    @Param('id') id: string,
+    @Body() contest: IContestDto,
+  ): Promise<UpdateResult> {
     return this.contestService.update(parseInt(id, 10), contest);
   }
 

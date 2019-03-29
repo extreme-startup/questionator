@@ -2,7 +2,13 @@ import { ContestController } from './contest.controller';
 import { Contest } from '../../entity/Contest';
 import { IContestDto } from './contest.interface';
 import { ContestService } from './contest.service';
-import { contestDto, updateResult, deleteResult, insertResult, MockRepository } from './__mocks__/mocks';
+import {
+  contestDto,
+  updateResult,
+  deleteResult,
+  insertResult,
+  MockRepository,
+} from './__mocks__/mocks';
 
 jest.mock('./contest.service');
 jest.mock('../../entity/Contest');
@@ -22,19 +28,27 @@ describe('ContestController', () => {
     it('should create contest', async () => {
       const createContestDto: IContestDto = contestDto;
 
-      jest.spyOn(contestService, 'create').mockReturnValue(Promise.resolve(insertResult));
+      jest
+        .spyOn(contestService, 'create')
+        .mockReturnValue(Promise.resolve(insertResult));
 
-      expect(await contestController.create(createContestDto)).toBe(insertResult);
+      expect(await contestController.create(createContestDto)).toBe(
+        insertResult,
+      );
       expect(contestService.create).toHaveBeenCalledWith(createContestDto);
     });
   });
 
   describe('findOne', () => {
     it('should return contest by id', async () => {
-      jest.spyOn(contestService, 'findOne').mockReturnValue(Promise.resolve(contest));
+      jest
+        .spyOn(contestService, 'findOne')
+        .mockReturnValue(Promise.resolve(contest));
 
       expect(await contestController.findOne(contestId)).toBe(contest);
-      expect(contestService.findOne).toHaveBeenCalledWith(parseInt(contestId, 10));
+      expect(contestService.findOne).toHaveBeenCalledWith(
+        parseInt(contestId, 10),
+      );
     });
   });
 
@@ -42,7 +56,9 @@ describe('ContestController', () => {
     it('should return all contests', async () => {
       const contestsResult: Contest[] = [contest];
 
-      jest.spyOn(contestService, 'findAll').mockReturnValue(Promise.resolve(contestsResult));
+      jest
+        .spyOn(contestService, 'findAll')
+        .mockReturnValue(Promise.resolve(contestsResult));
 
       expect(await contestController.findAll()).toBe(contestsResult);
       expect(contestService.findAll).toHaveBeenCalledWith();
@@ -53,19 +69,30 @@ describe('ContestController', () => {
     it('should update contest by id', async () => {
       const updateParams: IContestDto = contestDto;
 
-      jest.spyOn(contestService, 'update').mockReturnValue(Promise.resolve(updateResult));
+      jest
+        .spyOn(contestService, 'update')
+        .mockReturnValue(Promise.resolve(updateResult));
 
-      expect(await contestController.update(contestId, updateParams)).toBe(updateResult);
-      expect(contestService.update).toHaveBeenCalledWith(parseInt(contestId, 10), updateParams);
+      expect(await contestController.update(contestId, updateParams)).toBe(
+        updateResult,
+      );
+      expect(contestService.update).toHaveBeenCalledWith(
+        parseInt(contestId, 10),
+        updateParams,
+      );
     });
   });
 
   describe('delete', () => {
     it('should delete contest by id', async () => {
-      jest.spyOn(contestService, 'delete').mockReturnValue(Promise.resolve(deleteResult));
+      jest
+        .spyOn(contestService, 'delete')
+        .mockReturnValue(Promise.resolve(deleteResult));
 
       expect(await contestController.delete(contestId)).toBe(deleteResult);
-      expect(contestService.delete).toHaveBeenCalledWith(parseInt(contestId, 10));
+      expect(contestService.delete).toHaveBeenCalledWith(
+        parseInt(contestId, 10),
+      );
     });
   });
 });

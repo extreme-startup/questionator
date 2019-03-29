@@ -4,10 +4,14 @@ import styled from 'vue-styled-components';
 export const List = styled.div`
   display: flex;
   flex-wrap: wrap;
+
+  & > * {
+    flex: 1 0 calc(21%);
+    text-decoration: none;
+  }
 `;
 
 export const ListItem = styled.div`
-  flex: 1 0 calc(21%);
   border: 1px solid #979797;
   min-height: 200px;
   margin: 0 10px 10px 0;

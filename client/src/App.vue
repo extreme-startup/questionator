@@ -1,13 +1,5 @@
 <template>
   <div id="app">
-    <div class="serverMsg successMsg" v-if="httpGetResponce">
-      Server responded with following message:
-      <strong>{{ httpGetResponce.data }}</strong>
-    </div>
-    <div class="serverMsg errorMsg" v-if="httpGetError">
-      The error message is following:
-      <strong>{{ httpGetError.message }}</strong>
-    </div>
     <router-view />
   </div>
 </template>
@@ -43,6 +35,8 @@ div {
   --btn-color: #fff;
   --btn-bg-primary: #eeeb49;
   --btn-color-primary: #222222;
+  --btn-bg-secondary: #9c9c9c;
+  --btn-color-secondary: #fff;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
