@@ -1,5 +1,4 @@
 module.exports = function(question) {
-  // define you answer here
-
-  return `Answer to question ${question}`;
+  // Until you answer the question, I response with this:
+  return `Sorry... I don't know the answer to the question: "${question}".`;
 };
