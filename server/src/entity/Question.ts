@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({name: 'qms_question'})
-export class Questions {
+export class Question {
     @PrimaryGeneratedColumn('uuid', { name: 'id' }) id: string;
 
     @Column('varchar', {
@@ -27,4 +27,7 @@ export class Questions {
         nullable: false,
     })
     value: string;
+
+    @Column('boolean')
+    isDeleted: boolean;
 }

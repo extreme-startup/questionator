@@ -5,13 +5,11 @@ import { QuestionService } from './question.service';
 @Controller('question')
 export class QuestionController {
 
-    constructor(private questionService: QuestionService) {
-
-    }
+    constructor(private questionService: QuestionService) {}
 
     @Get()
     async findAll(): Promise<QuestionDto[]> {
-        return await this.findAll();
+        return await this.questionService.findAll();
     }
 
     @Get(':id')

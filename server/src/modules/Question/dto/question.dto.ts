@@ -3,4 +3,5 @@ export class QuestionDto {
     readonly text: string;
     readonly answer: string;
     readonly value: string;
+    readonly isDeleted: boolean;
 }

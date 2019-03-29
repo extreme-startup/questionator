@@ -28,6 +28,10 @@ export class Question1553647346431 implements MigrationInterface {
                 name: 'value',
                 type: 'varchar',
               },
+              {
+                name: 'isDeleted',
+                type: 'boolean',
+              },
             ],
           }),
           true,

@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { QuestionController } from './question.controller';
 import { QuestionService } from './question.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Questions } from '../../entity/Questions';
+import { Question } from '../../entity/Question';
 
-describe('Questions Controller', () => {
+describe('Question Controller', () => {
   let controller: QuestionController;
 
   const mockRepository = {
@@ -20,7 +20,7 @@ describe('Questions Controller', () => {
       providers: [
         QuestionService,
         {
-          provide: getRepositoryToken(Questions),
+          provide: getRepositoryToken(Question),
           useValue: mockRepository,
         },
       ],

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { QuestionService } from './question.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Questions } from '../../entity/Questions';
+import { Question } from '../../entity/Question';
 
 describe('QuestionService', () => {
   let service: QuestionService;
@@ -18,7 +18,7 @@ describe('QuestionService', () => {
       providers: [
         QuestionService,
         {
-          provide: getRepositoryToken(Questions),
+          provide: getRepositoryToken(Question),
           useValue: mockRepository,
         },
       ],

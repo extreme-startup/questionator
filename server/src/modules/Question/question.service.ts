@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { QuestionDto } from './dto/question.dto';
-import { Questions } from '../../entity/Questions';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Question } from '../../entity/Question';
+import { QuestionDto } from './dto/question.dto';
 
 @Injectable()
 export class QuestionService {
 
     constructor(
-        @InjectRepository(Questions)
-        private readonly questionRepository: Repository<Questions>,
+        @InjectRepository(Question)
+        private readonly questionRepository: Repository<Question>,
     ) { }
 
-    async findAll(): Promise<Questions[]> {
+    async findAll(): Promise<Question[]> {
         try {
-            return await this.questionRepository.find({});
+            return await this.questionRepository.find();
         } catch (err) {
             return err;
         }
     }
 
-    async findById(id: string): Promise<Questions> {
+    async findById(id: string): Promise<Question> {
         try {
             return await this.questionRepository.findOne({ id });
         } catch (err) {
@@ -29,7 +29,7 @@ export class QuestionService {
     }
 
     async insert(question: QuestionDto): Promise<QuestionDto> {
-        const newQuestion = new Questions();
+        const newQuestion = new Question();
 
         Object.keys(question).forEach((key) => {
             newQuestion[key] = question[key];
@@ -42,7 +42,7 @@ export class QuestionService {
         }
     }
 
-    async update(oldQuestion: Questions, updatedValues: QuestionDto): Promise<Questions> {
+    async update(oldQuestion: Question, updatedValues: QuestionDto): Promise<Question> {
         const updatedQuestion = oldQuestion;
 
         Object.keys(updatedValues).forEach((key) => {
