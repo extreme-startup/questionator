@@ -44,8 +44,9 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !store.state.isUserLoggedIn) {
     getUserAuthenticated()
+      .then(response => getUser(response.data.user))
       .then(response => {
-        store.commit('setUser', response.data.user.email);
+        store.commit('setUser', response.data.email);
         next();
       })
       .catch(error => {
