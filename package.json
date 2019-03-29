@@ -37,6 +37,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "concurrently": "^4.1.0",
+    "connect-history-api-fallback": "^1.6.0",
     "license-checker": "^25.0.1",
     "lnk-cli": "^1.0.1",
     "vue-styled-components": "^1.4.4"
