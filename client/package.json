@@ -9,7 +9,7 @@
     "lint:css": "stylelint src/**/*.style.{js,ts}",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
-    "prettier": "prettier --write './src/**/*.{js,scss,vue}'",
+    "prettier": "prettier --write ./src/**/*.{js,scss,vue}",
     "postinstall": "node ./../scripts/acknowledgements.js"
   },
   "dependencies": {

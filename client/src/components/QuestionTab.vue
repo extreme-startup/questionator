@@ -1,7 +1,11 @@
 <template>
   <Fragment>
     <ButtonList>
-      <Button>Add new question</Button>
+      <AddQuestion>
+        <template scope="props">
+          <Button @click="props.clickHandler">Add new question</Button>
+        </template>
+      </AddQuestion>
       <Button secondary>Question library</Button>
     </ButtonList>
     <DataTable :columns="columns" :data="questions" />
@@ -13,6 +17,7 @@ import { Fragment } from 'vue-fragment';
 import styled from 'vue-styled-components';
 import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
+import AddQuestion from '@/components/AddQuestion.vue';
 
 const ButtonList = styled.div`
   margin: 35px 0;
@@ -30,6 +35,7 @@ export default {
     DataTable,
     ButtonList,
     Button,
+    AddQuestion,
   },
   data: () => ({
     training: {},
