@@ -6,14 +6,13 @@
       <styled-sort-link href="/">Sort by: ???</styled-sort-link>
     </styled-title>
     <styled-list>
-      <router-link to="/training/64747">
-        <styled-list-item>
-          <styled-list-title>Contest #64747</styled-list-title>
-          <styled-div>23 sessions</styled-div>
-        </styled-list-item>
-      </router-link>
+      <styled-list-item v-for="competition in competitions" v-bind:key="competition.id">
+        <router-link v-bind:to="'/training/' + competition.id">
+          <styled-list-title>{{competition.name}}</styled-list-title>
+        </router-link>
+        <styled-div>{{competition.description}}</styled-div>
+      </styled-list-item>
     </styled-list>
-
     <CompetitionDetailsModal
       v-if="isCompetitionModalVisible"
       v-on:close="onCompetitionModalClose"
@@ -61,7 +60,11 @@ export default {
   data: function() {
     return {
       isCompetitionModalVisible: false,
+      competitions: [],
     };
+  },
+  created: function() {
+    this.getCompetitions();
   },
   components: {
     'styled-wrapper': Section,
@@ -86,6 +89,17 @@ export default {
       }
 
       this.$http.post('/contest', competitionDetails).then(() => alert('Competition is created!'));
+    },
+
+    deleteCompetition: function(id) {
+      this.$http
+        .put(`/contest/${id}`, { isDeleted: true })
+        .then(() => this.getCompetitions())
+    },
+
+    getCompetitions: function() {
+      this.$http.get('/contest')
+        .then((response) => this.competitions = response.data);
     },
   },
 };
