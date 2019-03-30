@@ -38,35 +38,27 @@ export default {
     AddQuestion,
   },
   data: () => ({
-    training: {},
+    trainingQuestions: [],
     columns: ['Question', 'Category', 'Level'],
   }),
   computed: {
     questions: function() {
-      if (!this.training || !this.training.questions) {
+      if (!this.trainingQuestions) {
         return [];
       }
-      return this.training.questions.map(question => [
-        question.text || '',
-        question.category || 'None',
-        question.level || 0,
-      ]);
+      return this.trainingQuestions.map(question => ({
+        text: question.text || '',
+        type: question.type || 'None',
+        level: question.level || 0,
+      }));
     },
   },
   async mounted() {
     try {
-      this.training = await this.$http.get(`/training/${this.$route.params.id}`);
+      //TODO: endpoint should be /trainings/{trainig_id}/questions
+      this.trainingQuestions = (await this.$http.get('/questions')).data;
     } catch (err) {
-      /*
-      TODO: Remove this mock when '/training' endpoint implemented
-      this.training = {
-        id: 123,
-        name: 'Test training',
-        questions: [
-          { text: 'some text', category: 'category', level: 1 },
-        ],
-      };
-      */
+      // TODO: log error
     }
   },
 };

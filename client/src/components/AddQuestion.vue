@@ -75,7 +75,7 @@ export default {
       this.close();
       try {
         // TODO: check post req
-        await this.$http.post('/question', question);
+        await this.$http.post('/questions', question);
       } catch (err) {
         // TODO: log error
       }
