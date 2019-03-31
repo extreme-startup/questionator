@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal renders correctly 1`] = `
+<modalwrapper-stub
+  name="modal-fade"
+>
+  <modalcontent-stub>
+    <header>
+      <modalclosebtn-stub>
+        x
+      </modalclosebtn-stub>
+       Default title
+    </header>
+     
+    <section />
+     
+    <footer />
+  </modalcontent-stub>
+</modalwrapper-stub>
+`;

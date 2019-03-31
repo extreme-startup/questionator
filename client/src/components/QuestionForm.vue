@@ -88,6 +88,7 @@ export const StyledTextArea = styled('textarea', InputProps)`
 `;
 
 const ControlGroup = styled.div`
+  padding-top: 25px;
   text-align: right;
 `;
 
@@ -139,7 +140,7 @@ export default {
     formValidate(question) {
       const isFormValid = Object.keys(question).reduce((acc, key) => {
         if (!this.errors[key]) return acc;
-        this.errors[key].required = this.question[key] === '';
+        this.errors[key].required = question[key] === '';
         return acc && !this.errors[key].required;
       }, true);
 

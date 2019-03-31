@@ -10,7 +10,7 @@
         :typeOptions="typeOptions"
         :errors="errors"
         placeholder="Select question type"
-        @submit="submitQuestion"
+        @submit="addQuestion"
         @close="close"
       ></QuestionForm>
     </Modal>
@@ -70,7 +70,7 @@ export default {
   },
   mixins: [toggle],
   methods: {
-    async submitQuestion(question) {
+    async addQuestion(question) {
       this.question = { ...defaults };
       this.close();
       try {
