@@ -72,13 +72,8 @@ export default {
   methods: {
     async addQuestion(question) {
       this.question = { ...defaults };
+      this.$store.dispatch('question/addQuestion', question);
       this.close();
-      try {
-        // TODO: check post req
-        await this.$http.post('/questions', question);
-      } catch (err) {
-        // TODO: log error
-      }
     },
   },
 };

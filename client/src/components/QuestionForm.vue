@@ -4,6 +4,7 @@
       <InputWrapper>
         <Select
           v-model="question.type"
+          id="question-type-input"
           :options="typeOptions"
           :placeholder="placeholder"
           :error="errors.type.required"
@@ -15,6 +16,7 @@
           v-model="question.text"
           name="questionText"
           type="text"
+          id="question-text-input"
           placeholder="Type your question"
           :error="errors.text.required"
           required
@@ -25,16 +27,24 @@
         <StyledTextArea
           v-model="question.answer"
           name="answer"
+          id="question-answer-input"
           placeholder="Type your answer"
           :error="errors.answer.required"
           required
         />
         <ErrorMsg v-if="errors.answer.required">This text is required</ErrorMsg>
       </InputWrapper>
-      <StyledTextInput v-model="question.value" name="questionValue" type="text" />
+      <StyledTextInput
+        v-model="question.value"
+        name="questionValue"
+        type="text"
+        id="question-value-input"
+      />
       <ControlGroup>
-        <StyledButton secondary type="reset" @click="close">Cancel</StyledButton>
-        <StyledButton type="submit">Save</StyledButton>
+        <StyledButton secondary type="reset" id="question-cancel-button" @click="close">
+          Cancel
+        </StyledButton>
+        <StyledButton type="submit" id="question-save-button">Save</StyledButton>
       </ControlGroup>
     </form>
   </FormWrapper>

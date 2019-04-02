@@ -7,6 +7,7 @@ exports[`QuestionForm renders correctly 1`] = `
   >
     <inputwrapper-stub>
       <select-stub
+        id="question-type-input"
         options="[object Object],[object Object]"
         placeholder="Select placeholder"
         value=""
@@ -17,6 +18,7 @@ exports[`QuestionForm renders correctly 1`] = `
      
     <inputwrapper-stub>
       <styledtextinput-stub
+        id="question-text-input"
         name="questionText"
         placeholder="Type your question"
         required=""
@@ -29,6 +31,7 @@ exports[`QuestionForm renders correctly 1`] = `
      
     <inputwrapper-stub>
       <styledtextarea-stub
+        id="question-answer-input"
         name="answer"
         placeholder="Type your answer"
         required=""
@@ -39,6 +42,7 @@ exports[`QuestionForm renders correctly 1`] = `
     </inputwrapper-stub>
      
     <styledtextinput-stub
+      id="question-value-input"
       name="questionValue"
       type="text"
       value=""
@@ -46,13 +50,17 @@ exports[`QuestionForm renders correctly 1`] = `
      
     <controlgroup-stub>
       <styledbutton-stub
+        id="question-cancel-button"
         secondary="true"
         type="reset"
       >
+        
         Cancel
+      
       </styledbutton-stub>
        
       <styledbutton-stub
+        id="question-save-button"
         type="submit"
       >
         Save
