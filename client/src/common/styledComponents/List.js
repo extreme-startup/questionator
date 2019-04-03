@@ -20,6 +20,7 @@ export const ListItem = styled.div`
   color: var(--text-color);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   & .bottomItem {
     margin-top: auto;

@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --no-fix && npm run lint:css",
-    "lint:css":"stylelint src/**/*.style.{js,ts}",
+    "lint:css": "stylelint src/**/*.style.{js,ts}",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "prettier": "prettier --write './src/**/*.{js,scss,vue}'",
@@ -192,15 +192,20 @@
     "coverageThreshold": {
       "global": {
         "branches": 30,
-        "functions": 4,
-        "lines": 9,
-        "statements": 9
+        "functions": 3,
+        "lines": 8,
+        "statements": 8
       }
     }
   },
   "stylelint": {
     "processors": [
-      ["stylelint-processor-styled-components", { "moduleName": "vue-styled-components"}]
+      [
+        "stylelint-processor-styled-components",
+        {
+          "moduleName": "vue-styled-components"
+        }
+      ]
     ],
     "extends": [
       "stylelint-config-recommended",
