@@ -97,10 +97,7 @@ export default {
         return;
       }
 
-      this.$http
-        .post('/contest', competitionDetails)
-        .then(() => alert('Competition is created!'))
-        .then(() => this.getCompetitions());
+      this.$http.post('/contest', competitionDetails).then(() => this.getCompetitions());
     },
     deleteCompetition: function(id) {
       return this.$http(`/contest/${id}`, {
