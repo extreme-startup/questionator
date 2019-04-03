@@ -7,10 +7,20 @@
     </styled-title>
     <styled-list>
       <styled-list-item v-for="competition in competitions" v-bind:key="competition.id">
-        <router-link v-bind:to="'/training/' + competition.id">
-          <styled-list-title>{{competition.name}}</styled-list-title>
+        <router-link v-if="!competition.isDeleted" v-bind:to="'/training/' + competition.id">
+          <styled-list-title>
+            {{ competition.name }}
+          </styled-list-title>
         </router-link>
-        <styled-div>{{competition.description}}</styled-div>
+        <styled-list-title v-if="competition.isDeleted">
+          {{ competition.name }}
+        </styled-list-title>
+        <styled-div>
+          {{ competition.description }}
+        </styled-div>
+        <button v-on:click="deleteCompetition(competition.id)" :disabled="competition.isDeleted">
+          delete
+        </button>
       </styled-list-item>
     </styled-list>
     <CompetitionDetailsModal
@@ -81,25 +91,25 @@ export default {
     openCompetitionModal: function() {
       this.isCompetitionModalVisible = true;
     },
-
     onCompetitionModalClose: function(competitionDetails) {
       this.isCompetitionModalVisible = false;
       if (!competitionDetails) {
         return;
       }
 
-      this.$http.post('/contest', competitionDetails).then(() => alert('Competition is created!'));
-    },
-
-    deleteCompetition: function(id) {
       this.$http
-        .put(`/contest/${id}`, { isDeleted: true })
-        .then(() => this.getCompetitions())
+        .post('/contest', competitionDetails)
+        .then(() => alert('Competition is created!'))
+        .then(() => this.getCompetitions());
     },
-
+    deleteCompetition: function(id) {
+      return this.$http(`/contest/${id}`, {
+        method: 'PUT',
+        data: { isDeleted: true },
+      }).then(() => this.getCompetitions());
+    },
     getCompetitions: function() {
-      this.$http.get('/contest')
-        .then((response) => this.competitions = response.data);
+      this.$http.get('/contest').then(response => (this.competitions = response.data));
     },
   },
 };
