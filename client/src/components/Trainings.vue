@@ -6,14 +6,23 @@
       <styled-sort-link href="/">Sort by: ???</styled-sort-link>
     </styled-title>
     <styled-list>
-      <router-link to="/training/64747">
-        <styled-list-item>
-          <styled-list-title>Contest #64747</styled-list-title>
-          <styled-div>23 sessions</styled-div>
-        </styled-list-item>
-      </router-link>
+      <styled-list-item v-for="competition in competitions" v-bind:key="competition.id">
+        <router-link v-if="!competition.isDeleted" v-bind:to="'/training/' + competition.id">
+          <styled-list-title>
+            {{ competition.name }}
+          </styled-list-title>
+        </router-link>
+        <styled-list-title v-if="competition.isDeleted">
+          {{ competition.name }}
+        </styled-list-title>
+        <styled-div>
+          {{ competition.description }}
+        </styled-div>
+        <button v-on:click="deleteCompetition(competition.id)" :disabled="competition.isDeleted">
+          delete
+        </button>
+      </styled-list-item>
     </styled-list>
-
     <CompetitionDetailsModal
       v-if="isCompetitionModalVisible"
       v-on:close="onCompetitionModalClose"
@@ -61,7 +70,11 @@ export default {
   data: function() {
     return {
       isCompetitionModalVisible: false,
+      competitions: [],
     };
+  },
+  created: function() {
+    this.getCompetitions();
   },
   components: {
     'styled-wrapper': Section,
@@ -78,14 +91,25 @@ export default {
     openCompetitionModal: function() {
       this.isCompetitionModalVisible = true;
     },
-
     onCompetitionModalClose: function(competitionDetails) {
       this.isCompetitionModalVisible = false;
       if (!competitionDetails) {
         return;
       }
 
-      this.$http.post('/contest', competitionDetails).then(() => alert('Competition is created!'));
+      this.$http
+        .post('/contest', competitionDetails)
+        .then(() => alert('Competition is created!'))
+        .then(() => this.getCompetitions());
+    },
+    deleteCompetition: function(id) {
+      return this.$http(`/contest/${id}`, {
+        method: 'PUT',
+        data: { isDeleted: true },
+      }).then(() => this.getCompetitions());
+    },
+    getCompetitions: function() {
+      this.$http.get('/contest').then(response => (this.competitions = response.data));
     },
   },
 };
