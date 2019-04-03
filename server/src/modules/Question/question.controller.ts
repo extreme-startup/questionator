@@ -12,6 +12,11 @@ export class QuestionController {
         return await this.questionService.findAll();
     }
 
+    @Get('random')
+    async getRandom(): Promise<QuestionDto> {
+        return await this.questionService.getRandom();
+    }
+
     @Get(':id')
     async findOneById(@Param() params): Promise<QuestionDto> {
         return await this.questionService.findById(params.id);

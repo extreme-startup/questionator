@@ -20,9 +20,19 @@ export class QuestionService {
         }
     }
 
+    async getRandom(): Promise<Question> {
+        try {
+            return await this.questionRepository.createQueryBuilder()
+                .orderBy('RAND()')
+                .getOne();
+        } catch (err) {
+            return err;
+        }
+    }
+
     async findById(id: string): Promise<Question> {
         try {
-            return await this.questionRepository.findOne({ id });
+            return await this.questionRepository.findOne(id);
         } catch (err) {
             return err;
         }
