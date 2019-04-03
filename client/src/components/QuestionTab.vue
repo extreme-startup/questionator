@@ -1,10 +1,16 @@
 <template>
   <Fragment>
     <ButtonList>
-      <Button>Add new question</Button>
+      <AddQuestion>
+        <template slot-scope="props">
+          <Button @click="props.clickHandler">Add new question</Button>
+        </template>
+      </AddQuestion>
       <Button secondary>Question library</Button>
     </ButtonList>
     <DataTable :columns="columns" :data="questions" />
+    <div v-if="fetchingStatus.isFetching">Loading....</div>
+    <div v-if="fetchingStatus.error">{{ fetchingStatus.error }}</div>
   </Fragment>
 </template>
 
@@ -13,6 +19,7 @@ import { Fragment } from 'vue-fragment';
 import styled from 'vue-styled-components';
 import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
+import AddQuestion from '@/components/AddQuestion.vue';
 
 const ButtonList = styled.div`
   margin: 35px 0;
@@ -30,38 +37,28 @@ export default {
     DataTable,
     ButtonList,
     Button,
+    AddQuestion,
   },
   data: () => ({
-    training: {},
+    trainingQuestions: [],
     columns: ['Question', 'Category', 'Level'],
   }),
   computed: {
     questions: function() {
-      if (!this.training || !this.training.questions) {
-        return [];
-      }
-      return this.training.questions.map(question => [
-        question.text || '',
-        question.category || 'None',
-        question.level || 0,
-      ]);
+      const questions = this.$store.getters['question/questions'];
+      return questions.map(question => ({
+        text: question.text || '',
+        type: question.type || 'None',
+        level: question.level || 0,
+      }));
+    },
+    fetchingStatus: function() {
+      return this.$store.getters['question/questionsFetchingStatus'];
     },
   },
   async mounted() {
-    try {
-      this.training = await this.$http.get(`/training/${this.$route.params.id}`);
-    } catch (err) {
-      /*
-      TODO: Remove this mock when '/training' endpoint implemented
-      this.training = {
-        id: 123,
-        name: 'Test training',
-        questions: [
-          { text: 'some text', category: 'category', level: 1 },
-        ],
-      };
-      */
-    }
+    //TODO: endpoint should be /trainings/{trainig_id}/questions
+    this.$store.dispatch('question/getQuestions');
   },
 };
 </script>
