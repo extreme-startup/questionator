@@ -37,6 +37,8 @@ div {
   --btn-color-primary: #222222;
   --btn-bg-secondary: #9c9c9c;
   --btn-color-secondary: #fff;
+  --bg-color: #f1f1f1;
+  --placeholder-color: #bbbbbb;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
