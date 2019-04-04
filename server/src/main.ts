@@ -15,7 +15,18 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.use(history({ index: '/' }));
+  app.use(history({
+    index: '/',
+    rewrites: [
+      {
+        // bypass for swagger
+        from: /^\/swagger\/.*$/,
+        to(context) {
+          return context.parsedUrl.pathname;
+        },
+      },
+    ],
+  }));
   app.use(serveStatic(path.join(__dirname, '../../../client/dist')));
 
   const configService: ConfigService = app.get(ConfigService);
