@@ -5,6 +5,8 @@ import store from './store';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vuelidate from 'vuelidate';
+import SocketIo from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io';
 
 Vue.use(Vuelidate);
 Vue.use(
@@ -12,6 +14,15 @@ Vue.use(
   axios.create({
     baseURL: process.env.VUE_APP_API_URL,
     withCredentials: true,
+  }),
+);
+
+export const Socket = new SocketIo(`ws://localhost:3000`);
+
+Vue.use(
+  new VueSocketIO({
+    debug: true,
+    connection: Socket,
   }),
 );
 

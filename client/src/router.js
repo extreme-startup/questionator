@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Training from './views/Training.vue';
+import Chart from './components/Chart.vue';
 import store from './store';
 import { getUserAuthenticated, getUser } from './api/auth';
 
@@ -29,6 +30,11 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/chart',
+      name: 'chart',
+      component: Chart,
     },
     {
       path: '/training/:id',
