@@ -31,6 +31,6 @@ export class AskedQuestion1554387790317 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('contest');
+    await queryRunner.dropTable('asked_question');
   }
 }

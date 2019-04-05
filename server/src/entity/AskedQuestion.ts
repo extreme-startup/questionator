@@ -11,7 +11,7 @@ export class AskedQuestion {
   })
   contestContenderId: number;
 
-  @Column('varchar', {
+  @Column('uuid', {
     name: 'question_id',
     nullable: false,
   })
