@@ -2,12 +2,12 @@ import { ContenderGateway } from './contender.gateway';
 import { Contender } from './dto/Contender';
 
 describe('ContenderGateway', () => {
-  let sut: ContenderGateway,
-    clientMock: any;
+  let sut: ContenderGateway;
+  let  clientMock: any;
 
   beforeEach(() => {
     clientMock = {
-      emit: jasmine.createSpy('emit')
+      emit: jasmine.createSpy('emit'),
     };
 
     sut = new ContenderGateway();
@@ -23,7 +23,7 @@ describe('ContenderGateway', () => {
       sut.handleDisconnect('client' as any);
 
       expect(sut.removeContenderByClient)
-        .toHaveBeenCalledWith('client')
+        .toHaveBeenCalledWith('client');
     });
   });
 
@@ -31,12 +31,12 @@ describe('ContenderGateway', () => {
     beforeEach(() => {
       spyOn(sut, 'addContender');
 
-      sut.onJoin(clientMock, {login: 'login', sessionURL: ''})
+      sut.onJoin(clientMock, {login: 'login', sessionURL: ''});
     });
 
     it('should add contender', () => {
       expect(sut.addContender)
-        .toHaveBeenCalledWith(new Contender('login', clientMock))
+        .toHaveBeenCalledWith(new Contender('login', clientMock));
     });
 
     it('should respnd to client', () => {
@@ -48,7 +48,7 @@ describe('ContenderGateway', () => {
   describe('getAnswer', () => {
     beforeEach(() => {
       sut.getContenderByEmail = jasmine.createSpy('getContenderByEmail')
-        .and.returnValue({client: clientMock})
+        .and.returnValue({client: clientMock});
     });
 
     it('should throw error if no contender', () => {
@@ -71,7 +71,7 @@ describe('ContenderGateway', () => {
     it('should remove contender', () => {
       (sut as any).contenders = [
         {client: clientMock},
-        {client: {}}
+        {client: {}},
       ];
       sut.removeContenderByClient(clientMock);
 
@@ -84,7 +84,7 @@ describe('ContenderGateway', () => {
     it('should remove contender', () => {
       (sut as any).contenders = [
         {email: 'email1'},
-        {email: 'email2'}
+        {email: 'email2'},
       ];
       sut.removeContenderByEmail('email1');
 
