@@ -28,7 +28,7 @@ import { ContenderModule } from './modules/Contender/contender.module';
     SessionModule,
     ContestModule,
     QuestionModule,
-    ContenderModule
+    ContenderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
