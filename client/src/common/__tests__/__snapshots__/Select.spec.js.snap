@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select renders correctly 1`] = `
+<select
+  class="selectControl selectControlError"
+  options="[object Object],[object Object]"
+  required="required"
+>
+  <option
+    disabled="disabled"
+    hidden="hidden"
+    selected="selected"
+    value=""
+  >
+    Select placeholder
+  </option>
+   
+  <option
+    value="0"
+  >
+    
+    option 1
+  
+  </option>
+  <option
+    value="1"
+  >
+    
+    option 2
+  
+  </option>
+</select>
+`;

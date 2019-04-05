@@ -2,7 +2,7 @@ import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common'
 import { QuestionDto } from './dto/question.dto';
 import { QuestionService } from './question.service';
 
-@Controller('question')
+@Controller('questions')
 export class QuestionController {
 
     constructor(private questionService: QuestionService) {}
@@ -31,6 +31,5 @@ export class QuestionController {
     @Delete(':id')
     async delete(@Param() params) {
         return await this.questionService.delete(params.id);
-
     }
 }
