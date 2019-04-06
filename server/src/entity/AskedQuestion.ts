@@ -1,15 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, Generated } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'asked_question' })
 export class AskedQuestion {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
-  @Column('uuid', {
+  @Column('integer', {
     name: 'contest_contender_id',
     nullable: false,
   })
-  contestContenderId: string;
+  contestContenderId: number;
 
   @Column('uuid', {
     name: 'question_id',
@@ -38,14 +38,12 @@ export class AskedQuestion {
   @Column('datetime', {
     name: 'answered_on',
     nullable: true,
-    default: null,
   })
   answeredOn: Date;
 
   @Column('varchar', {
     name: 'answer',
     nullable: true,
-    default: '',
   })
   answer: string;
 
@@ -54,4 +52,11 @@ export class AskedQuestion {
     nullable: false,
   })
   score: number;
+
+  @Column('boolean', {
+    name: 'is_correct',
+    nullable: false,
+    default: false,
+  })
+  isCorrect: boolean;
 }
