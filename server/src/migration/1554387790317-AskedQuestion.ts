@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm';
 
 export class AskedQuestion1554387790317 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -27,10 +27,22 @@ export class AskedQuestion1554387790317 implements MigrationInterface {
           { name: 'is_correct', type: 'boolean', default: false },
         ],
       }),
+      true,
+    );
+
+    await queryRunner.renameTable('asked_question', 'asked_questions');
+
+    await queryRunner.addColumn(
+      'asked_questions',
+      new TableColumn({
+        name: 'session_id',
+        type: 'varchar',
+      }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('asked_question');
+    await queryRunner.dropColumn('asked_questions', 'session_id');
+    await queryRunner.dropTable('asked_questions');
   }
 }

@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'asked_question' })
+@Entity({ name: 'asked_questions' })
 export class AskedQuestion {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
@@ -16,6 +16,12 @@ export class AskedQuestion {
     nullable: false,
   })
   questionId: string;
+
+  @Column('uuid', {
+    name: 'session_id',
+    nullable: false,
+  })
+  sessionId: string;
 
   @Column('varchar', {
     name: 'generated_question',

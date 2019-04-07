@@ -1,45 +1,45 @@
-import {MigrationInterface, QueryRunner, Table} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class Question1553647346431 implements MigrationInterface {
+  async up(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.createTable(
+      new Table({
+        name: 'qms_question',
+        columns: [
+          {
+            name: 'id',
+            type: 'varchar',
+            isPrimary: true,
+          },
+          {
+            name: 'type',
+            type: 'varchar',
+          },
+          {
+            name: 'text',
+            type: 'varchar',
+          },
+          {
+            name: 'answer',
+            type: 'varchar',
+          },
+          {
+            name: 'value',
+            type: 'varchar',
+          },
+          {
+            name: 'isDeleted',
+            type: 'boolean',
+          },
+        ],
+      }),
+      true,
+    );
 
-    async up(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.createTable(
-          new Table({
-            name: 'qms_question',
-            columns: [
-              {
-                name: 'id',
-                type: 'varchar',
-                isPrimary: true,
-              },
-              {
-                name: 'type',
-                type: 'varchar',
-              },
-              {
-                name: 'text',
-                type: 'varchar',
-              },
-              {
-                name: 'answer',
-                type: 'varchar',
-              },
-              {
-                name: 'value',
-                type: 'varchar',
-              },
-              {
-                name: 'isDeleted',
-                type: 'boolean',
-              },
-            ],
-          }),
-          true,
-        );
-      }
+    await queryRunner.renameTable('qms_question', 'questions');
+  }
 
-      async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.dropTable('qms_question');
-      }
-
+  async down(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.dropTable('questions');
+  }
 }
