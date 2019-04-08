@@ -84,11 +84,17 @@ export default {
     },
     addOrEditQuestion(question) {
       if (this.modalType === 'add') {
-        this.$store.dispatch('question/addQuestion', question);
+        this.$store.dispatch('question/addQuestion', {
+          ...question,
+          contestId: this.$route.params.id,
+        });
       }
 
       if (this.modalType === 'edit') {
-        this.$store.dispatch('question/updateQuestion', question);
+        this.$store.dispatch('question/updateQuestion', {
+          ...question,
+          contestId: this.$route.params.id,
+        });
       }
 
       this.close();

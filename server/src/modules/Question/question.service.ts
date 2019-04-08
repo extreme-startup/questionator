@@ -39,26 +39,18 @@ export class QuestionService {
         }
     }
 
-    async insert(question: QuestionDto): Promise<QuestionDto> {
+    async insert(question: QuestionDto): Promise<Question> {
         const newQuestion = new Question();
 
-        Object.keys(question).forEach((key) => {
-            newQuestion[key] = question[key];
-        });
-
         try {
-            return await this.questionRepository.save(newQuestion);
+            return await this.questionRepository.save({ ...newQuestion, ...question });
         } catch (err) {
             return err;
         }
     }
 
     async update(oldQuestion: Question, updatedValues: QuestionDto): Promise<Question> {
-        const updatedQuestion = oldQuestion;
-
-        Object.keys(updatedValues).forEach((key) => {
-            updatedQuestion[key] = updatedValues[key];
-        });
+        const updatedQuestion = { ...oldQuestion, ...updatedValues };
 
         try {
             return await this.questionRepository.save(updatedQuestion);

@@ -5,7 +5,7 @@ export class Question1553647346431 implements MigrationInterface {
     async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.createTable(
           new Table({
-            name: 'qms_question',
+            name: 'question',
             columns: [
               {
                 name: 'id',
@@ -39,7 +39,7 @@ export class Question1553647346431 implements MigrationInterface {
       }
 
       async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.dropTable('qms_question');
+        await queryRunner.dropTable('question');
       }
 
 }

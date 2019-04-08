@@ -47,4 +47,9 @@ export class ContestController {
   delete(@Param('id') id: string): Promise<DeleteResult> {
     return this.contestService.delete(parseInt(id, 10));
   }
+
+  @Get(':id/questions')
+  findQuestions(@Param('id') id: string): Promise<any> {
+    return this.contestService.findAllQuestions(parseInt(id, 10));
+  }
 }
