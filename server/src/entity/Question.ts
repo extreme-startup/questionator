@@ -28,6 +28,9 @@ export class Question {
     })
     value: string;
 
-    @Column('boolean')
+    @Column('boolean', {
+        name: 'isDeleted',
+        default: false,
+    })
     isDeleted: boolean;
 }
