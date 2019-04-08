@@ -7,19 +7,6 @@
 <script>
 export default {
   name: 'app',
-  data() {
-    return {
-      httpGetResponce: null,
-      httpGetError: null,
-    };
-  },
-  mounted: async function() {
-    try {
-      this.httpGetResponce = await this.$http.get('/hello');
-    } catch (err) {
-      this.httpGetError = err;
-    }
-  },
 };
 </script>
 
