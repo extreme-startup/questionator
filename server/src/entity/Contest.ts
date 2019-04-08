@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
+import { Question } from './Question';
 
 @Entity()
 export class Contest {
@@ -21,4 +22,7 @@ export class Contest {
 
   @Column('integer')
   ownerId: number;
+
+  @OneToMany(() => Question, question => question.contest)
+    questions: Question[];
 }

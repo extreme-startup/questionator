@@ -46,7 +46,7 @@ const actions = {
   getQuestions: async (context, payload) => {
     context.commit('setQuestionsIsFetching');
     try {
-      const { data } = await api.getQuestions();
+      const { data } = await api.getQuestions(payload);
       context.commit('setQuestions', data);
     } catch (err) {
       context.commit('setQuestionsError', err);

@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class SetQuestionIsDeletedDefaultValue1553936929517 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        const table = await queryRunner.getTable('qms_question');
+        const table = await queryRunner.getTable('question');
         const isDeletedColumn = table!.findColumnByName('isDeleted')!;
 
         const changedIsDeletedColumn = isDeletedColumn.clone();
@@ -12,7 +12,7 @@ export class SetQuestionIsDeletedDefaultValue1553936929517 implements MigrationI
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        const table = await queryRunner.getTable('qms_question');
+        const table = await queryRunner.getTable('question');
         const isDeletedColumn = table!.findColumnByName('isDeleted')!;
 
         const changedIsDeletedColumn = isDeletedColumn.clone();

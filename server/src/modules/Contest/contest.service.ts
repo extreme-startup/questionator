@@ -32,4 +32,11 @@ export class ContestService {
   async delete(id: number): Promise<DeleteResult> {
     return await this.contestRepository.delete(id);
   }
+
+  async findAllQuestions(id: number): Promise<any> {
+    return await this.contestRepository.find({
+      relations: ['questions'],
+      where: { id },
+    });
+  }
 }

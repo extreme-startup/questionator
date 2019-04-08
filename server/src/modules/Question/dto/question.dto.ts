@@ -4,4 +4,5 @@ export class QuestionDto {
     readonly answer: string;
     readonly value: string;
     readonly isDeleted: boolean;
+    readonly contestId: number;
 }

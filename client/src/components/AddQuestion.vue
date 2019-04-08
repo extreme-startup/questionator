@@ -72,7 +72,10 @@ export default {
   methods: {
     async addQuestion(question) {
       this.question = { ...defaults };
-      this.$store.dispatch('question/addQuestion', question);
+      this.$store.dispatch('question/addQuestion', {
+        ...question,
+        contestId: this.$route.params.id,
+      });
       this.close();
     },
   },

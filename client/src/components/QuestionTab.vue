@@ -57,8 +57,7 @@ export default {
     },
   },
   async mounted() {
-    //TODO: endpoint should be /trainings/{trainig_id}/questions
-    this.$store.dispatch('question/getQuestions');
+    this.$store.dispatch('question/getQuestions', this.$route.params.id);
   },
 };
 </script>
