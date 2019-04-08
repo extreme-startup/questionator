@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionForm renders correctly 1`] = `
+<formwrapper-stub>
+  <form
+    novalidate="novalidate"
+  >
+    <inputwrapper-stub>
+      <select-stub
+        id="question-type-input"
+        options="[object Object],[object Object]"
+        placeholder="Select placeholder"
+        value=""
+      />
+       
+      <!---->
+    </inputwrapper-stub>
+     
+    <inputwrapper-stub>
+      <styledtextinput-stub
+        id="question-text-input"
+        name="questionText"
+        placeholder="Type your question"
+        required=""
+        type="text"
+        value=""
+      />
+       
+      <!---->
+    </inputwrapper-stub>
+     
+    <inputwrapper-stub>
+      <styledtextarea-stub
+        id="question-answer-input"
+        name="answer"
+        placeholder="Type your answer"
+        required=""
+        value=""
+      />
+       
+      <!---->
+    </inputwrapper-stub>
+     
+    <styledtextinput-stub
+      id="question-value-input"
+      name="questionValue"
+      type="text"
+      value=""
+    />
+     
+    <controlgroup-stub>
+      <styledbutton-stub
+        id="question-cancel-button"
+        secondary="true"
+        type="reset"
+      >
+        
+        Cancel
+      
+      </styledbutton-stub>
+       
+      <styledbutton-stub
+        id="question-save-button"
+        type="submit"
+      >
+        Save
+      </styledbutton-stub>
+    </controlgroup-stub>
+  </form>
+</formwrapper-stub>
+`;

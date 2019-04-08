@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddQuestion renders correctly 1`] = `
+<div
+  errors="[object Object]"
+  question="[object Object]"
+  typeoptions="[object Object],[object Object]"
+>
+   
+  <modal-stub
+    style="display: none;"
+  >
+     
+    <questionform-stub
+      errors="[object Object]"
+      placeholder="Select question type"
+      typeoptions="[object Object],[object Object]"
+      value="[object Object]"
+    />
+  </modal-stub>
+</div>
+`;

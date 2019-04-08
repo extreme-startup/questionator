@@ -1,14 +1,29 @@
 import styled from 'vue-styled-components';
 
-const btnProps = { primary: Boolean };
+const btnProps = { primary: Boolean, secondary: Boolean };
+
+const getButtonFlag = props => {
+  const activeFlag = Object.keys(btnProps).find(flag => !!props[flag]);
+  return activeFlag ? `-${activeFlag}` : '';
+};
 
 const Button = styled('button', btnProps)`
-  font-size: 16px;
-  padding: 5px 20px;
+  font-size: 12px;
+  padding: 8px 45px;
   border: none;
   border-radius: 0;
-  background: ${props => (props.primary ? 'yellow' : 'grey')};
-  color: ${props => (props.primary ? 'grey' : 'white')};
+  font-weight: 600;
+  text-transform: uppercase;
+  background: ${props => `var(--btn-bg${getButtonFlag(props)})`};
+  color: ${props => `var(--btn-color${getButtonFlag(props)})`};
+
+  &:active {
+    background-color: ${props => (props.primary ? 'lightyellow' : 'lightgrey')};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `;
 
 export default Button;

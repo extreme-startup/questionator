@@ -1,17 +1,5 @@
 <template>
   <div id="app">
-    <div class="serverMsg successMsg" v-if="httpGetResponce">
-      Server responded with following message:
-      <strong>{{ httpGetResponce.data }}</strong>
-    </div>
-    <div class="serverMsg errorMsg" v-if="httpGetError">
-      The error message is following:
-      <strong>{{ httpGetError.message }}</strong>
-    </div>
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view />
   </div>
 </template>
@@ -36,11 +24,26 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~normalize.css';
+
+/*
+vars
+*/
+div {
+  --text-color: #222222;
+  --btn-bg: #4f4f4f;
+  --btn-color: #fff;
+  --btn-bg-primary: #eeeb49;
+  --btn-color-primary: #222222;
+  --btn-bg-secondary: #9c9c9c;
+  --btn-color-secondary: #fff;
+  --bg-color: #f1f1f1;
+  --placeholder-color: #bbbbbb;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 #nav {
