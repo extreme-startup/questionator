@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -26,6 +26,7 @@ div {
   --btn-color-secondary: #fff;
   --bg-color: #f1f1f1;
   --placeholder-color: #bbbbbb;
+  --bg: #efefef;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

@@ -14,6 +14,12 @@ export class QuestionController {
         return await this.questionService.findAll();
     }
 
+  // todo it's a temporary solution and will be implemented in #23/24 stories
+    @Get('random')
+    async getRandom(): Promise<QuestionDto> {
+        return await this.questionService.getRandom();
+    }
+
     @Get(':id')
     @ApiResponse({ status: 200, type: QuestionDto })
     async findOneById(@Param('id') id: string): Promise<QuestionDto> {
