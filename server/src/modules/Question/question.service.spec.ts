@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 
 import { QuestionService } from './question.service';
 import { Question } from '../../entity/Question';
-import { QuestionDto } from './dto/question.dto';
+import { QuestionDto } from './question.dto';
 
 function generateQuestion(q: QuestionDto = {} as QuestionDto): Question {
   const question = new Question();

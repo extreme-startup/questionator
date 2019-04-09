@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult, UpdateResult, InsertResult } from 'typeorm';
 
 import { Contest } from '../../entity/Contest';
-import { IContestDto } from './contest.interface';
+import { ContestDto } from './contest.dto';
 
 @Injectable()
 export class ContestService {
@@ -20,12 +20,12 @@ export class ContestService {
     return await this.contestRepository.find();
   }
 
-  async create(contest: IContestDto): Promise<InsertResult> {
+  async create(contest: ContestDto): Promise<InsertResult> {
     const newContest: Contest = this.contestRepository.create(contest);
     return await this.contestRepository.insert(newContest);
   }
 
-  async update(id: number, contest: IContestDto): Promise<UpdateResult> {
+  async update(id: number, contest: ContestDto): Promise<UpdateResult> {
     return await this.contestRepository.update(id, contest);
   }
 

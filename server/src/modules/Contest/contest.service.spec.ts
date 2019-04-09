@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 
 import { Contest } from '../../entity/Contest';
-import { IContestDto } from './contest.interface';
+import { ContestDto } from './contest.dto';
 import { ContestService } from './contest.service';
 import {
   contestDto,
@@ -47,7 +47,7 @@ describe('ContestService', () => {
 
   describe('create', () => {
     it('should create new contest', async () => {
-      const newContestDto: IContestDto = contestDto;
+      const newContestDto: ContestDto = contestDto;
       jest
         .spyOn(contestRepository, 'insert')
         .mockReturnValue(Promise.resolve(insertResult));
@@ -61,7 +61,7 @@ describe('ContestService', () => {
 
   describe('update', () => {
     it('should update existing contest by id', async () => {
-      const updateContestDto: IContestDto = contestDto;
+      const updateContestDto: ContestDto = contestDto;
       jest
         .spyOn(contestRepository, 'update')
         .mockReturnValue(Promise.resolve(updateResult));
