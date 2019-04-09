@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteQuestion renders correctly 1`] = `
+<modal-stub>
+   
+  <modalbody-stub>
+    <span>
+      Are you sure you want to delete test1 question?
+    </span>
+     
+    <modalcontrolsgroup-stub>
+      <modalcancelbutton-stub>
+        Cancel
+      </modalcancelbutton-stub>
+       
+      <modaldeletebutton-stub>
+        Confirm
+      </modaldeletebutton-stub>
+    </modalcontrolsgroup-stub>
+  </modalbody-stub>
+</modal-stub>
+`;
