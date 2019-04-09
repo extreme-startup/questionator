@@ -4,10 +4,10 @@ import { Session } from '../../entity/Session';
 
 @Controller('sessions')
 export class SessionController {
-  constructor(private readonly customerService: SessionService) {}
+  constructor(private readonly sessionService: SessionService) {}
 
   @Get()
   findAll(): Promise<Session[]> {
-    return this.customerService.findAll();
+    return this.sessionService.findAll();
   }
 }
