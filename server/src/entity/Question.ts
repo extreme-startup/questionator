@@ -1,15 +1,21 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Contest } from './Contest';
 
+enum QuestionType {
+    STATIC = 'static',
+    DYNAMIC = 'dynamic',
+}
+
 @Entity({name: 'questions'})
 export class Question {
     @PrimaryGeneratedColumn('uuid', { name: 'id' }) id: string;
 
-    @Column('varchar', {
+    @Column('enum', {
         name: 'type',
-        nullable: false,
+        enum: QuestionType,
+        default: QuestionType.STATIC,
     })
-    type: string;
+    type: QuestionType;
 
     @Column('varchar', {
         name: 'text',
@@ -24,10 +30,16 @@ export class Question {
     answer: string;
 
     @Column('varchar', {
+        name: 'contextGenerator',
+        nullable: true,
+    })
+    contextGenerator: string;
+
+    @Column('varchar', {
         name: 'value',
         nullable: false,
     })
-    value: string;
+    value: number;
 
     @Column('boolean', {
         name: 'isDeleted',

@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { compile } from 'handlebars';
 import { Question } from '../../entity/Question';
+import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
+import { AskedQuestionDto } from './dto/askedQuestion.dto';
+import { AnswerDto } from './dto/answer.dto';
+import { QuestionType } from '../../constants';
 
 @Injectable()
 export class QuestionService {
@@ -10,6 +15,8 @@ export class QuestionService {
     constructor(
         @InjectRepository(Question)
         private readonly questionRepository: Repository<Question>,
+        @InjectRepository(AskedQuestion)
+        private readonly askedQuestionRepository: Repository<AskedQuestion>,
     ) { }
 
     async findAll(): Promise<Question[]> {
@@ -64,4 +71,28 @@ export class QuestionService {
             return err;
         }
     }
+
+    async ask(contenderId: string, questionId: string): Promise<AskedQuestionDto> {
+        const question = await this.questionRepository.findOne({ id: questionId });
+
+        if (!question) {
+            throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
+        }
+
+        const newAskedQuestion = new AskedQuestion();
+        newAskedQuestion.contestContenderId = contenderId;
+        newAskedQuestion.questionId = questionId;
+        newAskedQuestion.askedOn = new Date();
+        newAskedQuestion.score = question.value;
+
+        if (question.type === QuestionType.STATIC) {
+            newAskedQuestion.question = question.text;
+            newAskedQuestion.answer = question.answer;
+        } else {
+            newAskedQuestion.question = question.text;
+            newAskedQuestion.answer = question.answer;
+        }
+    }
+
+    async reply(askedQuestionId: string, answer: string): Promise<AnswerDto> { return  }
 }

@@ -5,11 +5,11 @@ export class AskedQuestion {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
-  @Column('integer', {
+  @Column('uuid', {
     name: 'contest_contender_id',
     nullable: false,
   })
-  contestContenderId: number;
+  contestContenderId: string;
 
   @Column('uuid', {
     name: 'question_id',
@@ -18,16 +18,16 @@ export class AskedQuestion {
   questionId: string;
 
   @Column('varchar', {
-    name: 'generated_question',
+    name: 'question',
     nullable: false,
   })
-  generatedQuestion: string;
+  question: string;
 
   @Column('varchar', {
-    name: 'generated_answer',
+    name: 'answer',
     nullable: false,
   })
-  generatedAnswer: string;
+  answer: string;
 
   @Column('datetime', {
     name: 'asked_on',
@@ -41,15 +41,10 @@ export class AskedQuestion {
   })
   answeredOn: Date;
 
-  @Column('varchar', {
-    name: 'answer',
-    nullable: true,
-  })
-  answer: string;
-
   @Column('numeric', {
     name: 'score',
     nullable: false,
+    default: 0,
   })
   score: number;
 
