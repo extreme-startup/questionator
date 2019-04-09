@@ -16,6 +16,7 @@ import { SessionModule } from './modules/Session/session.module';
 import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
+import { ContenderModule } from './modules/Contender/contender.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { QuestionModule } from './modules/Question/question.module';
     SessionModule,
     ContestModule,
     QuestionModule,
+    ContenderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
