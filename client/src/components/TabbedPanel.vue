@@ -1,5 +1,5 @@
 <template>
-  <Fragment>
+  <div>
     <TabList>
       <Tab
         v-for="tab in tabs"
@@ -11,12 +11,11 @@
       </Tab>
     </TabList>
     <component :is="currentTabComponent"></component>
-  </Fragment>
+  </div>
 </template>
 
 <script>
 import styled from 'vue-styled-components';
-import { Fragment } from 'vue-fragment';
 import QuestionTab from './QuestionTab.vue';
 
 const TabList = styled.ul`
@@ -49,7 +48,6 @@ export default {
   components: {
     TabList,
     Tab,
-    Fragment,
     questions: QuestionTab,
   },
   methods: {
