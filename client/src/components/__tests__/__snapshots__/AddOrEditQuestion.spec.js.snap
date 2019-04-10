@@ -36,13 +36,17 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             <button
               class="dbZTLp"
             >
-              Static
+              
+        Static
+      
             </button>
              
             <button
               class="kJsYHB"
             >
-              Dynamic
+              
+        Dynamic
+      
             </button>
           </div>
            

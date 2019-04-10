@@ -2,12 +2,12 @@
   <FormWrapper>
     <form @submit.prevent="submitQuestion" novalidate>
       <InputSwitcherWrapper v-if="isEditable('type')">
-        <StyledSwitcherButton @click="toggleSwitcher($event, 'static')" :active="isStaticActive"
-          >Static</StyledSwitcherButton
-        >
-        <StyledSwitcherButton @click="toggleSwitcher($event, 'dynamic')" :active="isDynamicActive"
-          >Dynamic</StyledSwitcherButton
-        >
+        <StyledSwitcherButton @click="toggleSwitcher($event, 'static')" :active="isStaticActive">
+          Static
+        </StyledSwitcherButton>
+        <StyledSwitcherButton @click="toggleSwitcher($event, 'dynamic')" :active="isDynamicActive">
+          Dynamic
+        </StyledSwitcherButton>
       </InputSwitcherWrapper>
       <StaticText v-if="!isEditable('type')">Type: {{ question.type }}</StaticText>
       <InputWrapper>
@@ -22,7 +22,9 @@
           required
         />
         <StaticText v-if="!isEditable('text')">Question: {{ question.text }}</StaticText>
-        <ErrorMsg v-if="errors.text.required">This field is required</ErrorMsg>
+        <ErrorMsg id="question-text-error" v-if="errors.text.required">
+          This field is required
+        </ErrorMsg>
       </InputWrapper>
       <InputWrapper>
         <textarea
@@ -36,7 +38,9 @@
           required
         ></textarea>
         <StaticText v-if="!isEditable('answer')">Answer: {{ question.answer }}</StaticText>
-        <ErrorMsg v-if="errors.answer.required">This field is required</ErrorMsg>
+        <ErrorMsg id="question-answer-error" v-if="errors.answer.required">
+          This field is required
+        </ErrorMsg>
       </InputWrapper>
       <InputWrapper>
         <StyledTextInput

@@ -9,11 +9,15 @@ exports[`QuestionForm renders correctly 1`] = `
       <styledswitcherbutton-stub
         active="true"
       >
+        
         Static
+      
       </styledswitcherbutton-stub>
        
       <styledswitcherbutton-stub>
+        
         Dynamic
+      
       </styledswitcherbutton-stub>
     </inputswitcherwrapper-stub>
      

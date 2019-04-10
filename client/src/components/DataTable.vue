@@ -16,16 +16,12 @@
           {{ row[column.field] }}
         </td>
         <td>
-          <EditLink :deleted="row.isDeleted" @click.prevent="showEditDialog($event, row)" href="#">
+          <v-btn v-on:click="showEditDialog($event, row)" :disabled="row.isDeleted">
             edit
-          </EditLink>
-          <DeleteLink
-            :deleted="row.isDeleted"
-            @click.prevent="showDeleteDialog($event, row)"
-            href="#"
-          >
+          </v-btn>
+          <v-btn color="error" v-on:click="showDeleteDialog($event, row)" :disabled="row.isDeleted">
             delete
-          </DeleteLink>
+          </v-btn>
         </td>
       </TableRow>
     </tbody>
@@ -81,18 +77,6 @@ const ColumnTitle = styled.div`
   padding: 8px;
 `;
 
-const EditLink = styled('a', TableRowProps)`
-  margin-right: 5px;
-  color: blue;
-  cursor: ${props => (props.deleted ? 'default' : 'pointer')};
-`;
-
-const DeleteLink = styled('a', TableRowProps)`
-  margin-left: 5px;
-  color: red;
-  cursor: ${props => (props.deleted ? 'default' : 'pointer')};
-`;
-
 export default {
   name: 'DataTable',
   props: {
@@ -103,8 +87,6 @@ export default {
     Table,
     TableRow,
     ColumnTitle,
-    EditLink,
-    DeleteLink,
   },
   methods: {
     showEditDialog(e, item) {
