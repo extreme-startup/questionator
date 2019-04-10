@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Question } from '../../entity/Question';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionType } from '../../constants';
-
+import * as safeEval from 'safe-eval';
 describe('QuestionService', () => {
   let questionService: QuestionService;
 
@@ -88,13 +88,16 @@ describe('QuestionService', () => {
     it('should ask static questions as expected', async () => {
       spyOn(Date.prototype, 'setDate').and.returnValue(fakeNewDate);
 
-      expect(await questionService.ask(staticQuestion.id, fakeContenderId)).toEqual(askedQuestion);
+      const result = await questionService.ask(staticQuestion.id, fakeContenderId);
+      expect(result).toEqual(askedQuestion);
     });
 
     it('should ask dynamic questions as expected', async () => {
       spyOn(Date.prototype, 'setDate').and.returnValue(fakeNewDate);
 
-      expect(await questionService.ask(dynamicQuestion.id, fakeContenderId)).toEqual({
+      const result = await questionService.ask(dynamicQuestion.id, fakeContenderId);
+
+      expect(result).toEqual({
         ...askedQuestion,
         question: dynamicQuestion.text.replace('{{dynamicValue}}', 'dynamicValue'),
         answer: dynamicQuestion.answer.replace('{{dynamicValue}}', 'dynamicValue'),
