@@ -17,6 +17,7 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
+import { SchedulerModule } from './modules/Scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -29,11 +30,11 @@ import { ContenderModule } from './modules/Contender/contender.module';
     ContestModule,
     QuestionModule,
     ContenderModule,
+    SchedulerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-
 export class AppModule {
   constructor(private readonly configService: ConfigService) {}
 
