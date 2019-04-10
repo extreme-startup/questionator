@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
 import { QuestionDto } from './dto/question.dto';
+import { AnswerDto } from './dto/answer.dto';
 import { QuestionService } from './question.service';
 
 @Controller('questions')
@@ -31,5 +32,10 @@ export class QuestionController {
     @Delete(':id')
     async delete(@Param() params) {
         return await this.questionService.delete(params.id);
+    }
+
+    @Post(':askedQuestionId')
+    reply(@Body() answer: string, @Param() { askedQuestionId }): Promise<AnswerDto> {
+        return this.questionService.reply(askedQuestionId, answer);
     }
 }

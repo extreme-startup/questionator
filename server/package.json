@@ -39,6 +39,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
+    "safe-eval": "^0.4.1",
     "serve-static": "^1.13.2",
     "swagger-ui-express": "~4.0.2",
     "typeorm": "^0.2.14",

@@ -2,11 +2,10 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compile } from 'handlebars';
+import * as safeEval from 'safe-eval';
 import { Question } from '../../entity/Question';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
-import { AskedQuestionDto } from './dto/askedQuestion.dto';
-import { AnswerDto } from './dto/answer.dto';
 import { QuestionType } from '../../constants';
 
 @Injectable()
@@ -72,7 +71,7 @@ export class QuestionService {
         }
     }
 
-    async ask(contenderId: string, questionId: string): Promise<AskedQuestionDto> {
+    async ask(questionId: string, contenderId: string): Promise<AskedQuestion> {
         const question = await this.questionRepository.findOne({ id: questionId });
 
         if (!question) {
@@ -89,10 +88,43 @@ export class QuestionService {
             newAskedQuestion.question = question.text;
             newAskedQuestion.answer = question.answer;
         } else {
-            newAskedQuestion.question = question.text;
-            newAskedQuestion.answer = question.answer;
+            let context;
+            try {
+                // should we pass anything to context generator here?
+                context = safeEval(question.contextGenerator)();
+                newAskedQuestion.question = compile(question.text)(context);
+                newAskedQuestion.answer = compile(question.answer)(context);
+            } catch (error) {
+                throw new Error(`Can't eval question#${question.id}: ${error}`);
+            }
+        }
+
+        try {
+            return this.questionRepository.save(newAskedQuestion);
+        } catch (error) {
+            throw new HttpException(`Can't save asked question: ${error}`, HttpStatus.BAD_REQUEST);
         }
     }
 
-    async reply(askedQuestionId: string, answer: string): Promise<AnswerDto> { return  }
+    async reply(askedQuestionId: string, answer: string): Promise<AskedQuestion> {
+        const askedQuestion = await this.askedQuestionRepository.findOne({ id: askedQuestionId });
+
+        if (!askedQuestion) {
+            throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
+        }
+
+        if (askedQuestion.answeredOn) {
+            throw new HttpException('Asked question was already replied', HttpStatus.FORBIDDEN);
+        }
+
+        askedQuestion.answeredOn = new Date();
+        // TODO: process player score here
+        askedQuestion.isCorrect = answer === askedQuestion.answer;
+
+        try {
+            return this.askedQuestionRepository.save(askedQuestion);
+        } catch (error) {
+            throw new HttpException(`Can't save asked question: ${error}`, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
