@@ -25,7 +25,7 @@ export default {
   },
   data: function() {
     return {
-      tabs: ['Questions', 'Builder', 'Sessions'],
+      tabs: ['Questions', 'Sessions'],
     };
   },
 };
