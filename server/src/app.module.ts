@@ -5,8 +5,6 @@ import { ConfigModule } from './config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormStore } from 'typeorm-store';
 import { getConnection } from 'typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CustomerModule } from './modules/Customer/customer.module';
 import { ConfigService } from './config/config.service';
 import { Session } from './entity/Session';
@@ -17,6 +15,7 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { EventsModule } from './modules/Events/events.module';
+import { ContenderModule } from './modules/Contender/contender.module';
 
 @Module({
   imports: [
@@ -28,10 +27,9 @@ import { EventsModule } from './modules/Events/events.module';
     SessionModule,
     ContestModule,
     QuestionModule,
-    EventsModule
+    EventsModule,
+    ContenderModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 
 export class AppModule {

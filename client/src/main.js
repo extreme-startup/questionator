@@ -7,7 +7,11 @@ import VueAxios from 'vue-axios';
 import Vuelidate from 'vuelidate';
 import SocketIo from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
+import Vuetify from 'vuetify';
 
+import 'vuetify/dist/vuetify.min.css';
+
+Vue.use(Vuetify);
 Vue.use(Vuelidate);
 Vue.use(
   VueAxios,

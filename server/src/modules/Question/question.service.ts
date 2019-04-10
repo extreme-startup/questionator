@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Question } from '../../entity/Question';
-import { QuestionDto } from './dto/question.dto';
+import { QuestionDto } from './question.dto';
 
 @Injectable()
 export class QuestionService {
@@ -20,9 +20,20 @@ export class QuestionService {
         }
     }
 
+    // todo it's a temporary solution and will be implemented in #23/24 stories
+    async getRandom(): Promise<Question> {
+        try {
+            return await this.questionRepository.createQueryBuilder()
+                .orderBy('RAND()')
+                .getOne();
+        } catch (err) {
+            return err;
+        }
+    }
+
     async findById(id: string): Promise<Question> {
         try {
-            return await this.questionRepository.findOne({ id });
+            return await this.questionRepository.findOne(id);
         } catch (err) {
             return err;
         }

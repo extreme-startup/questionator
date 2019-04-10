@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddOrEditQuestion renders add form correctly 1`] = `
+<div
+  class="hZfSeG"
+  name="modal-fade"
+>
+  <div
+    class="kuljaD"
+  >
+    <header>
+      <button
+        class="gsyLbm"
+      >
+        x
+      </button>
+       
+      <h1
+        class="ePoQLf fdLKPL jBBvdc"
+      >
+        Add new question
+      </h1>
+    </header>
+     
+    <section>
+       
+      <div
+        class="bjGaHK"
+      >
+        <form
+          novalidate="novalidate"
+        >
+          <div
+            class="jtUfTw kqXKrG"
+          >
+            <button
+              class="dbZTLp"
+            >
+              
+        Static
+      
+            </button>
+             
+            <button
+              class="kJsYHB"
+            >
+              
+        Dynamic
+      
+            </button>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="jtUfTw"
+          >
+            <input
+              class="jbjXrf"
+              id="question-text-input"
+              name="questionText"
+              placeholder="Type your question"
+              required="required"
+              type="text"
+              value=""
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+           
+          <div
+            class="jtUfTw"
+          >
+            <textarea
+              class="formTextArea"
+              id="question-answer-input"
+              name="answer"
+              placeholder="Type your answer"
+              required="required"
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+           
+          <div
+            class="jtUfTw"
+          >
+            <input
+              class="jbjXrf"
+              id="question-value-input"
+              name="questionValue"
+              placeholder="Enter question value (points)"
+              type="text"
+              value="0"
+            />
+             
+            <!---->
+          </div>
+           
+          <div
+            class="fvVliX"
+          >
+            <button
+              class="jYfsmY liYJHj"
+              id="question-cancel-button"
+              type="reset"
+            >
+              
+        Cancel
+      
+            </button>
+             
+            <button
+              class="lfvxis liYJHj"
+              id="question-save-button"
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+     
+    <footer />
+  </div>
+</div>
+`;
+
+exports[`AddOrEditQuestion renders edit form correctly 1`] = `
+<div
+  class="hZfSeG"
+  name="modal-fade"
+>
+  <div
+    class="kuljaD"
+  >
+    <header>
+      <button
+        class="gsyLbm"
+      >
+        x
+      </button>
+       
+      <h1
+        class="ePoQLf fdLKPL jBBvdc"
+      >
+        Edit question
+      </h1>
+    </header>
+     
+    <section>
+       
+      <div
+        class="bjGaHK"
+      >
+        <form
+          novalidate="novalidate"
+        >
+          <!---->
+           
+          <p
+            class="gYaVnZ"
+          >
+            Type: static
+          </p>
+           
+          <div
+            class="jtUfTw"
+          >
+            <!---->
+             
+            <p
+              class="gYaVnZ"
+            >
+              Question: 
+            </p>
+             
+            <!---->
+          </div>
+           
+          <div
+            class="jtUfTw"
+          >
+            <textarea
+              class="formTextArea"
+              id="question-answer-input"
+              name="answer"
+              placeholder="Type your answer"
+              required="required"
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+           
+          <div
+            class="jtUfTw"
+          >
+            <input
+              class="jbjXrf"
+              id="question-value-input"
+              name="questionValue"
+              placeholder="Enter question value (points)"
+              type="text"
+              value="0"
+            />
+             
+            <!---->
+          </div>
+           
+          <div
+            class="fvVliX"
+          >
+            <button
+              class="jYfsmY liYJHj"
+              id="question-cancel-button"
+              type="reset"
+            >
+              
+        Cancel
+      
+            </button>
+             
+            <button
+              class="lfvxis liYJHj"
+              id="question-save-button"
+              type="submit"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+     
+    <footer />
+  </div>
+</div>
+`;
