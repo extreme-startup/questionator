@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './User';
 
@@ -18,12 +18,8 @@ export class ManageSessionEntity {
   status: SessionStatus;
 
   @Column('timestamp')
-  startedTime: Date;
+  startedTime: string;
 
-  @OneToOne(type => User)
-  @JoinColumn()
-  trainer;
-
-  @OneToMany(type => User, user => user.id)
-  members: User[];
+  @ManyToOne(type => User, user => user.sessions)
+  trainer: User;
 }

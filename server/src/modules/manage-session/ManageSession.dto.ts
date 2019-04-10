@@ -5,6 +5,5 @@ export class ManageSessionDto {
   id: number;
   status: SessionStatus;
   trainer: UserDto;
-  members: UserDto[];
-  startedTime: Date;
+  startedTime: string;
 }
