@@ -5,16 +5,23 @@ exports[`QuestionForm renders correctly 1`] = `
   <form
     novalidate="novalidate"
   >
-    <inputwrapper-stub>
-      <select-stub
-        id="question-type-input"
-        options="[object Object],[object Object]"
-        placeholder="Select placeholder"
-        value=""
-      />
+    <inputswitcherwrapper-stub>
+      <styledswitcherbutton-stub
+        active="true"
+      >
+        
+        Static
+      
+      </styledswitcherbutton-stub>
        
-      <!---->
-    </inputwrapper-stub>
+      <styledswitcherbutton-stub>
+        
+        Dynamic
+      
+      </styledswitcherbutton-stub>
+    </inputswitcherwrapper-stub>
+     
+    <!---->
      
     <inputwrapper-stub>
       <styledtextinput-stub
@@ -27,26 +34,35 @@ exports[`QuestionForm renders correctly 1`] = `
       />
        
       <!---->
-    </inputwrapper-stub>
-     
-    <inputwrapper-stub>
-      <styledtextarea-stub
-        id="question-answer-input"
-        name="answer"
-        placeholder="Type your answer"
-        required=""
-        value=""
-      />
        
       <!---->
     </inputwrapper-stub>
      
-    <styledtextinput-stub
-      id="question-value-input"
-      name="questionValue"
-      type="text"
-      value=""
-    />
+    <inputwrapper-stub>
+      <textarea
+        class="formTextArea"
+        id="question-answer-input"
+        name="answer"
+        placeholder="Type your answer"
+        required="required"
+      />
+       
+      <!---->
+       
+      <!---->
+    </inputwrapper-stub>
+     
+    <inputwrapper-stub>
+      <styledtextinput-stub
+        id="question-value-input"
+        name="questionValue"
+        placeholder="Enter question value (points)"
+        type="text"
+        value="0"
+      />
+       
+      <!---->
+    </inputwrapper-stub>
      
     <controlgroup-stub>
       <styledbutton-stub
@@ -63,7 +79,7 @@ exports[`QuestionForm renders correctly 1`] = `
         id="question-save-button"
         type="submit"
       >
-        Save
+        Edit question
       </styledbutton-stub>
     </controlgroup-stub>
   </form>

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { UserService } from '../User/user.service';
-import { LocalPayload } from './interfaces/local-payload.interface';
+import { LocalPayload } from './local-payload.dto';
 
 @Injectable()
 export class AuthService {

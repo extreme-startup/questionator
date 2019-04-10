@@ -5,8 +5,6 @@ import { ConfigModule } from './config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormStore } from 'typeorm-store';
 import { getConnection } from 'typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CustomerModule } from './modules/Customer/customer.module';
 import { ConfigService } from './config/config.service';
 import { Session } from './entity/Session';
@@ -32,8 +30,6 @@ import { GameModule } from './modules/Game/game.module';
     ContenderModule,
     GameModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 
 export class AppModule {
