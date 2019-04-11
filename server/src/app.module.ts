@@ -16,6 +16,7 @@ import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
 import { GameModule } from './modules/Game/game.module';
+import { SchedulerModule } from './modules/Scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -29,9 +30,9 @@ import { GameModule } from './modules/Game/game.module';
     QuestionModule,
     ContenderModule,
     GameModule,
+    SchedulerModule,
   ],
 })
-
 export class AppModule {
   constructor(private readonly configService: ConfigService) {}
 
