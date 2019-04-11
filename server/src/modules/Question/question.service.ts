@@ -100,7 +100,7 @@ export class QuestionService {
         }
 
         try {
-            return this.questionRepository.save(newAskedQuestion);
+            return this.askedQuestionRepository.save(newAskedQuestion);
         } catch (error) {
             throw new HttpException(`Can't save asked question: ${error}`, HttpStatus.BAD_REQUEST);
         }

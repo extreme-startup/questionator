@@ -55,6 +55,7 @@
     "@types/socket.io-client": "~1.4.32",
     "@types/supertest": "^2.0.5",
     "jest": "^23.5.0",
+    "jest-date-mock": "^1.0.7",
     "nodemon": "^1.18.3",
     "prettier": "^1.14.2",
     "socket.io-client": "~2.1.1",
@@ -66,32 +67,6 @@
     "tslint": "5.11.0"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.{js,ts}",
-      "!main.ts",
-      "!**/*.{module,dto}.{js,ts}",
-      "!{**/migration/**,**/entity/**,}"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 50,
-        "functions": 50,
-        "lines": 50,
-        "statements": 60
-      }
-    },
-    "testEnvironment": "node"
+    "preset": "ts-jest"
   }
 }
