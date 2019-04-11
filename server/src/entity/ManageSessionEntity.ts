@@ -1,13 +1,7 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './User';
-
-export enum SessionStatus {
-  LoV = 'LoV',
-  ACTIVE = 'active',
-  PAUSED = 'paused',
-  COMPLETED = 'completed',
-}
+import { SessionStatus } from '../modules/manage-session/ManageSession.dto';
 
 @Entity('manage_session')
 export class ManageSessionEntity {
