@@ -5,7 +5,7 @@ import { compile } from 'handlebars';
 import * as safeEval from 'safe-eval';
 import { Question } from '../../entity/Question';
 import { AskedQuestion } from '../../entity/AskedQuestion';
-import { QuestionDto } from './question.dto';
+import { QuestionDto } from './dto/question.dto';
 import { QuestionType } from '../../constants';
 
 @Injectable()

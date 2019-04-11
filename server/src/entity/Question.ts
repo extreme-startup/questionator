@@ -50,9 +50,9 @@ export class Question {
     @ManyToOne(() => Contest, contest => contest.questions)
     contest: Contest;
 
-    @Column('integer', {
+    @Column('uuid', {
         name: 'contestId',
         default: false,
     })
-    contestId: number;
+    contestId: string;
 }
