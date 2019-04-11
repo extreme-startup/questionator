@@ -8,26 +8,29 @@ import {
   Body,
 } from '@nestjs/common';
 import { UpdateResult, DeleteResult, InsertResult } from 'typeorm';
+import { ApiResponse } from '@nestjs/swagger';
 
 import { ContestService } from './contest.service';
 import { Contest } from '../../entity/Contest';
-import { IContestDto } from './contest.interface';
+import { ContestDto } from './contest.dto';
 
 @Controller('contest')
 export class ContestController {
   constructor(private readonly contestService: ContestService) {}
 
   @Post()
-  create(@Body() contest: IContestDto): Promise<InsertResult> {
+  create(@Body() contest: ContestDto): Promise<InsertResult> {
     return this.contestService.create(contest);
   }
 
   @Get()
+  @ApiResponse({ status: 200, type: Contest, isArray: true })
   findAll(): Promise<Contest[]> {
     return this.contestService.findAll();
   }
 
   @Get(':id')
+  @ApiResponse({ status: 200, type: Contest })
   findOne(@Param('id') id: string): Promise<Contest> {
     return this.contestService.findOne(parseInt(id, 10));
   }
@@ -35,7 +38,7 @@ export class ContestController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() contest: IContestDto,
+    @Body() contest: ContestDto,
   ): Promise<UpdateResult> {
     return this.contestService.update(parseInt(id, 10), contest);
   }

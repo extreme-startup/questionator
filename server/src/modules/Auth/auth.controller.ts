@@ -5,15 +5,19 @@ import {
   Response,
   Post,
   HttpStatus,
-  Body } from '@nestjs/common';
+  Body,
+} from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LocalPayload } from './interfaces/local-payload.interface';
+import { LocalPayload } from './local-payload.dto';
+import { User } from '../../entity/User';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  @ApiResponse({ status: 200, type: User })
   async loginUser(@Response() res, @Body() body: LocalPayload, @Request() req) {
     if (!(body && body.email)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email is required!' });
@@ -35,6 +39,7 @@ export class AuthController {
   }
 
   @Post('register')
+  @ApiResponse({ status: 201, type: User })
   async registerUser(@Response() res, @Body() body: LocalPayload, @Request() req) {
     if (!(body && body.email)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email are required!' });
