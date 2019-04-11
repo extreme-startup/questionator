@@ -39,12 +39,8 @@ export class QuestionService {
         }
     }
 
-    async insert(question: QuestionDto): Promise<QuestionDto> {
-        const newQuestion = new Question();
-
-        Object.keys(question).forEach((key) => {
-            newQuestion[key] = question[key];
-        });
+    async insert(question: QuestionDto): Promise<Question> {
+        const newQuestion = this.questionRepository.create(question);
 
         try {
             return await this.questionRepository.save(newQuestion);
@@ -54,11 +50,7 @@ export class QuestionService {
     }
 
     async update(oldQuestion: Question, updatedValues: QuestionDto): Promise<Question> {
-        const updatedQuestion = oldQuestion;
-
-        Object.keys(updatedValues).forEach((key) => {
-            updatedQuestion[key] = updatedValues[key];
-        });
+        const updatedQuestion = this.questionRepository.create({ ...oldQuestion, ...updatedValues });
 
         try {
             return await this.questionRepository.save(updatedQuestion);
