@@ -5,7 +5,11 @@ import store from './store';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vuelidate from 'vuelidate';
+import Vuetify from 'vuetify';
 
+import 'vuetify/dist/vuetify.min.css';
+
+Vue.use(Vuetify);
 Vue.use(Vuelidate);
 Vue.use(
   VueAxios,

@@ -1,6 +1,6 @@
 import { ContestController } from './contest.controller';
 import { Contest } from '../../entity/Contest';
-import { IContestDto } from './contest.interface';
+import { ContestDto } from './contest.dto';
 import { ContestService } from './contest.service';
 import {
   contestDto,
@@ -26,7 +26,7 @@ describe('ContestController', () => {
 
   describe('create', () => {
     it('should create contest', async () => {
-      const createContestDto: IContestDto = contestDto;
+      const createContestDto: ContestDto = contestDto;
 
       jest
         .spyOn(contestService, 'create')
@@ -67,7 +67,7 @@ describe('ContestController', () => {
 
   describe('update', () => {
     it('should update contest by id', async () => {
-      const updateParams: IContestDto = contestDto;
+      const updateParams: ContestDto = contestDto;
 
       jest
         .spyOn(contestService, 'update')

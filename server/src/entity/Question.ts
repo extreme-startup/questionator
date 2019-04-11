@@ -50,5 +50,9 @@ export class Question {
     @ManyToOne(() => Contest, contest => contest.questions)
     contest: Contest;
 
+    @Column('integer', {
+        name: 'contestId',
+        default: false,
+    })
     contestId: number;
 }
