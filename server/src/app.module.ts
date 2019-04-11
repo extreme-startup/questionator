@@ -17,6 +17,7 @@ import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
 import { GameModule } from './modules/Game/game.module';
 import { SchedulerModule } from './modules/Scheduler/scheduler.module';
+import { ManageSessionModule } from './modules/manage-session/manage-session.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SchedulerModule } from './modules/Scheduler/scheduler.module';
     ContenderModule,
     GameModule,
     SchedulerModule,
+    ManageSessionModule,
   ],
 })
 export class AppModule {
