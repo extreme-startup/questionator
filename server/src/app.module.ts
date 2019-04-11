@@ -17,6 +17,7 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
+import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ContenderModule } from './modules/Contender/contender.module';
     ContestModule,
     QuestionModule,
     ContenderModule,
+    ResultLoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
