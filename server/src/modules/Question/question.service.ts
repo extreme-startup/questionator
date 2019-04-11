@@ -40,17 +40,17 @@ export class QuestionService {
     }
 
     async insert(question: QuestionDto): Promise<Question> {
-        const newQuestion = new Question();
+        const newQuestion = this.questionRepository.create(question);
 
         try {
-            return await this.questionRepository.save({ ...newQuestion, ...question });
+            return await this.questionRepository.save(newQuestion);
         } catch (err) {
             return err;
         }
     }
 
     async update(oldQuestion: Question, updatedValues: QuestionDto): Promise<Question> {
-        const updatedQuestion = { ...oldQuestion, ...updatedValues };
+        const updatedQuestion = this.questionRepository.create({ ...oldQuestion, ...updatedValues });
 
         try {
             return await this.questionRepository.save(updatedQuestion);

@@ -71,7 +71,10 @@ export default {
       this.$store.dispatch('form/hideForm');
     },
     deleteQuestion() {
-      this.$store.dispatch('question/deleteQuestion', { ...this.question });
+      this.$store.dispatch('question/deleteQuestion', { 
+        ...this.question,
+        contestId: this.$route.params.id,        
+      });
       this.close();
     },
   },
