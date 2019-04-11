@@ -83,6 +83,9 @@ describe('QuestionService', () => {
       jest
         .spyOn(mockRepository, 'save')
         .mockReturnValue(Promise.resolve(question));
+      jest
+        .spyOn(mockRepository, 'create')
+        .mockReturnValue(question);
 
       expect(await service.insert(newQuestion)).toBe(question);
       expect(mockRepository.save).toHaveBeenCalledWith(newQuestion);
