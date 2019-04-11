@@ -2,8 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { ManageSessionEntity, SessionStatus } from '../../entity/ManageSession';
-import { ManageSessionDto } from './ManageSession.dto';
+import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
+import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
 import { User } from '../../entity/User';
 
 @Injectable()

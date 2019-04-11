@@ -1,9 +1,9 @@
 import { Repository, UpdateResult } from 'typeorm';
 
 import { ManageSessionService } from './manage-session.service';
-import { ManageSessionEntity, SessionStatus } from '../../entity/ManageSession';
+import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
 import { User } from '../../entity/User';
-import { ManageSessionDto } from './ManageSession.dto';
+import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
 
 function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) {
   const session = new ManageSessionEntity();

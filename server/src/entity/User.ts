@@ -1,6 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { ManageSessionEntity } from './ManageSession';
+import { ManageSessionEntity } from './ManageSessionEntity';
 
 @Entity({name: 'users'})
 export class User {
