@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './User';
 
@@ -17,7 +17,9 @@ export class ManageSessionEntity {
   @Column('text')
   status: SessionStatus;
 
-  @Column('timestamp')
+  @Column('timestamp', {
+    nullable: true,
+  })
   startedTime: string;
 
   @ManyToOne(type => User, user => user.sessions)

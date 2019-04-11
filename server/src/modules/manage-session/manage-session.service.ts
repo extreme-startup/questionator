@@ -35,7 +35,6 @@ export class ManageSessionService {
     const trainer = await this.userRepository.findOne({ where: { id: data.trainer } });
     const session = new ManageSessionEntity();
     session.status = SessionStatus.LoV;
-    session.startedTime = (new Date()).toISOString();
     session.trainer = trainer;
 
     return this.msRepository.save(session);
