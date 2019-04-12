@@ -67,6 +67,31 @@
     "tslint": "5.11.0"
   },
   "jest": {
-    "preset": "ts-jest"
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "collectCoverageFrom": [
+      "**/*.{js,ts}",
+      "!main.ts",
+      "!**/*.{module,dto}.{js,ts}",
+      "!{**/migration/**,**/entity/**,}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 60
+      }
+    },
+    "testEnvironment": "node"
   }
 }
