@@ -1,4 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { ApiModelProperty } from '@nestjs/swagger';
+
 import { ManageSessionEntity } from './ManageSessionEntity';
 
 @Entity({ name: 'asked_question' })
@@ -61,6 +63,7 @@ export class AskedQuestion {
   })
   isCorrect: boolean;
 
+  @ApiModelProperty()
   @ManyToOne(type => ManageSessionEntity, session => session.askedQuestion)
   session: ManageSessionEntity;
 }
