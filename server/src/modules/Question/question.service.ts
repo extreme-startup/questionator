@@ -74,7 +74,7 @@ export class QuestionService {
         }
     }
 
-    async ask(questionId: string, contenderId: string): Promise<AskedQuestion> {
+    async ask(questionId: string, contenderId: number): Promise<AskedQuestion> {
         const question = await this.questionRepository.findOne({ id: questionId });
 
         if (!question) {

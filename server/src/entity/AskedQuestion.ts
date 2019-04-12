@@ -5,11 +5,11 @@ export class AskedQuestion {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
-  @Column('uuid', {
+  @Column('integer', {
     name: 'contest_contender_id',
     nullable: false,
   })
-  contestContenderId: string;
+  contestContenderId: number;
 
   @Column('uuid', {
     name: 'question_id',
