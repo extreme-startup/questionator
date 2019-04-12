@@ -1,10 +1,14 @@
-import { SessionStatus } from '../../entity/ManageSession';
 import { UserDto } from '../User/user.dto';
 
+export enum SessionStatus {
+  LoV = 'LoV',
+  ACTIVE = 'active',
+  PAUSED = 'paused',
+  COMPLETED = 'completed',
+}
+
 export class ManageSessionDto {
-  id: number;
   status: SessionStatus;
   trainer: UserDto;
-  members: UserDto[];
-  startedTime: Date;
+  startedTime: string;
 }
