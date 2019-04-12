@@ -54,6 +54,10 @@ export default {
         answer: {
           required: false,
         },
+        value: {
+          required: false,
+          isNumber: false,
+        },
       },
       editFieldsConfig,
     };
@@ -77,6 +81,10 @@ export default {
         },
         answer: {
           required: false,
+        },
+        value: {
+          required: false,
+          isNumber: false,
         },
       };
 

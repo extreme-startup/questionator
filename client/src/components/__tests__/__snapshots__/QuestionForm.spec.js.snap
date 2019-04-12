@@ -24,13 +24,13 @@ exports[`QuestionForm renders correctly 1`] = `
     <!---->
      
     <inputwrapper-stub>
-      <styledtextinput-stub
+      <input
+        class="formInput"
         id="question-text-input"
         name="questionText"
         placeholder="Type your question"
-        required=""
+        required="required"
         type="text"
-        value=""
       />
        
       <!---->
@@ -53,13 +53,16 @@ exports[`QuestionForm renders correctly 1`] = `
     </inputwrapper-stub>
      
     <inputwrapper-stub>
-      <styledtextinput-stub
+      <input
+        class="formInput"
         id="question-value-input"
         name="questionValue"
         placeholder="Enter question value (points)"
+        required="required"
         type="text"
-        value="0"
       />
+       
+      <!---->
        
       <!---->
     </inputwrapper-stub>

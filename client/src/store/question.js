@@ -124,7 +124,7 @@ const actions = {
     context.commit('deleteQuestionIsFetching');
     try {
       await api.deleteQuestion(payload);
-      context.dispatch('getQuestions');
+      context.dispatch('getQuestions',payload.contestId);
     } catch (err) {
       context.commit('deleteQuestionError', err);
     } finally {

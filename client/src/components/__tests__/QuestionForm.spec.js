@@ -15,13 +15,17 @@ const errors = {
   answer: {
     required: false,
   },
+  value: {
+    required: false,
+    isNumber: false,
+  },
 };
 
 const question = {
   type: 'static',
   text: '',
   answer: '',
-  value: 0,
+  value: '',
 };
 
 describe('QuestionForm', () => {
@@ -56,7 +60,7 @@ describe('QuestionForm', () => {
       type: 'any',
       text: 'any',
       answer: 'any',
-      value: 0,
+      value: '34',
     });
     expect(result).toBe(true);
   });

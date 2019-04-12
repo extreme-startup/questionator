@@ -14,6 +14,7 @@ export class Question {
         name: 'type',
         enum: QuestionType,
         default: QuestionType.STATIC,
+        nullable: false,
     })
     type: QuestionType;
 
@@ -50,9 +51,9 @@ export class Question {
     @ManyToOne(() => Contest, contest => contest.questions)
     contest: Contest;
 
-    @Column('uuid', {
+    @Column('integer', {
         name: 'contestId',
         default: false,
     })
-    contestId: string;
+    contestId: number;
 }
