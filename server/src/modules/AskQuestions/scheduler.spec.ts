@@ -40,14 +40,14 @@ describe.only('Scheduler', () => {
 
   describe('updateExecutionTimeout', () => {
     it('should update execution timeout', () => {
-      sut.updateExecutionTimeout(NEW_EXECUTION_TIMEOUT);
+      sut.updateExecutionPeriod(NEW_EXECUTION_TIMEOUT);
       expect((sut as any).executionTimeout).toEqual(NEW_EXECUTION_TIMEOUT);
     });
   });
 
   describe('getExecutionTimeout', () => {
     it('should expose private execution timeout', () => {
-      expect(sut.getExecutionTimeout()).toEqual((sut as any).executionTimeout);
+      expect(sut.getExecutionPeriod()).toEqual((sut as any).executionTimeout);
     });
   });
 

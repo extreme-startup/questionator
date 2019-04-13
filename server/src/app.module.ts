@@ -16,7 +16,7 @@ import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
 import { GameModule } from './modules/Game/game.module';
-import { SchedulerModule } from './modules/Scheduler/scheduler.module';
+import { AskQuestionsModule } from './modules/AskQuestions/ask-questions.module';
 import { ManageSessionModule } from './modules/manage-session/manage-session.module';
 
 @Module({
@@ -31,7 +31,7 @@ import { ManageSessionModule } from './modules/manage-session/manage-session.mod
     QuestionModule,
     ContenderModule,
     GameModule,
-    SchedulerModule,
+    AskQuestionsModule,
     ManageSessionModule,
   ],
 })

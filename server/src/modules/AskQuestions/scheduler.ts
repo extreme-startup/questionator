@@ -7,8 +7,8 @@ export class Scheduler {
 
   constructor(
     private id: string,
-    private task: (id: string) => Observable<string>,
-    private executionTimeout: number = INITIAL_ASK_QUESTION_INTERVAL_MS,
+    private task: () => Promise<Observable<string>>,
+    private executionPeriod: number = INITIAL_ASK_QUESTION_INTERVAL_MS,
   ) {}
 
   private delay(timeout: number) {
@@ -18,20 +18,20 @@ export class Scheduler {
   }
 
   private async nextTick() {
-    this.currentTimer = await this.delay(this.executionTimeout);
-    return Promise.resolve(this.task(this.id));
+    this.currentTimer = await this.delay(this.executionPeriod);
+    return await this.task();
   }
 
   public getId() {
     return this.id;
   }
 
-  public updateExecutionTimeout(executionTimeout: number) {
-    this.executionTimeout = executionTimeout;
+  public updateExecutionPeriod(executionTimeout: number) {
+    this.executionPeriod = executionTimeout;
   }
 
-  public getExecutionTimeout() {
-    return this.executionTimeout;
+  public getExecutionPeriod() {
+    return this.executionPeriod;
   }
   public async start() {
     this.isTicking = true;
