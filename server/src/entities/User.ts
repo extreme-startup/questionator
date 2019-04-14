@@ -17,6 +17,7 @@ export class User {
   })
   email: string;
 
+  @ApiModelProperty()
   @OneToMany(type => ManageSessionEntity, session => session.trainer)
   sessions: ManageSessionEntity[];
 }

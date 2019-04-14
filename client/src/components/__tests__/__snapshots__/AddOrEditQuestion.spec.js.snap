@@ -56,13 +56,12 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             class="jtUfTw"
           >
             <input
-              class="jbjXrf"
+              class="formInput"
               id="question-text-input"
               name="questionText"
               placeholder="Type your question"
               required="required"
               type="text"
-              value=""
             />
              
             <!---->
@@ -90,13 +89,15 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             class="jtUfTw"
           >
             <input
-              class="jbjXrf"
+              class="formInput"
               id="question-value-input"
               name="questionValue"
               placeholder="Enter question value (points)"
+              required="required"
               type="text"
-              value="0"
             />
+             
+            <!---->
              
             <!---->
           </div>
@@ -203,13 +204,15 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
             class="jtUfTw"
           >
             <input
-              class="jbjXrf"
+              class="formInput"
               id="question-value-input"
               name="questionValue"
               placeholder="Enter question value (points)"
+              required="required"
               type="text"
-              value="0"
             />
+             
+            <!---->
              
             <!---->
           </div>

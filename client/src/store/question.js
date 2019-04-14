@@ -90,7 +90,7 @@ const actions = {
   getQuestions: async (context, payload) => {
     context.commit('setQuestionsIsFetching');
     try {
-      const { data } = await api.getQuestions();
+      const { data } = await api.getQuestions(payload);
       context.commit('setQuestions', data);
     } catch (err) {
       context.commit('setQuestionsError', err);
@@ -102,7 +102,7 @@ const actions = {
     context.commit('saveQuestionIsFetching');
     try {
       await api.addQuestion(payload);
-      context.dispatch('getQuestions');
+      context.dispatch('getQuestions', payload.contestId);
     } catch (err) {
       context.commit('saveQuestionError', err);
     } finally {
@@ -113,7 +113,7 @@ const actions = {
     context.commit('updateQuestionIsFetching');
     try {
       await api.updateQuestion(payload);
-      context.dispatch('getQuestions');
+      context.dispatch('getQuestions', payload.contestId);
     } catch (err) {
       context.commit('updateQuestionError', err);
     } finally {
@@ -124,7 +124,7 @@ const actions = {
     context.commit('deleteQuestionIsFetching');
     try {
       await api.deleteQuestion(payload);
-      context.dispatch('getQuestions');
+      context.dispatch('getQuestions',payload.contestId);
     } catch (err) {
       context.commit('deleteQuestionError', err);
     } finally {

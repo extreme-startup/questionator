@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Question } from '../../entity/Question';
+import { Question } from '../../entities/Question';
 import { QuestionDto } from './question.dto';
 
 @Injectable()
@@ -41,12 +41,8 @@ export class QuestionService {
     }
   }
 
-  async insert(question: QuestionDto): Promise<QuestionDto> {
-    const newQuestion = new Question();
-
-    Object.keys(question).forEach(key => {
-      newQuestion[key] = question[key];
-    });
+  async insert(question: QuestionDto): Promise<Question> {
+    const newQuestion = this.questionRepository.create(question);
 
     try {
       return await this.questionRepository.save(newQuestion);
@@ -59,7 +55,10 @@ export class QuestionService {
     oldQuestion: Question,
     updatedValues: QuestionDto,
   ): Promise<Question> {
-    const updatedQuestion = oldQuestion;
+    const updatedQuestion = this.questionRepository.create({
+      ...oldQuestion,
+      ...updatedValues,
+    });
 
     Object.keys(updatedValues).forEach(key => {
       updatedQuestion[key] = updatedValues[key];

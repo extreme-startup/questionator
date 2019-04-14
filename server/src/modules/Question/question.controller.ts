@@ -28,8 +28,8 @@ export class QuestionController {
 
     @Post()
     @ApiResponse({ status: 200, type: QuestionDto })
-    async create(@Body() quesition: QuestionDto): Promise<QuestionDto> {
-        return await this.questionService.insert(quesition);
+    async create(@Body() question: QuestionDto): Promise<QuestionDto> {
+        return await this.questionService.insert(question);
     }
 
     @Put(':id')

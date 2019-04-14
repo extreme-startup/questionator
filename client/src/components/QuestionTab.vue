@@ -67,9 +67,8 @@ export default {
       return this.$store.getters['form/question'];
     },
   },
-  mounted() {
-    //TODO: endpoint should be /trainings/{trainig_id}/questions
-    this.$store.dispatch('question/getQuestions');
+  async mounted() {
+    this.$store.dispatch('question/getQuestions', this.$route.params.id);
   },
   methods: {
     showAddQuestion() {
