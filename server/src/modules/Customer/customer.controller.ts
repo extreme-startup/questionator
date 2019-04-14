@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { CustomerService } from './customer.service';
-import { Customer } from '../../entity/Customer';
+import { Customer } from '../../entities/Customer';
 
 @Controller('customers')
 export class CustomerController {

@@ -1,5 +1,5 @@
 import { ContestController } from './contest.controller';
-import { Contest } from '../../entity/Contest';
+import { Contest } from '../../entities/Contest';
 import { ContestDto } from './contest.dto';
 import { ContestService } from './contest.service';
 import {
@@ -11,7 +11,7 @@ import {
 } from './__mocks__/mocks';
 
 jest.mock('./contest.service');
-jest.mock('../../entity/Contest');
+jest.mock('../../entities/Contest');
 
 describe('ContestController', () => {
   const contestId = '1';

@@ -1,4 +1,4 @@
-import { Player } from '../entity/player';
+import { Player } from '../entities/player';
 
 export interface PlayerRequestDto {
   team: string;

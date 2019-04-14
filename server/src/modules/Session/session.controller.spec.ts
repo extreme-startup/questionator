@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SessionController } from './session.controller';
 import { SessionService } from './session.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Session } from '../../entity/Session';
+import { Session } from '../../entities/Session';
 
 describe('Session Controller', () => {
   let controller: SessionController;

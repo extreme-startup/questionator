@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 
 import { QuestionService } from './question.service';
-import { Question } from '../../entity/Question';
+import { Question } from '../../entities/Question';
 import { QuestionDto } from './question.dto';
 
 function generateQuestion(q: QuestionDto = {} as QuestionDto): Question {

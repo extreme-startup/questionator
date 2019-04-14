@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getGameByUniqueName } from '../helpers/game.helper';
-import { Game } from '../entity/game';
+import { Game } from '../entities/game';
 // ToDO: remove mock later
 import { gamesStorage } from './storage-mock';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PlayersRepository } from '../repository/players.repository';
 import { ResponseDto } from '../interfaces/response.dto';
-import { Player } from '../entity/player';
+import { Player } from '../entities/player';
 
 @Injectable()
 export class PlayersService {

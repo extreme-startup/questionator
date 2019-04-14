@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { QuestionController } from './question.controller';
 import { QuestionService } from './question.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Question } from '../../entity/Question';
+import { Question } from '../../entities/Question';
 
 describe('Question Controller', () => {
   let controller: QuestionController;

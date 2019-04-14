@@ -83,7 +83,7 @@
       "**/*.{js,ts}",
       "!main.ts",
       "!**/*.{module,dto}.{js,ts}",
-      "!{**/migration/**,**/entity/**,}"
+      "!{**/migration/**,**/entities/**,}"
     ],
     "coverageThreshold": {
       "global": {

@@ -1,3 +1,3 @@
-import { Game } from '../entity/game';
+import { Game } from '../entities/game';
 
 export const gamesStorage: Game[] = [];

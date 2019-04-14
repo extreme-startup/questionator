@@ -11,7 +11,7 @@ import { UpdateResult, DeleteResult, InsertResult } from 'typeorm';
 import { ApiResponse } from '@nestjs/swagger';
 
 import { ContestService } from './contest.service';
-import { Contest } from '../../entity/Contest';
+import { Contest } from '../../entities/Contest';
 import { ContestDto } from './contest.dto';
 
 @Controller('contest')

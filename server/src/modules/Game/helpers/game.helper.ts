@@ -1,4 +1,4 @@
-import { Game } from '../entity/game';
+import { Game } from '../entities/game';
 import { gamesStorage } from '../repository/storage-mock';
 
 export const getGameByUniqueName = (name: string): Game => {

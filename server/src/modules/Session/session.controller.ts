@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { SessionService } from './session.service';
-import { Session } from '../../entity/Session';
+import { Session } from '../../entities/Session';
 
 @Controller('sessions')
 export class SessionController {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { interval, Observable, of, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Player } from '../entity/player';
-import { Game } from '../entity/game';
+import { Player } from '../entities/player';
+import { Game } from '../entities/game';
 // ToDo: Replace later on HttpModule from nestjs
 // ToDo: Remove requestlib, currently only for demo purposes
 import * as request from 'request';

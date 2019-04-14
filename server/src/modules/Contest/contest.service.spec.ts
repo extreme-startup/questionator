@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 
-import { Contest } from '../../entity/Contest';
+import { Contest } from '../../entities/Contest';
 import { ContestDto } from './contest.dto';
 import { ContestService } from './contest.service';
 import {

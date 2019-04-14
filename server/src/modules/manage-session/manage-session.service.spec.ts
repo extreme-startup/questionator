@@ -1,8 +1,8 @@
 import { Repository, UpdateResult } from 'typeorm';
 
 import { ManageSessionService } from './manage-session.service';
-import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
-import { User } from '../../entity/User';
+import { ManageSessionEntity } from '../../entities/ManageSessionEntity';
+import { User } from '../../entities/User';
 import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
 
 function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) {

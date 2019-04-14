@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GameRepository } from '../repository/game.repository';
-import { Game } from '../entity/game';
+import { Game } from '../entities/game';
 import { ResponseDto } from '../interfaces/response.dto';
 import { GameResponseDto } from '../interfaces/game.dto';
 import { NotificationService } from './notification.service';

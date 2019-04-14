@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Player } from '../entity/player';
-import { Game } from '../entity/game';
+import { Player } from '../entities/player';
+import { Game } from '../entities/game';
 import { getGameByUniqueName } from '../helpers/game.helper';
 
 // tslint:disable:no-console

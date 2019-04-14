@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Session } from '../../entity/Session';
+import { Session } from '../../entities/Session';
 import { SessionService } from './session.service';
 
 describe('Session Service', () => {
