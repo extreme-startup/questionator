@@ -8,6 +8,7 @@ describe('User Service', () => {
   const mockRepository = {
     id: '1',
     email: 'test@test.com',
+    sessions: [],
   };
 
   beforeEach(async () => {

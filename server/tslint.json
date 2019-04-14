@@ -16,6 +16,7 @@
   },
   "linterOptions": {
     "exclude": [
+      "src/migration/**/*.ts",
       "*.json",
       "**/*.json"
     ]
