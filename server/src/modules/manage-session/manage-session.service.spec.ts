@@ -9,7 +9,7 @@ function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) 
   const session = new ManageSessionEntity();
   const trainer = new User();
   session.startedTime = s.startedTime || '2000-01-01';
-  session.status = s.status || SessionStatus.LoV;
+  session.status = s.status || SessionStatus.CREATED;
   session.trainer = s.trainer as User || trainer;
 
   return session;
@@ -62,7 +62,7 @@ describe('ManageSessionService', () => {
     it('should insert new session to the session table', async () => {
       const trainer = new User();
       const newSession: Partial<ManageSessionDto> = {
-        status: SessionStatus.LoV,
+        status: SessionStatus.CREATED,
         trainer,
       };
 
@@ -85,7 +85,7 @@ describe('ManageSessionService', () => {
     it('should update existing session', async () => {
       const session = generateSession();
       const newData: Partial<ManageSessionDto> = {
-        status: SessionStatus.ACTIVE,
+        status: SessionStatus.IN_PROGRES,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;
