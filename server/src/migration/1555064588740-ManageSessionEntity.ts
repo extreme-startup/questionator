@@ -9,11 +9,9 @@ export class ManageSessionEntity1555064588740 implements MigrationInterface {
         await queryRunner.query("ALTER TABLE `asked_question` CHANGE `answer` `answer` varchar(255) NULL");
         await queryRunner.query("ALTER TABLE `asked_question` CHANGE `is_correct` `is_correct` tinyint NOT NULL DEFAULT 0");
         await queryRunner.query("ALTER TABLE `contest` CHANGE `isDeleted` `isDeleted` tinyint NOT NULL");
-        await queryRunner.query("ALTER TABLE `questions` ADD CONSTRAINT `FK_22cc6850fff9de7a0fa94b50e41` FOREIGN KEY (`contestId`) REFERENCES `contest`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION");
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query("ALTER TABLE `questions` DROP FOREIGN KEY `FK_22cc6850fff9de7a0fa94b50e41`");
         await queryRunner.query("ALTER TABLE `contest` CHANGE `isDeleted` `isDeleted` tinyint(1) NOT NULL");
         await queryRunner.query("ALTER TABLE `asked_question` CHANGE `is_correct` `is_correct` tinyint(1) NOT NULL DEFAULT '0'");
         await queryRunner.query("ALTER TABLE `asked_question` CHANGE `answer` `answer` varchar(255) NOT NULL");
