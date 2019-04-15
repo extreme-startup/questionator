@@ -43,9 +43,4 @@ export class QuestionController {
     async delete(@Param('id') id: string) {
         return await this.questionService.delete(id);
     }
-
-    @Post('reply/:askedQuestionId')
-    reply(@Body() answer: string, @Param() { askedQuestionId }): Promise<AnswerDto> {
-        return this.questionService.reply(askedQuestionId, answer);
-    }
 }
