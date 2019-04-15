@@ -3,27 +3,29 @@
     <ButtonList>
       <Button @click.stop="openDialog">New Session</Button>
     </ButtonList>
-    <ManageSessionTable :columns="columns" :data="sessions" />
+    <ManageSessionTable :columns="columns" :data="sessions"/>
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
 
     <ConfigDialog
-      :agree="createNewSession"
-      :disagree="closeDialog"
-      :is-open="isDialogOpen"
-      :title="dialogTitle"
+            :agree="createNewSession"
+            :disagree="closeDialog"
+            :is-open="isDialogOpen"
+            :title="dialogTitle"
     />
   </SessionContainer>
 </template>
 
 <script>
 import { Button } from '@/common/styledComponents';
+import * as dateUtils from '../utils/date-formatter.js';
 import ManageSessionTable from './ManageSessionTable';
-import ConfigDialog from './ConfigDialog';
+import ConfigDialog from '../components/ConfigDialog';
 import { SessionContainer, ButtonList } from './Styled';
 
 const sessionTableConfig = [
   { field: 'startedTime', title: 'Date' },
+  { field: 'status', title: 'Status' },
   { field: 'members', title: 'Members' },
   { field: 'trainerName', title: 'Trainer' },
 ];
@@ -47,10 +49,12 @@ export default {
   computed: {
     sessions: function() {
       const sessions = [...this.$store.getters['session/sessions']];
+
       return sessions.map(session => {
         session.startedTime = session.startedTime
-          ? new Date(session.startedTime).toLocaleString()
+          ? dateUtils.toLocalDate(session.startedTime)
           : '';
+
         session.trainerName = session.trainer.email;
         return session;
       });
