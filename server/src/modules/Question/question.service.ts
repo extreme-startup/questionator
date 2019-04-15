@@ -1,12 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { compile } from 'handlebars';
-import * as safeEval from 'safe-eval';
 import { Question } from '../../entity/Question';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
-import { QuestionType } from '../../constants';
 
 @Injectable()
 export class QuestionService {
@@ -87,20 +84,9 @@ export class QuestionService {
         newAskedQuestion.askedOn = new Date();
         newAskedQuestion.score = question.value;
 
-        if (question.type === QuestionType.STATIC) {
-            newAskedQuestion.question = question.text;
-            newAskedQuestion.answer = question.answer;
-        } else {
-            let context;
-            try {
-                // should we pass anything to context generator here?
-                context = safeEval(question.contextGenerator)();
-                newAskedQuestion.question = compile(question.text)(context);
-                newAskedQuestion.answer = compile(question.answer)(context);
-            } catch (error) {
-                throw new Error(`Can't eval question#${question.id}: ${error}`);
-            }
-        }
+        newAskedQuestion.question = question.text;
+        newAskedQuestion.answer = question.answer;
+        // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
 
         try {
             return this.askedQuestionRepository.save(newAskedQuestion);
