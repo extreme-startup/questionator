@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Raw } from 'typeorm';
+import { Repository, MoreThan } from 'typeorm';
+import * as dateFormat from 'dateformat';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 
 @Injectable()
@@ -10,13 +11,14 @@ export class ResultLoggerService {
     private readonly askedQuestionRepository: Repository<AskedQuestion>,
   ) {}
 
-  async getAllResults(contestId: number, time: number): Promise<AskedQuestion[]> {
+  async getAllResults(sessionId?: number, time?: number): Promise<AskedQuestion[]> {
     try {
-      if (contestId && time) {
+      if (sessionId && time) {
+        const MoreThanDate = (date: Date) => MoreThan(dateFormat(date, 'yyyy-mm-dd HH:MM:ss'));
         return await this.askedQuestionRepository.find({
           where: {
-            contestContenderId: contestId,
-            answeredOn: Raw(alias => `DATE_FORMAT(${alias}, "%f") > ${time}`),
+            sessionId,
+            answeredOn: MoreThanDate(new Date(time)),
           },
           order: {
             answeredOn: 'ASC',
@@ -28,9 +30,9 @@ export class ResultLoggerService {
           ],
         });
       }
-      if (contestId) {
+      if (sessionId) {
         return await this.askedQuestionRepository.find({
-          where: { contestContenderId: contestId },
+          where: { sessionId },
           order: {
             answeredOn: 'ASC',
           },

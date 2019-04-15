@@ -9,4 +9,5 @@ export class AskedQuestionDto {
   readonly answer: string;
   readonly score: number;
   readonly isCorrect: boolean;
+  readonly  session: any;
 }

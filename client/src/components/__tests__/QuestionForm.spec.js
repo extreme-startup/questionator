@@ -1,20 +1,28 @@
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import { __createMocks as createStoreMocks } from '../../store';
 import QuestionForm from '../QuestionForm.vue';
 
-const typeOptions = [{ id: 0, value: 'option 1' }, { id: 1, value: 'option 2' }];
+jest.mock('../../store');
+
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 const errors = {
-  type: { required: false },
   text: {
     required: false,
   },
   answer: {
     required: false,
   },
+  value: {
+    required: false,
+    isNumber: false,
+  },
 };
 
-const value = {
-  type: '',
+const question = {
+  type: 'static',
   text: '',
   answer: '',
   value: '',
@@ -22,14 +30,18 @@ const value = {
 
 describe('QuestionForm', () => {
   let wrapper;
+  let storeMocks;
 
   beforeAll(() => {
+    storeMocks = createStoreMocks();
+
     wrapper = shallowMount(QuestionForm, {
+      store: storeMocks.store,
+      localVue,
       propsData: {
-        typeOptions,
         errors,
-        value,
-        placeholder: 'Select placeholder',
+        question,
+        submitTitle: 'Edit question',
       },
     });
   });
@@ -48,7 +60,7 @@ describe('QuestionForm', () => {
       type: 'any',
       text: 'any',
       answer: 'any',
-      value: '',
+      value: '34',
     });
     expect(result).toBe(true);
   });

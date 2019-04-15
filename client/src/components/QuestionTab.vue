@@ -1,25 +1,27 @@
 <template>
-  <Fragment>
+  <div>
     <ButtonList>
-      <AddQuestion>
-        <template slot-scope="props">
-          <Button @click="props.clickHandler">Add new question</Button>
-        </template>
-      </AddQuestion>
+      <Button @click="showAddQuestion">Add new question</Button>
       <Button secondary>Question library</Button>
     </ButtonList>
     <DataTable :columns="columns" :data="questions" />
-    <div v-if="fetchingStatus.isFetching">Loading....</div>
-    <div v-if="fetchingStatus.error">{{ fetchingStatus.error }}</div>
-  </Fragment>
+    <div v-if="isFetching">Loading....</div>
+    <div v-if="error">{{ error }}</div>
+    <AddOrEditQuestion
+      v-if="isFormShown && (modalType === 'edit' || modalType === 'add')"
+      :question="question"
+      :modalType="modalType"
+    />
+    <DeleteQuestion v-if="isFormShown && modalType === 'delete'" :question="question" />
+  </div>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
 import styled from 'vue-styled-components';
 import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
-import AddQuestion from '@/components/AddQuestion.vue';
+import AddOrEditQuestion from '@/components/AddOrEditQuestion.vue';
+import DeleteQuestion from '@/components/DeleteQuestion.vue';
 
 const ButtonList = styled.div`
   margin: 35px 0;
@@ -30,35 +32,48 @@ const ButtonList = styled.div`
   }
 `;
 
+const columnsConfig = [{ field: 'text', title: 'Question' }, { field: 'value', title: 'Points' }];
+
 export default {
   name: 'question-tab',
   components: {
-    Fragment,
     DataTable,
     ButtonList,
     Button,
-    AddQuestion,
+    AddOrEditQuestion,
+    DeleteQuestion,
   },
   data: () => ({
     trainingQuestions: [],
-    columns: ['Question', 'Category', 'Level'],
+    columns: columnsConfig,
   }),
   computed: {
     questions: function() {
-      const questions = this.$store.getters['question/questions'];
-      return questions.map(question => ({
-        text: question.text || '',
-        type: question.type || 'None',
-        level: question.level || 0,
-      }));
+      return this.$store.getters['question/questions'];
     },
-    fetchingStatus: function() {
-      return this.$store.getters['question/questionsFetchingStatus'];
+    isFetching: function() {
+      return this.$store.getters['question/questionsFetchingStatus'].isFetching;
+    },
+    error: function() {
+      return this.$store.getters['question/questionsFetchingStatus'].error;
+    },
+    modalType: function() {
+      return this.$store.getters['form/modalType'];
+    },
+    isFormShown: function() {
+      return this.$store.getters['form/isShown'];
+    },
+    question: function() {
+      return this.$store.getters['form/question'];
     },
   },
   async mounted() {
-    //TODO: endpoint should be /trainings/{trainig_id}/questions
-    this.$store.dispatch('question/getQuestions');
+    this.$store.dispatch('question/getQuestions', this.$route.params.id);
+  },
+  methods: {
+    showAddQuestion() {
+      this.$store.dispatch('form/showForm', { payload: null, type: 'add' });
+    },
   },
 };
 </script>

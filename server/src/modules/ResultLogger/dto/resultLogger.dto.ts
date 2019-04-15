@@ -1,7 +1,5 @@
 export class ResultLoggerDto {
-  readonly labels: [number];
-  readonly users: {
-    name: string,
-    scores: [number],
-  };
+  readonly contestContenderId: number;
+  readonly answeredOn: Date;
+  readonly score: number;
 }

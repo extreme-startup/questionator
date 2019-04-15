@@ -1,58 +1,109 @@
 <template>
   <FormWrapper>
     <form @submit.prevent="submitQuestion" novalidate>
+      <InputSwitcherWrapper v-if="isEditable('type')">
+        <StyledSwitcherButton @click="toggleSwitcher($event, 'static')" :active="isStaticActive">
+          Static
+        </StyledSwitcherButton>
+        <StyledSwitcherButton @click="toggleSwitcher($event, 'dynamic')" :active="isDynamicActive">
+          Dynamic
+        </StyledSwitcherButton>
+      </InputSwitcherWrapper>
+      <StaticText v-if="!isEditable('type')">Type: {{ question.type }}</StaticText>
       <InputWrapper>
-        <Select
-          v-model="question.type"
-          id="question-type-input"
-          :options="typeOptions"
-          :placeholder="placeholder"
-          :error="errors.type.required"
-        />
-        <ErrorMsg v-if="errors.type.required">This field is required</ErrorMsg>
-      </InputWrapper>
-      <InputWrapper>
-        <StyledTextInput
-          v-model="question.text"
+        <input
+          :class="['formInput', { formInputError: !isFormInputValid(errors.text) }]"
+          v-if="isEditable('text')"
+          v-model.trim="question.text"
           name="questionText"
           type="text"
           id="question-text-input"
           placeholder="Type your question"
-          :error="errors.text.required"
           required
         />
-        <ErrorMsg v-if="errors.text.required">This field is required</ErrorMsg>
+        <StaticText v-if="!isEditable('text')">Question: {{ question.text }}</StaticText>
+        <ErrorMsg id="question-text-error" v-if="!isFormInputValid(errors.text)">
+          {{ getErrorMessage(errors.text) }}
+        </ErrorMsg>
       </InputWrapper>
       <InputWrapper>
-        <StyledTextArea
-          v-model="question.answer"
+        <textarea
+          :class="['formTextArea', { formTextAreaError: !isFormInputValid(errors.answer) }]"
+          v-if="isEditable('answer')"
+          v-model.trim="question.answer"
           name="answer"
           id="question-answer-input"
           placeholder="Type your answer"
-          :error="errors.answer.required"
+          required
+        ></textarea>
+        <StaticText v-if="!isEditable('answer')">Answer: {{ question.answer }}</StaticText>
+        <ErrorMsg id="question-answer-error" v-if="!isFormInputValid(errors.answer)">
+          {{ getErrorMessage(errors.answer) }}
+        </ErrorMsg>
+      </InputWrapper>
+      <InputWrapper>
+        <input
+          :class="['formInput', { formInputError: !isFormInputValid(errors.value) }]"
+          v-if="isEditable('value')"
+          v-model.trim="question.value"
+          name="questionValue"
+          type="text"
+          id="question-value-input"
+          placeholder="Enter question value (points)"
           required
         />
-        <ErrorMsg v-if="errors.answer.required">This text is required</ErrorMsg>
+        <ErrorMsg id="question-value-error" v-if="!isFormInputValid(errors.value)">
+          {{ getErrorMessage(errors.value) }}
+        </ErrorMsg>
+        <StaticText v-if="!isEditable('value')">Value: {{ question.value }}</StaticText>
       </InputWrapper>
-      <StyledTextInput
-        v-model="question.value"
-        name="questionValue"
-        type="text"
-        id="question-value-input"
-      />
       <ControlGroup>
         <StyledButton secondary type="reset" id="question-cancel-button" @click="close">
           Cancel
         </StyledButton>
-        <StyledButton type="submit" id="question-save-button">Save</StyledButton>
+        <StyledButton type="submit" id="question-save-button">{{ submitTitle }}</StyledButton>
       </ControlGroup>
     </form>
   </FormWrapper>
 </template>
 
+<style scoped>
+.formTextArea {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 5px;
+  border: none;
+  font-size: 16px;
+  text-indent: 15px;
+  color: var(--text-color);
+  outline: none;
+  resize: none;
+}
+
+.formInput {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 5px;
+  border: none;
+  font-size: 16px;
+  text-indent: 15px;
+  color: var(--text-color);
+  outline: none;
+}
+
+.formTextArea::placeholder,
+.formInput::placeholder {
+  color: var(--placeholder-color);
+}
+
+.formTextAreaError,
+.formInputError {
+  border: 1px solid red;
+}
+</style>
+
 <script>
 import styled from 'vue-styled-components';
-import Select from '@/common/Select';
 import { Button } from '@/common/styledComponents';
 
 const FormWrapper = styled.div`
@@ -63,38 +114,38 @@ const FormWrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-bottom: 25px;
 `;
 
-const InputProps = { error: Boolean };
-export const StyledTextInput = styled('input', InputProps)`
+const InputSwitcherWrapper = styled(InputWrapper)`
+  flex-direction: row;
+`;
+
+const SwitcherButtonProps = { active: Boolean };
+const StyledSwitcherButton = styled('button', SwitcherButtonProps)`
+  height: 36px;
   width: 100%;
-  height: 40px;
-  margin-bottom: 5px;
-  border: none;
-  font-size: 16px;
-  border: ${props => (props.error ? '1px solid red' : 'none')};
-  color: var(--text-color);
+  border: 1px solid #b3b3b3;
+  background-color: ${props => (props.active ? '#B3B3B3' : '#ffffff')};
+  color: ${props => (props.active ? '#ffffff' : '#B3B3B3')};
+  cursor: pointer;
   outline: none;
 
-  &::placeholder {
-    color: var(--placeholder-color);
+  &:first-child {
+    margin-right: 5px;
+  }
+
+  &:last-child {
+    margin-left: 5px;
   }
 `;
 
-export const StyledTextArea = styled('textarea', InputProps)`
-  width: 100%;
-  height: 40px;
-  margin-bottom: 5px;
-  border: none;
-  font-size: 16px;
-  border: ${props => (props.error ? '1px solid red' : 'none')};
-  color: var(--text-color);
-  outline: none;
-
-  &::placeholder {
-    color: var(--placeholder-color);
-  }
+const StaticText = styled.p`
+  padding: 8px 0;
+  margin: 0;
 `;
 
 const ControlGroup = styled.div`
@@ -105,6 +156,7 @@ const ControlGroup = styled.div`
 const StyledButton = styled(Button)`
   width: 100px;
   height: 30px;
+  line-height: 30px;
   padding: 0;
   outline: none;
   cursor: pointer;
@@ -119,23 +171,28 @@ const ErrorMsg = styled.span`
   color: red;
 `;
 
+const isNumber = n => /^\d+$/.test(n);
+
 export default {
   name: 'QuestionForm',
-  data: function() {
-    return {
-      question: this.value,
-    };
-  },
-  props: ['value', 'errors', 'typeOptions', 'placeholder'],
+  props: ['question', 'errors', 'submitTitle', 'editFieldsConfig'],
   components: {
     FormWrapper,
     InputWrapper,
-    StyledTextInput,
-    StyledTextArea,
+    InputSwitcherWrapper,
+    StyledSwitcherButton,
+    StaticText,
     ControlGroup,
     StyledButton,
-    Select,
     ErrorMsg,
+  },
+  computed: {
+    isStaticActive: function() {
+      return this.question.type === 'static';
+    },
+    isDynamicActive: function() {
+      return this.question.type === 'dynamic';
+    },
   },
   methods: {
     submitQuestion(event) {
@@ -143,22 +200,48 @@ export default {
       if (!this.formValidate(qs)) {
         return;
       }
-      this.$emit('submit', qs);
+      const question = { ...qs, value: Number(qs.value) };
+      this.$emit('submit', question);
       event.target.reset();
-      this.$nextTick(() => (this.question = { ...this.value }));
     },
     formValidate(question) {
       const isFormValid = Object.keys(question).reduce((acc, key) => {
         if (!this.errors[key]) return acc;
-        this.errors[key].required = question[key] === '';
-        return acc && !this.errors[key].required;
+
+        Object.keys(this.errors[key]).forEach(errorKey => {
+          let error = this.errors[key][errorKey];
+          if (errorKey === 'required') {
+            error = question[key] === '';
+          }
+
+          if (errorKey === 'isNumber') {
+            error = !isNumber(question[key]);
+          }
+          this.errors[key][errorKey] = error;
+        });
+
+        return acc && !this.errors[key].required && !this.errors[key].isNumber;
       }, true);
 
       return isFormValid;
     },
+    isFormInputValid(errors) {
+      return Object.keys(errors).reduce((acc, errKey) => acc && !errors[errKey], true);
+    },
+    getErrorMessage(errors) {
+      if (errors.required) return 'This field is required';
+      if (errors.isNumber) return 'This field is not a valid number';
+      return '';
+    },
     close() {
       this.$emit('close');
-      this.question = { ...this.value };
+    },
+    toggleSwitcher(event, type) {
+      event.preventDefault();
+      this.question.type = type;
+    },
+    isEditable(field) {
+      return !this.editFieldsConfig || this.editFieldsConfig.includes(field);
     },
   },
 };

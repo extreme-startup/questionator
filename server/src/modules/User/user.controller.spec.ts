@@ -11,6 +11,7 @@ describe('User Controller', () => {
   const mockRepository = {
     id: '1',
     email: 'test@test.com',
+    sessions: [],
   };
 
   beforeEach(async () => {
@@ -49,7 +50,7 @@ describe('User Controller', () => {
       const userResult: User = mockRepository;
       jest.spyOn(service, 'findById').mockReturnValue(Promise.resolve(userResult));
 
-      expect(await controller.findById({id: '1'})).toBe(userResult);
+      expect(await controller.findById('1')).toBe(userResult);
       expect(service.findById).toHaveBeenCalledWith('1');
     });
   });

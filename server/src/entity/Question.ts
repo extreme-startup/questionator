@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Contest } from './Contest';
 
-@Entity({name: 'qms_question'})
+@Entity({name: 'questions'})
 export class Question {
     @PrimaryGeneratedColumn('uuid', { name: 'id' }) id: string;
 
@@ -33,4 +34,13 @@ export class Question {
         default: false,
     })
     isDeleted: boolean;
+
+    @ManyToOne(() => Contest, contest => contest.questions)
+    contest: Contest;
+
+    @Column('integer', {
+        name: 'contestId',
+        default: false,
+    })
+    contestId: number;
 }
