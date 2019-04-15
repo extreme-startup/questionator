@@ -12,7 +12,6 @@ function generateQuestion(q: QuestionDto = {} as QuestionDto): Question {
   const question = new Question();
   question.text = q.text || 'What is 2 plus 2';
   question.answer = q.answer || '4';
-  question.contextGenerator = q.contextGenerator || null;
   question.value = q.value || 10;
   question.type = q.type || QuestionType.STATIC;
   question.isDeleted = q.isDeleted || false;
@@ -97,7 +96,6 @@ describe('QuestionService', () => {
         type: QuestionType.STATIC,
         value: 100,
         isDeleted: false,
-        contextGenerator: null,
       };
       const question = generateQuestion(newQuestion);
       jest
@@ -127,7 +125,7 @@ describe('QuestionService', () => {
 
       expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
         questionId: 'someValidId',
-        contestContenderId: 'someValidId',
+        contestContenderId: 123,
         askedOn: fakeDate,
         question: question.text,
         answer: question.answer,
@@ -135,41 +133,7 @@ describe('QuestionService', () => {
       clear();
     });
 
-    it('should ask dynamic questions as expected', async () => {
-      const question = generateQuestion({
-        type: QuestionType.DYNAMIC,
-        contextGenerator: (() => ({
-          dynamicValue: 'dynamicValue',
-        })).toString(),
-        text: 'dynamic question {{dynamicValue}}',
-        answer: 'much dynamic {{dynamicValue}}',
-        value: 0,
-        isDeleted: false,
-      });
-
-      jest
-        .spyOn(mockQuestionRepository, 'findOne')
-        .mockReturnValue(Promise.resolve(question));
-      jest
-        .spyOn(mockAskedQuestionRepository, 'save')
-        .mockReturnValue(Promise.resolve(generateAskedQuestion()));
-
-      advanceTo(fakeDate.valueOf());
-      await service.ask('someValidId', 123);
-
-      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
-        questionId: 'someValidId',
-        contestContenderId: 'someValidId',
-        askedOn: fakeDate,
-        question: question.text.replace('{{dynamicValue}}', 'dynamicValue'),
-        answer: question.answer.replace('{{dynamicValue}}', 'dynamicValue'),
-      }));
-      clear();
-    });
-
     it('should throw exception if question doesn\'t exist' , async () => {
-      const question = generateQuestion();
-
       jest
         .spyOn(mockQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(undefined));

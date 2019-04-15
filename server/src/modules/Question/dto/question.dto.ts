@@ -6,9 +6,6 @@ export class QuestionDto {
     readonly type: QuestionType;
 
     @ApiModelProperty()
-    readonly contextGenerator: string;
-
-    @ApiModelProperty()
     readonly text: string;
 
     @ApiModelProperty()
