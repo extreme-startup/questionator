@@ -3,15 +3,13 @@ import { QuestionController } from './question.controller';
 import { QuestionService } from './question.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Question } from '../../entities/Question';
+import { AskedQuestion } from '../../entities/AskedQuestion';
 
 describe('Question Controller', () => {
   let controller: QuestionController;
 
   const mockRepository = {
-    data: [
-      { id: 1 },
-      { id: 2 },
-    ],
+    data: [{ id: 1 }, { id: 2 }],
   };
 
   beforeEach(async () => {
@@ -21,6 +19,10 @@ describe('Question Controller', () => {
         QuestionService,
         {
           provide: getRepositoryToken(Question),
+          useValue: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(AskedQuestion),
           useValue: mockRepository,
         },
       ],
