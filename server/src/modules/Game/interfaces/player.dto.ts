@@ -1,5 +1,3 @@
-import { Player } from '../entities/player';
-
 export interface PlayerRequestDto {
   team: string;
   host: string;
@@ -7,4 +5,7 @@ export interface PlayerRequestDto {
 }
 
 // tslint:disable-next-line:no-empty-interface
-export interface PlayerResponseDto extends Player {}
+export interface PlayerResponseDto {
+  // id: number;
+  team: string;
+}

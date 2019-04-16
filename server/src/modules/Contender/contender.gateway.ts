@@ -11,12 +11,14 @@ import { JoinRequestDto } from './dto/joinRequest.dto';
 import { Observable, Subject, throwError } from 'rxjs';
 import { filter, first, map } from 'rxjs/internal/operators';
 import { Contender } from './dto/Contender';
+import { Injectable } from '@nestjs/common';
 
 const JOIN_MESSAGE_NAME = 'join';
 const QUESTION_MESSAGE_NAME = 'question';
 const ANSWER_MESSAGE_NAME = 'answer';
 
 @WebSocketGateway()
+@Injectable()
 export class ContenderGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;

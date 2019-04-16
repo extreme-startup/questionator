@@ -5,4 +5,7 @@ export interface GameRequestDto {
 }
 
 // tslint:disable-next-line:no-empty-interface
-export interface GameResponseDto extends Game {}
+export interface GameResponseDto {
+  name: string;
+  status: boolean;
+}

@@ -1,19 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { PlayersRepository } from '../repository/players.repository';
 import { ResponseDto } from '../interfaces/response.dto';
 import { Player } from '../entities/player';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, InsertResult } from 'typeorm';
+import { PlayerRequestDto, PlayerResponseDto } from '../interfaces/player.dto';
 
 @Injectable()
 export class PlayersService {
-  constructor(private readonly playersRepository: PlayersRepository) {}
+  constructor(
+    @InjectRepository(Player)
+    private readonly playersRepository: Repository<Player>,
+  ) {}
 
-  public register(player: Player): ResponseDto<Player> {
+  public async register(player: PlayerRequestDto): Promise<ResponseDto<PlayerResponseDto>> {
     try {
-      const registeredPlayer: Player = this.playersRepository.register(player);
+      const newPlayer: InsertResult = await this.playersRepository.insert(player);
 
       return {
         error: undefined,
-        data: registeredPlayer,
+        data: player as PlayerResponseDto,
       };
     } catch (error) {
       return {
