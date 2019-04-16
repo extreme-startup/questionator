@@ -7,7 +7,7 @@ import { TypeormStore } from 'typeorm-store';
 import { getConnection } from 'typeorm';
 import { CustomerModule } from './modules/Customer/customer.module';
 import { ConfigService } from './config/config.service';
-import { Session } from './entity/Session';
+import { Session } from './entities/Session';
 import { UserModule } from './modules/User/user.module';
 import { AuthModule } from './modules/Auth/auth.module';
 import { SessionModule } from './modules/Session/session.module';

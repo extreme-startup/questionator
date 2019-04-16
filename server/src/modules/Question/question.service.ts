@@ -1,17 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Question } from '../../entity/Question';
-import { QuestionDto } from './question.dto';
+import { Question } from '../../entities/Question';
+import { AskedQuestion } from '../../entities/AskedQuestion';
+import { QuestionDto } from './dto/question.dto';
 
 @Injectable()
 export class QuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
-  ) {
-    this.getRandom.bind(this);
-  }
+    @InjectRepository(AskedQuestion)
+    private readonly askedQuestionRepository: Repository<AskedQuestion>,
+  ) {}
 
   async findAll(): Promise<Question[]> {
     try {
@@ -41,12 +42,8 @@ export class QuestionService {
     }
   }
 
-  async insert(question: QuestionDto): Promise<QuestionDto> {
-    const newQuestion = new Question();
-
-    Object.keys(question).forEach(key => {
-      newQuestion[key] = question[key];
-    });
+  async insert(question: QuestionDto): Promise<Question> {
+    const newQuestion = this.questionRepository.create(question);
 
     try {
       return await this.questionRepository.save(newQuestion);
@@ -59,10 +56,9 @@ export class QuestionService {
     oldQuestion: Question,
     updatedValues: QuestionDto,
   ): Promise<Question> {
-    const updatedQuestion = oldQuestion;
-
-    Object.keys(updatedValues).forEach(key => {
-      updatedQuestion[key] = updatedValues[key];
+    const updatedQuestion = this.questionRepository.create({
+      ...oldQuestion,
+      ...updatedValues,
     });
 
     try {
@@ -77,6 +73,63 @@ export class QuestionService {
       return await this.questionRepository.delete({ id });
     } catch (err) {
       return err;
+    }
+  }
+
+  async ask(questionId: string, contenderId: number): Promise<AskedQuestion> {
+    const question = await this.questionRepository.findOne({ id: questionId });
+
+    if (!question) {
+      throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
+    }
+
+    const newAskedQuestion = new AskedQuestion();
+    newAskedQuestion.contestContenderId = contenderId;
+    newAskedQuestion.questionId = questionId;
+    newAskedQuestion.askedOn = new Date();
+    newAskedQuestion.score = question.value;
+
+    newAskedQuestion.question = question.text;
+    newAskedQuestion.answer = question.answer;
+    // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
+
+    try {
+      return this.askedQuestionRepository.save(newAskedQuestion);
+    } catch (error) {
+      throw new HttpException(
+        `Can't save asked question: ${error}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async reply(askedQuestionId: string, answer: string): Promise<AskedQuestion> {
+    const askedQuestion = await this.askedQuestionRepository.findOne({
+      id: askedQuestionId,
+    });
+
+    if (!askedQuestion) {
+      throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (askedQuestion.answeredOn) {
+      throw new HttpException(
+        'Asked question was already replied',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    askedQuestion.answeredOn = new Date();
+    // TODO: process player score here
+    askedQuestion.isCorrect = answer === askedQuestion.answer;
+
+    try {
+      return this.askedQuestionRepository.save(askedQuestion);
+    } catch (error) {
+      throw new HttpException(
+        `Can't save asked question: ${error}`,
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

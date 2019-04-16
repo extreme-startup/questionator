@@ -8,12 +8,9 @@ export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Post()
-  public register(
+  public async register(
     @Body() player: PlayerRequestDto,
-  ): ResponseDto<PlayerResponseDto> {
-    return this.playersService.register({
-      ...player,
-      sessionId: `${parseInt(`${Math.random() * 1000000}`, undefined)}`,
-    });
+  ): Promise<ResponseDto<PlayerResponseDto>> {
+    return await this.playersService.register(player);
   }
 }

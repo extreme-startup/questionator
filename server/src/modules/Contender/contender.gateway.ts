@@ -8,15 +8,17 @@ import { Client, Server } from 'socket.io';
 import { JoinResponseDto } from './dto/joinResponse.dto';
 import { Answer } from './dto/answer.dto';
 import { JoinRequestDto } from './dto/joinRequest.dto';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { filter, first, map } from 'rxjs/internal/operators';
 import { Contender } from './dto/Contender';
+import { Injectable } from '@nestjs/common';
 
 const JOIN_MESSAGE_NAME = 'join';
 const QUESTION_MESSAGE_NAME = 'question';
 const ANSWER_MESSAGE_NAME = 'answer';
 
 @WebSocketGateway()
+@Injectable()
 export class ContenderGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
@@ -52,7 +54,7 @@ export class ContenderGateway implements OnGatewayConnection {
   getAnswer(email: string, question: string): Observable<string> {
     const contender = this.getContenderByEmail(email);
     if (!contender) {
-      return Observable.throw('No such contender');
+      return throwError('No such contender');
     }
     contender.client.emit(QUESTION_MESSAGE_NAME, question);
 

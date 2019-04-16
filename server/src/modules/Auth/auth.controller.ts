@@ -10,7 +10,7 @@ import {
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalPayload } from './local-payload.dto';
-import { User } from '../../entity/User';
+import { User } from '../../entities/User';
 
 @Controller('auth')
 export class AuthController {

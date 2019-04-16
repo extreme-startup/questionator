@@ -1,8 +1,8 @@
 import { UserDto } from '../User/user.dto';
 
 export enum SessionStatus {
-  LoV = 'LoV',
-  ACTIVE = 'active',
+  CREATED = 'created',
+  IN_PROGRES = 'in progress',
   PAUSED = 'paused',
   COMPLETED = 'completed',
 }

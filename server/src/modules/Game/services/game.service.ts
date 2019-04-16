@@ -1,24 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { GameRepository } from '../repository/game.repository';
-import { Game } from '../entity/game';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, InsertResult } from 'typeorm';
 import { ResponseDto } from '../interfaces/response.dto';
 import { GameResponseDto } from '../interfaces/game.dto';
 import { NotificationService } from './notification.service';
+import { Game } from '../entities/game';
 
 @Injectable()
 export class GameService {
   constructor(
-    private readonly gameRepository: GameRepository,
+    @InjectRepository(Game)
+    private readonly gameRepository: Repository<Game>,
     private readonly notificationService: NotificationService,
   ) {}
 
-  public getList(): ResponseDto<GameResponseDto[]> {
+  public async getList(): Promise<ResponseDto<GameResponseDto[]>> {
     try {
-      const list: Game[] = this.gameRepository.getList();
+      const list: Game[] = await this.gameRepository.find();
+      const data: GameResponseDto[] = list.map(({ name, status }: Game) => ({
+        name,
+        status,
+      }));
 
       return {
         error: undefined,
-        data: list as GameResponseDto[],
+        data,
       };
     } catch (error) {
       return {
@@ -28,13 +34,19 @@ export class GameService {
     }
   }
 
-  public create(game: Game): ResponseDto<GameResponseDto> {
+  public async create(game: Game): Promise<ResponseDto<GameResponseDto>> {
     try {
-      const registeredGame: Game = this.gameRepository.registerGame(game);
+      const result: InsertResult = await this.gameRepository.insert(game);
+
+      // tslint:disable-next-line:no-console
+      console.log('Created game: ', result);
 
       return {
         error: undefined,
-        data: registeredGame,
+        data: {
+          ...game,
+          status: false,
+        },
       };
     } catch (error) {
       return {
@@ -44,10 +56,12 @@ export class GameService {
     }
   }
 
-  public start(name: string): ResponseDto<GameResponseDto> {
+  public async start(id: string): Promise<ResponseDto<GameResponseDto>> {
     try {
-      const game: Game = this.gameRepository.start(name);
-      this.notificationService.notifyPlayers(game);
+      const game: Game = await this.toggleGameStatusById(id);
+
+      // ToDo: Add scheduler to notify users
+      // this.notificationService.notifyPlayers(game);
 
       return {
         error: undefined,
@@ -61,19 +75,33 @@ export class GameService {
     }
   }
 
-  public stop(name: string) {
+  public async stop(id: string): Promise<ResponseDto<GameResponseDto>> {
     try {
-      const game: Game = this.gameRepository.stop(name);
+      const game: Game = await this.toggleGameStatusById(id);
 
       return {
         error: undefined,
-        model: game,
+        data: game,
       };
     } catch (error) {
       return {
         error,
-        model: undefined,
+        data: undefined,
       };
     }
+  }
+
+  private async toggleGameStatusById(id: string): Promise<Game> {
+    const game: Game = await this.gameRepository.findOne(id);
+
+    if (!!game) {
+      game.status = !game.status;
+      await this.gameRepository.save(game);
+    }
+
+    // tslint:disable-next-line:no-console
+    console.log('toggle game status: ', game);
+
+    return game;
   }
 }

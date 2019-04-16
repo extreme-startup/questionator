@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Request,
+} from '@nestjs/common';
 
 import { ManageSessionService } from './manage-session.service';
 import { ManageSessionDto } from './ManageSession.dto';
@@ -8,22 +16,27 @@ export class ManageSessionController {
   constructor(private msService: ManageSessionService) {}
 
   @Get()
-  showAllSessions(): Promise<ManageSessionDto[]> {
-    return this.msService.findAll();
-  }
+  public list(@Request() req): Promise<ManageSessionDto[]> {
+    const userId = req.session.user;
 
-  @Post()
-  createSession(@Body() session): Promise<ManageSessionDto> {
-    return this.msService.create(session);
+    return this.msService.findAll(userId);
   }
 
   @Get(':id')
-  showSessionById(@Param() id): Promise<ManageSessionDto> {
+  public getById(@Param() id): Promise<ManageSessionDto> {
     return this.msService.findById(id);
   }
 
+  @Post()
+  public create(@Body() session): Promise<ManageSessionDto> {
+    return this.msService.create(session);
+  }
+
   @Put(':id')
-  updateSession(@Param() id, @Body() session): Promise<ManageSessionDto> {
+  public updateSession(
+    @Param() id,
+    @Body() session,
+  ): Promise<ManageSessionDto> {
     return this.msService.update(id, session);
   }
 }

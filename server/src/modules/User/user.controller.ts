@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { User } from '../../entity/User';
+import { User } from '../../entities/User';
 
 @Controller('users')
 export class UserController {

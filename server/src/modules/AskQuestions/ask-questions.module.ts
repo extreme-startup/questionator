@@ -4,7 +4,7 @@ import { ContenderModule } from '../Contender/contender.module';
 import { QuestionModule } from '../Question/question.module';
 
 @Module({
-  imports: [ContenderModule, QuestionModule],
+  imports: [ContenderModule, QuestionModule, ContenderModule],
   providers: [AskQuestionsService],
   exports: [AskQuestionsService],
 })

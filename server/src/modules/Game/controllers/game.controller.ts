@@ -8,26 +8,26 @@ export class GameController {
   constructor(private readonly gameService: GameService) {}
 
   @Get()
-  public list(): ResponseDto<GameResponseDto[]> {
-    return this.gameService.getList();
+  public async list(): Promise<ResponseDto<GameResponseDto[]>> {
+    return await this.gameService.getList();
   }
 
   @Post()
-  public create(@Body() game: GameRequestDto): ResponseDto<GameResponseDto> {
-    return this.gameService.create({
+  public async create(@Body() game: GameRequestDto): Promise<ResponseDto<GameResponseDto>> {
+    return await this.gameService.create({
       ...game,
       players: [],
       status: false,
-    });
+    } as any);
   }
 
-  @Get('/:name/start')
-  public start(@Param('name') name: string): ResponseDto<GameResponseDto> {
-    return this.gameService.start(name);
+  @Get('/:id/start')
+  public async start(@Param('id') id: string): Promise<ResponseDto<GameResponseDto>> {
+    return await this.gameService.start(id);
   }
 
-  @Get('/:name/stop')
-  public stop(@Param('name') name: string) {
-    return this.gameService.stop(name);
+  @Get('/:id/stop')
+  public async stop(@Param('id') id: string) {
+    return await this.gameService.stop(id);
   }
 }

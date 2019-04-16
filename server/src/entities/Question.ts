@@ -1,14 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Contest } from './Contest';
 
-@Entity({name: 'qms_question'})
+enum QuestionType {
+    STATIC = 'static',
+    DYNAMIC = 'dynamic',
+}
+
+@Entity({name: 'questions'})
 export class Question {
     @PrimaryGeneratedColumn('uuid', { name: 'id' }) id: string;
 
-    @Column('varchar', {
+    @Column('enum', {
         name: 'type',
+        enum: QuestionType,
+        default: QuestionType.STATIC,
         nullable: false,
     })
-    type: string;
+    type: QuestionType;
 
     @Column('varchar', {
         name: 'text',
@@ -26,11 +34,20 @@ export class Question {
         name: 'value',
         nullable: false,
     })
-    value: string;
+    value: number;
 
     @Column('boolean', {
         name: 'isDeleted',
         default: false,
     })
     isDeleted: boolean;
+
+    @ManyToOne(() => Contest, contest => contest.questions)
+    contest: Contest;
+
+    @Column('integer', {
+        name: 'contestId',
+        default: false,
+    })
+    contestId: number;
 }

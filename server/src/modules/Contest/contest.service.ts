@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult, UpdateResult, InsertResult } from 'typeorm';
 
-import { Contest } from '../../entity/Contest';
+import { Contest } from '../../entities/Contest';
 import { ContestDto } from './contest.dto';
 
 @Injectable()
@@ -31,5 +31,15 @@ export class ContestService {
 
   async delete(id: number): Promise<DeleteResult> {
     return await this.contestRepository.delete(id);
+  }
+
+  async findAllQuestions(id: number): Promise<any> {
+
+    const contest = await this.contestRepository.findOne({
+      relations: ['questions'],
+      where: { id },
+    });
+
+    return contest.questions;
   }
 }

@@ -1,8 +1,11 @@
-import { Game } from '../entity/game';
+import { Game } from '../entities/game';
 
 export interface GameRequestDto {
   name: string;
 }
 
 // tslint:disable-next-line:no-empty-interface
-export interface GameResponseDto extends Game {}
+export interface GameResponseDto {
+  name: string;
+  status: boolean;
+}

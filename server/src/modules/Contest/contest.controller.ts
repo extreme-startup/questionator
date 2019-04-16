@@ -11,7 +11,7 @@ import { UpdateResult, DeleteResult, InsertResult } from 'typeorm';
 import { ApiResponse } from '@nestjs/swagger';
 
 import { ContestService } from './contest.service';
-import { Contest } from '../../entity/Contest';
+import { Contest } from '../../entities/Contest';
 import { ContestDto } from './contest.dto';
 
 @Controller('contest')
@@ -46,5 +46,10 @@ export class ContestController {
   @Delete(':id')
   delete(@Param('id') id: string): Promise<DeleteResult> {
     return this.contestService.delete(parseInt(id, 10));
+  }
+
+  @Get(':id/questions')
+  findQuestions(@Param('id') id: string): Promise<any> {
+    return this.contestService.findAllQuestions(parseInt(id, 10));
   }
 }

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../../entity/User';
+import { User } from '../../entities/User';
 
 describe('User Controller', () => {
   let controller: UserController;
@@ -11,6 +11,7 @@ describe('User Controller', () => {
   const mockRepository = {
     id: '1',
     email: 'test@test.com',
+    sessions: [],
   };
 
   beforeEach(async () => {

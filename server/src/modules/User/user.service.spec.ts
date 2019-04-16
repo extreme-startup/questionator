@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { User } from '../../entity/User';
+import { User } from '../../entities/User';
 import { UserService } from './user.service';
 
 describe('User Service', () => {
@@ -8,6 +8,7 @@ describe('User Service', () => {
   const mockRepository = {
     id: '1',
     email: 'test@test.com',
+    sessions: [],
   };
 
   beforeEach(async () => {
