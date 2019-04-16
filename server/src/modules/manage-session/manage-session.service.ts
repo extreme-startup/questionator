@@ -15,9 +15,9 @@ export class ManageSessionService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<ManageSessionDto[]> {
+  async findAll(userId: string): Promise<ManageSessionDto[]> {
     try {
-      return this.msRepository.find({ relations: ['trainer'] });
+      return this.msRepository.find({  where: { trainer: userId }, relations: ['trainer'] });
     } catch (e) {
       return e;
     }

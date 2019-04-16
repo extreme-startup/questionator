@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Request } from '@nestjs/common';
 
 import { ManageSessionService } from './manage-session.service';
 import { ManageSessionDto } from './ManageSession.dto';
@@ -8,8 +8,10 @@ export class ManageSessionController {
   constructor(private msService: ManageSessionService) {}
 
   @Get()
-  showAllSessions(): Promise<ManageSessionDto[]> {
-    return this.msService.findAll();
+  showAllSessions(@Request() req): Promise<ManageSessionDto[]> {
+    const userId = req.session.user;
+
+    return this.msService.findAll(userId);
   }
 
   @Post()
