@@ -21,16 +21,16 @@ export class AskedQuestion {
   questionId: string;
 
   @Column('varchar', {
-    name: 'generated_question',
+    name: 'question',
     nullable: false,
   })
-  generatedQuestion: string;
+  question: string;
 
   @Column('varchar', {
-    name: 'generated_answer',
+    name: 'answer',
     nullable: false,
   })
-  generatedAnswer: string;
+  answer: string;
 
   @Column('datetime', {
     name: 'asked_on',
@@ -44,15 +44,10 @@ export class AskedQuestion {
   })
   answeredOn: Date;
 
-  @Column('varchar', {
-    name: 'answer',
-    nullable: true,
-  })
-  answer: string;
-
   @Column('numeric', {
     name: 'score',
     nullable: false,
+    default: 0,
   })
   score: number;
 
