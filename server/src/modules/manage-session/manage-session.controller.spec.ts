@@ -55,7 +55,7 @@ describe('ManageSession Controller', () => {
         .spyOn(manageSessionService, 'findAll')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await controller.showAllSessions()).toEqual(sessions);
+      expect(await controller.list()).toEqual(sessions);
       expect(manageSessionService.findAll).toHaveBeenCalled();
     });
   });
@@ -73,7 +73,7 @@ describe('ManageSession Controller', () => {
         .spyOn(manageSessionService, 'create')
         .mockReturnValue(Promise.resolve(session));
 
-      expect(await controller.createSession(newSession)).toEqual(session);
+      expect(await controller.create(newSession)).toEqual(session);
       expect(manageSessionService.create).toHaveBeenCalledWith(newSession);
     });
   });
@@ -86,7 +86,7 @@ describe('ManageSession Controller', () => {
         .spyOn(manageSessionService, 'findById')
         .mockReturnValue(Promise.resolve(session));
 
-      expect(await controller.showSessionById(session.id)).toEqual(session);
+      expect(await controller.getById(session.id)).toEqual(session);
       expect(manageSessionService.findById).toHaveBeenCalledWith(session.id);
     });
   });

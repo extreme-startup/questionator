@@ -8,22 +8,22 @@ export class ManageSessionController {
   constructor(private msService: ManageSessionService) {}
 
   @Get()
-  showAllSessions(): Promise<ManageSessionDto[]> {
+  public list(): Promise<ManageSessionDto[]> {
     return this.msService.findAll();
   }
 
-  @Post()
-  createSession(@Body() session): Promise<ManageSessionDto> {
-    return this.msService.create(session);
-  }
-
   @Get(':id')
-  showSessionById(@Param() id): Promise<ManageSessionDto> {
+  public getById(@Param() id): Promise<ManageSessionDto> {
     return this.msService.findById(id);
   }
 
+  @Post()
+  public create(@Body() session): Promise<ManageSessionDto> {
+    return this.msService.create(session);
+  }
+
   @Put(':id')
-  updateSession(@Param() id, @Body() session): Promise<ManageSessionDto> {
+  updateSession(@Param() id: number, @Body() session): Promise<ManageSessionDto> {
     return this.msService.update(id, session);
   }
 }
