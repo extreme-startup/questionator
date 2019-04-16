@@ -3,6 +3,7 @@ import { QuestionController } from './question.controller';
 import { QuestionService } from './question.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Question } from '../../entity/Question';
+import { AskedQuestion } from '../../entity/AskedQuestion';
 
 describe('Question Controller', () => {
   let controller: QuestionController;
@@ -21,6 +22,10 @@ describe('Question Controller', () => {
         QuestionService,
         {
           provide: getRepositoryToken(Question),
+          useValue: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(AskedQuestion),
           useValue: mockRepository,
         },
       ],

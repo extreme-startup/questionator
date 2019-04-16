@@ -40,6 +40,7 @@
     "connect-history-api-fallback": "^1.6.0",
     "license-checker": "^25.0.1",
     "lnk-cli": "^1.0.1",
+    "ts-jest": "^24.0.2",
     "vue-styled-components": "^1.4.4"
   },
   "devDependencies": {

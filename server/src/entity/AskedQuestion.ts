@@ -14,8 +14,6 @@ export class AskedQuestion {
     name: 'contest_contender_id',
     nullable: false,
   })
-
-  @ApiModelProperty()
   contestContenderId: number;
 
   @ApiModelProperty()
@@ -27,17 +25,17 @@ export class AskedQuestion {
 
   @ApiModelProperty()
   @Column('varchar', {
-    name: 'generated_question',
+    name: 'question',
     nullable: false,
   })
-  generatedQuestion: string;
+  question: string;
 
   @ApiModelProperty()
   @Column('varchar', {
-    name: 'generated_answer',
+    name: 'answer',
     nullable: false,
   })
-  generatedAnswer: string;
+  answer: string;
 
   @ApiModelProperty()
   @Column('datetime', {
@@ -54,16 +52,10 @@ export class AskedQuestion {
   answeredOn: Date;
 
   @ApiModelProperty()
-  @Column('varchar', {
-    name: 'answer',
-    nullable: true,
-  })
-  answer: string;
-
-  @ApiModelProperty()
   @Column('numeric', {
     name: 'score',
     nullable: false,
+    default: 0,
   })
   score: number;
 

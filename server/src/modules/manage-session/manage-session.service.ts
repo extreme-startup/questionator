@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,9 +15,9 @@ export class ManageSessionService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<ManageSessionDto[]> {
+  async findAll(userId: string): Promise<ManageSessionDto[]> {
     try {
-      return this.msRepository.find({ relations: ['trainer'] });
+      return this.msRepository.find({  where: { trainer: userId }, relations: ['trainer'] });
     } catch (e) {
       return e;
     }
@@ -34,7 +34,7 @@ export class ManageSessionService {
   async create(data: Partial<ManageSessionDto>): Promise<ManageSessionDto> {
     const trainer = await this.userRepository.findOne({ where: { id: data.trainer } });
     const session = new ManageSessionEntity();
-    session.status = SessionStatus.LoV;
+    session.status = SessionStatus.CREATED;
     session.trainer = trainer;
 
     return this.msRepository.save(session);

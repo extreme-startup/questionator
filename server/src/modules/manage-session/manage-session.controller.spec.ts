@@ -11,7 +11,7 @@ function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) 
   const session = new ManageSessionEntity();
   const trainer = new User();
   session.startedTime = s.startedTime || '2000-01-01';
-  session.status = s.status || SessionStatus.LoV;
+  session.status = s.status || SessionStatus.CREATED;
   session.trainer = s.trainer as User || trainer;
 
   return session;
@@ -50,13 +50,14 @@ describe('ManageSession Controller', () => {
   describe('showAllSessions', () => {
     it('should get all sessions', async () => {
       const sessions = [generateSession()];
+      const mockReq = { session: { user: '1' } };
 
       jest
         .spyOn(manageSessionService, 'findAll')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await controller.showAllSessions()).toEqual(sessions);
-      expect(manageSessionService.findAll).toHaveBeenCalled();
+      expect(await controller.showAllSessions(mockReq)).toEqual(sessions);
+      expect(manageSessionService.findAll).toHaveBeenCalledWith(mockReq.session.user);
     });
   });
 
@@ -64,7 +65,7 @@ describe('ManageSession Controller', () => {
     it('should create session', async () => {
       const trainer = new User();
       const newSession: Partial<ManageSessionDto> = {
-        status: SessionStatus.LoV,
+        status: SessionStatus.CREATED,
         trainer,
       };
       const session = generateSession(newSession);
@@ -95,7 +96,7 @@ describe('ManageSession Controller', () => {
     it('should update session', async () => {
       const session = generateSession();
       const newData: Partial<ManageSessionDto> = {
-        status: SessionStatus.ACTIVE,
+        status: SessionStatus.IN_PROGRES,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;
