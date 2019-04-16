@@ -19,7 +19,9 @@ function generateQuestion(q: QuestionDto = {} as QuestionDto): Question {
   return question;
 }
 
-function generateAskedQuestion(q: AskedQuestionDto = {} as AskedQuestionDto): AskedQuestion {
+function generateAskedQuestion(
+  q: AskedQuestionDto = {} as AskedQuestionDto,
+): AskedQuestion {
   const askedQuestion = new AskedQuestion();
   askedQuestion.question = q.question || 'What is 2 plus 2';
   askedQuestion.score = q.score || 10;
@@ -41,7 +43,10 @@ describe('QuestionService', () => {
   beforeEach(async () => {
     mockQuestionRepository = new Repository();
     mockAskedQuestionRepository = new Repository();
-    service = new QuestionService(mockQuestionRepository, mockAskedQuestionRepository);
+    service = new QuestionService(
+      mockQuestionRepository,
+      mockAskedQuestionRepository,
+    );
   });
 
   it('should be defined', () => {
@@ -101,9 +106,7 @@ describe('QuestionService', () => {
       jest
         .spyOn(mockQuestionRepository, 'save')
         .mockReturnValue(Promise.resolve(question));
-      jest
-        .spyOn(mockQuestionRepository, 'create')
-        .mockReturnValue(question);
+      jest.spyOn(mockQuestionRepository, 'create').mockReturnValue(question);
 
       expect(await service.insert(newQuestion)).toBe(question);
       expect(mockQuestionRepository.save).toHaveBeenCalledWith(newQuestion);
@@ -123,17 +126,19 @@ describe('QuestionService', () => {
       advanceTo(fakeDate.valueOf());
       await service.ask('someValidId', 123);
 
-      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
-        questionId: 'someValidId',
-        contestContenderId: 123,
-        askedOn: fakeDate,
-        question: question.text,
-        answer: question.answer,
-      }));
+      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          questionId: 'someValidId',
+          contestContenderId: 123,
+          askedOn: fakeDate,
+          question: question.text,
+          answer: question.answer,
+        }),
+      );
       clear();
     });
 
-    it('should throw exception if question doesn\'t exist' , async () => {
+    it('should throw exception if question doesn\'t exist', async () => {
       jest
         .spyOn(mockQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(undefined));
@@ -157,11 +162,13 @@ describe('QuestionService', () => {
       advanceTo(anotherFakeDate.valueOf());
       await service.reply('someValidId', askedQuestion.answer);
 
-      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
-        answeredOn: anotherFakeDate,
-        answer: askedQuestion.answer,
-        isCorrect: true,
-      }));
+      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          answeredOn: anotherFakeDate,
+          answer: askedQuestion.answer,
+          isCorrect: true,
+        }),
+      );
       clear();
     });
 
@@ -179,15 +186,17 @@ describe('QuestionService', () => {
       advanceTo(anotherFakeDate.valueOf());
       await service.reply('someValidId', 'bananas');
 
-      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
-        answeredOn: anotherFakeDate,
-        answer: askedQuestion.answer,
-        isCorrect: false,
-      }));
+      expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          answeredOn: anotherFakeDate,
+          answer: askedQuestion.answer,
+          isCorrect: false,
+        }),
+      );
       clear();
     });
 
-    it('should throw exception if asked question doesn\'t exist' , async () => {
+    it('should throw exception if asked question doesn\'t exist', async () => {
       jest
         .spyOn(mockAskedQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(undefined));
