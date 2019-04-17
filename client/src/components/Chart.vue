@@ -1,10 +1,12 @@
 <template>
-  <div class="card mt-3">
-    <div>
-      <CommitChart></CommitChart>
-    </div>
-
-    <button class="btn btn-success" v-on:click="sendMessage()">Send</button>
+  <div class="small" style="position: relative; height:80vh; width:100vw">
+    <CommitChart :chart-data="answeredQuestions"></CommitChart>
+    <ul>
+      <li v-for="userLegend in legend" v-bind:key="userLegend.username">
+        <span>{{ userLegend.username }}</span>
+        {{ userLegend.score }}
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -13,6 +15,26 @@ import CommitChart from './CommitChart';
 export default {
   components: {
     CommitChart,
+  },
+  data() {
+    return {
+      legend: [],
+      chartData: null,
+      datacollection: null,
+    };
+  },
+  mounted() {
+    setInterval(() => {
+      this.$store.dispatch('contest/getAnsweredQuestions');
+    }, 500);
+  },
+  computed: {
+    answeredQuestions: function() {
+      const datasets = this.$store.getters['contest/accumulatedAnsweredQuestions'];
+      return {
+        datasets,
+      };
+    },
   },
   sockets: {
     connect: function() {

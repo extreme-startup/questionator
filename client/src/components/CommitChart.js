@@ -1,43 +1,96 @@
-import { Scatter } from 'vue-chartjs';
+import { mixins, Scatter } from 'vue-chartjs';
+const { reactiveProp } = mixins;
 
 export default {
   extends: Scatter,
-  mounted() {
-    this.renderChart(
-      {
-        datasets: [
-          {
-            label: 'Scatter Dataset 1',
-            fill: false,
-            showLine: true,
-            lineColor: 'black',
-            borderColor: '#f87979',
-            backgroundColor: '#f87979',
-            data: [
-              { x: -2, y: 4 },
-              { x: -1, y: 1 },
-              { x: 0, y: 0 },
-              { x: 1, y: 1 },
-              { x: 2, y: 4 },
-            ],
+  mixins: [reactiveProp],
+  data() {
+    return {
+      options: {
+        animation: {
+          duration: 0, // general animation time
+        },
+        hover: {
+          animationDuration: 0, // duration of animations when hovering an item
+        },
+        responsiveAnimationDuration: 0, // animation duration after a resize
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+          // mode: 'x',
+          // intersect: true,
+
+          callbacks: {
+            // label: function(tooltipItem, data) {
+            //   var label = data.datasets[tooltipItem.datasetIndex].label || '';
+            //   return label;
+            // },
+            // title:function(tooltipItem, data) {
+            //   // debugger;
+            //   return '';//data.datasets[tooltipItem[0].datasetIndex].label;
+            // },
+            // footer: function(tooltipItems, data) {
+            //   // debugger;
+            //   return 'wtf'
+            // }
           },
-          {
-            label: 'Scatter Dataset 2',
+          // mode: 'index',
+          // footerFontStyle: 'normal'
+        },
+        scales: {
+          xAxes: [
+            {
+              type: 'linear',
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Date',
+              },
+              ticks: {
+                max: Number(new Date()) + 1800000,
+                min: Number(new Date()),
+                // max: Number(new Date()) + 3600000,
+                // major: {
+                //   fontStyle: 'bold',
+                //   // fontColor: '#FF0000'
+                // },
+              },
+            },
+          ],
+          yAxes: [
+            {
+              type: 'linear',
+              ticks: {
+                suggestedMax: 500,
+                suggestedMin: 500,
+              },
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'score',
+              },
+            },
+          ],
+        },
+        showLines: true,
+        elements: {
+          point: { radius: 0 },
+          line: {
+            tension: 0,
             fill: false,
-            showLine: true,
-            borderColor: '#7acbf9',
-            backgroundColor: '#7acbf9',
-            data: [
-              { x: -2, y: -4 },
-              { x: -1, y: -1 },
-              { x: 0, y: 1 },
-              { x: 1, y: -1 },
-              { x: 2, y: -4 },
-            ],
+            show: true,
           },
-        ],
+        },
+        legend: {
+          display: false,
+        },
       },
-      { responsive: true, maintainAspectRatio: false },
-    );
+    };
+  },
+  mounted() {
+    // this.chartData is created in the mixin.
+    // If you want to pass options please create a local options object
+    // debugger;
+    this.renderChart(this.chartData, this.options);
   },
 };

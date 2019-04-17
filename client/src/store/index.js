@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import question from './question';
 import form from './form';
+import contest from './contest';
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ const store = new Vuex.Store({
   modules: {
     question,
     form,
+    contest,
   },
 });
 

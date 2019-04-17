@@ -8,9 +8,11 @@ import Vuelidate from 'vuelidate';
 import SocketIo from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 import Vuetify from 'vuetify';
+import VueLodash from 'vue-lodash';
 
 import 'vuetify/dist/vuetify.min.css';
 
+Vue.use(VueLodash);
 Vue.use(Vuetify);
 Vue.use(Vuelidate);
 Vue.use(
