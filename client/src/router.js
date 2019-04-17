@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Training from './views/Training.vue';
+import Participate from './views/Participate.vue';
 import store from './store';
 import { getUserAuthenticated, getUser } from './api/auth';
 
@@ -34,6 +35,11 @@ const router = new Router({
       path: '/training/:id',
       name: 'training',
       component: Training,
+    },
+    {
+      path: '/participate',
+      name: 'participate',
+      component: Participate,
     },
   ],
 });
