@@ -2,7 +2,7 @@ const defaults = {
   type: 'static',
   text: '',
   answer: '',
-  value: null,
+  value: '',
 };
 
 const getters = {

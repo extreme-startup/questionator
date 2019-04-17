@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
     getUserAuthenticated()
       .then(response => getUser(response.data.user))
       .then(response => {
-        store.commit('setUser', response.data.email);
+        store.commit('setUser', response.data);
         next();
       })
       .catch(error => {

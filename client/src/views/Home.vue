@@ -1,9 +1,9 @@
 <template>
-  <Fragment>
+  <div>
     <Header />
     <Sessions />
     <Trainings />
-  </Fragment>
+  </div>
 </template>
 
 <script>
@@ -11,7 +11,6 @@
 import Trainings from '@/components/Trainings.vue';
 import Sessions from '@/components/Sessions.vue';
 import Header from '@/components/Header.vue';
-import { Fragment } from 'vue-fragment';
 
 export default {
   name: 'home',
@@ -19,7 +18,6 @@ export default {
     Header,
     Sessions,
     Trainings,
-    Fragment,
   },
 };
 </script>

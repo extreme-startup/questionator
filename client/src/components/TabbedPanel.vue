@@ -1,5 +1,5 @@
 <template>
-  <Fragment>
+  <div>
     <TabList>
       <Tab
         v-for="tab in tabs"
@@ -11,13 +11,13 @@
       </Tab>
     </TabList>
     <component :is="currentTabComponent"></component>
-  </Fragment>
+  </div>
 </template>
 
 <script>
 import styled from 'vue-styled-components';
-import { Fragment } from 'vue-fragment';
 import QuestionTab from './QuestionTab.vue';
+import ManageSession from '@/sessions/ManageSession.vue';
 
 const TabList = styled.ul`
   margin-bottom: 15px;
@@ -49,8 +49,8 @@ export default {
   components: {
     TabList,
     Tab,
-    Fragment,
     questions: QuestionTab,
+    sessions: ManageSession,
   },
   methods: {
     swithTab(tab) {

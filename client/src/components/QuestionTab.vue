@@ -1,5 +1,5 @@
 <template>
-  <Fragment>
+  <div>
     <ButtonList>
       <Button @click="showAddQuestion">Add new question</Button>
       <Button secondary>Question library</Button>
@@ -13,11 +13,10 @@
       :modalType="modalType"
     />
     <DeleteQuestion v-if="isFormShown && modalType === 'delete'" :question="question" />
-  </Fragment>
+  </div>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
 import styled from 'vue-styled-components';
 import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
@@ -38,7 +37,6 @@ const columnsConfig = [{ field: 'text', title: 'Question' }, { field: 'value', t
 export default {
   name: 'question-tab',
   components: {
-    Fragment,
     DataTable,
     ButtonList,
     Button,
@@ -69,9 +67,8 @@ export default {
       return this.$store.getters['form/question'];
     },
   },
-  mounted() {
-    //TODO: endpoint should be /trainings/{trainig_id}/questions
-    this.$store.dispatch('question/getQuestions');
+  async mounted() {
+    this.$store.dispatch('question/getQuestions', this.$route.params.id);
   },
   methods: {
     showAddQuestion() {

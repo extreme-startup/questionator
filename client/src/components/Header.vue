@@ -14,7 +14,7 @@
 
         <v-flex align-self-center>
           <v-chip
-            ><a class="subheading" id="profile" href="/">{{ $store.state.user }}</a></v-chip
+            ><a class="subheading" id="profile" href="/">{{ $store.state.user.email }}</a></v-chip
           >
         </v-flex>
       </v-layout>

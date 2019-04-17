@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { ApiModelProperty } from '@nestjs/swagger';
+
+import { ManageSessionEntity } from './ManageSessionEntity';
 
 @Entity({ name: 'asked_question' })
 export class AskedQuestion {
@@ -18,16 +21,16 @@ export class AskedQuestion {
   questionId: string;
 
   @Column('varchar', {
-    name: 'generated_question',
+    name: 'question',
     nullable: false,
   })
-  generatedQuestion: string;
+  question: string;
 
   @Column('varchar', {
-    name: 'generated_answer',
+    name: 'answer',
     nullable: false,
   })
-  generatedAnswer: string;
+  answer: string;
 
   @Column('datetime', {
     name: 'asked_on',
@@ -41,15 +44,10 @@ export class AskedQuestion {
   })
   answeredOn: Date;
 
-  @Column('varchar', {
-    name: 'answer',
-    nullable: true,
-  })
-  answer: string;
-
   @Column('numeric', {
     name: 'score',
     nullable: false,
+    default: 0,
   })
   score: number;
 
@@ -59,4 +57,8 @@ export class AskedQuestion {
     default: false,
   })
   isCorrect: boolean;
+
+  @ApiModelProperty()
+  @ManyToOne(type => ManageSessionEntity, session => session.askedQuestion)
+  session: ManageSessionEntity;
 }
