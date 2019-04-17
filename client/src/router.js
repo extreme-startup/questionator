@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Training from './views/Training.vue';
 import TrainingSession from './views/TrainingSession.vue';
+import Participate from './views/Participate.vue';
 import store from './store';
 import { getUserAuthenticated, getUser } from './api/auth';
 
@@ -34,6 +35,11 @@ const router = new Router({
       name: 'training-session',
       component: TrainingSession,
       props: true,
+    },
+    {
+      path: '/participate',
+      name: 'participate',
+      component: Participate,
     },
   ],
 });
