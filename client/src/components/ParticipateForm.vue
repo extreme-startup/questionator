@@ -32,7 +32,7 @@ export default {
     nickname: '',
     nicknameRules: [
       v => !!v || 'Nickname is required',
-      v => v.length <= 10 || 'Nickname must be less than 15 characters',
+      v => v.length <= 15 || 'Nickname must be less than 15 characters',
     ],
     email: '',
     emailRules: [
