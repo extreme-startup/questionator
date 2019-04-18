@@ -64,6 +64,17 @@ export const getAnsweredQuestions = (contestId, time) => {
       { userid: 25, answerTime: date, score: Math.round(Math.random() * 10) },
       { userid: 26, answerTime: date, score: Math.round(Math.random() * 10) },
       { userid: 27, answerTime: date, score: Math.round(Math.random() * 10) },
+
+      { userid: 28, answerTime: date, score: Math.round(Math.random() * 1) },
+      { userid: 29, answerTime: date, score: Math.round(Math.random() * 5) },
+      { userid: 30, answerTime: date, score: Math.round(Math.random() * 6) },
+      { userid: 31, answerTime: date, score: Math.round(Math.random() * 12) },
+      { userid: 32, answerTime: date, score: Math.round(Math.random() * 17) },
+      { userid: 33, answerTime: date, score: Math.round(Math.random() * 3) },
+      { userid: 34, answerTime: date, score: Math.round(Math.random() * 1) },
+      { userid: 35, answerTime: date, score: Math.round(Math.random() * 18) },
+      { userid: 36, answerTime: date, score: Math.round(Math.random() * 20) },
+      { userid: 37, answerTime: date, score: Math.round(Math.random() * 10) },
     ],
   };
 };

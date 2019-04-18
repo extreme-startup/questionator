@@ -2,65 +2,25 @@ import Vue from 'vue';
 import * as api from '@/api/contest';
 
 const contestState = {
-  contenders: {},
-  answeredQuestions: {
-    data: {},
-    lastUpdate: 0,
-  },
   accumulatedAnsweredQuestions: {
     data: {},
+    lastUpdateDateTime: null,
   },
 };
 
 const getters = {
-  answeredQuestions: state => state.answeredQuestions.data,
   accumulatedAnsweredQuestions: state => {
     const data = state.accumulatedAnsweredQuestions.data;
     return Object.keys(data).map(key => {
       return {
         label: key,
         borderColor: data[key].color,
-        backgroundColor: data[key].color,
         data: data[key].answers,
+        totalScore: data[key].answers[data[key].answers.length - 1].y,
       };
     });
   },
-  lastUpdate: state => state.answeredQuestions.lastUpdate,
-  // acumulated: state => {
-  //   const answeredQuestions = state.answeredQuestions.data;
-  //   const ret = Object.keys(answeredQuestions).map(key => {
-  //     let color = getRandomColor();
-  //     return {
-  //       label: key,
-  //       borderColor: color,
-  //       backgroundColor: color,
-  //       data: answeredQuestions[key].answers.reduce((acc, curr) => {
-  //         if (!acc.length) {
-  //           return acc.concat({ x: curr.answerTime, y: curr.score });
-  //         }
-
-  //         const aggregatedScore = acc[acc.length - 1].y + curr.score;
-
-  //         return acc.concat({ x: curr.answerTime, y: aggregatedScore });
-  //       }, []),
-  //     };
-  //   });
-  //   let legend = Vue._.orderBy(
-  //     ret.map(r => {
-  //       return {
-  //         username: r.label,
-  //         score: r.data[r.data.length - 1].y,
-  //       };
-  //     }),
-  //     'score',
-  //     'desc',
-  //   );
-
-  //   return {
-  //     datasets: ret,
-  //     legend,
-  //   };
-  // },
+  lastUpdateDateTime: state => state.accumulatedAnsweredQuestions.lastUpdateDateTime,
 };
 
 function getRandomColor() {
@@ -73,17 +33,14 @@ function getRandomColor() {
 }
 
 const setAnsweredQuestionsMutations = {
-  setAnsweredQuestions(state, answeredQuestions) {
-    state.answeredQuestions.data = joinData(answeredQuestions, state.answeredQuestions.data);
-  },
   setAccumulatedAnsweredQuestions(state, answeredQuestions) {
-    state.accumulatedAnsweredQuestions.data = accumulateData(
+    state.accumulatedAnsweredQuestions.data = getUpdatedAnswers(
       answeredQuestions,
       state.accumulatedAnsweredQuestions.data,
     );
   },
-  increaseLastUpdate(state, lastUpdate) {
-    state.answeredQuestions.lastUpdate = lastUpdate;
+  setLastUpdateDateTime(state, lastUpdateDateTime) {
+    state.accumulatedAnsweredQuestions.lastUpdateDateTime = lastUpdateDateTime;
   },
 };
 
@@ -91,70 +48,49 @@ const mutations = {
   ...setAnsweredQuestionsMutations,
 };
 
-function joinData(inputData, currData = {}) {
+function getUpdatedAnswers(inputData, currData = {}) {
   return Object.keys(inputData).reduce((acc, curr) => {
     if (acc[curr]) {
       return {
         ...acc,
-        [curr]: { answers: acc[curr].answers.concat(...inputData[curr]) },
-      };
-    } else {
-      return {
-        ...acc,
-        [curr]: { answers: inputData[curr] },
+        [curr]: {
+          color: acc[curr].color,
+          answers: getUpdatedAnswersByContender(inputData[curr], acc[curr].answers),
+        },
       };
     }
+
+    return {
+      ...acc,
+      [curr]: {
+        color: getRandomColor(),
+        answers: getUpdatedAnswersByContender(inputData[curr]),
+      },
+    };
   }, currData);
 }
 
-function accumulateData(inputData, currData = {}) {
-  return Object.keys(inputData).reduce((acc, curr) => {
-    if (acc[curr]) {
-      let t1 = acc[curr];
-      return {
-        ...acc,
-        [curr]: {
-          color: t1.color,
-          answers: inputData[curr].reduce((acc1, curr1) => {
-            if (!acc1.length) {
-              return acc1.concat({ x: curr1.answerTime, y: curr1.score });
-            }
-
-            const aggregatedScore = acc1[acc1.length - 1].y + curr1.score;
-
-            return acc1.concat({ x: curr1.answerTime, y: aggregatedScore });
-          }, t1.answers),
-        },
-      };
-    } else {
-      const color = getRandomColor();
-      return {
-        ...acc,
-        [curr]: {
-          color,
-          answers: inputData[curr].reduce((answers, answer) => {
-            if (!answers.length) {
-              return answers.concat({ x: answer.answerTime, y: answer.score });
-            }
-
-            const aggregatedScore = answers[answers.length - 1].y + answer.score;
-
-            return answers.concat({ x: answer.answerTime, y: aggregatedScore });
-          }, []),
-        },
-      };
+function getUpdatedAnswersByContender(newAnswers, currentAnswers = []) {
+  return newAnswers.reduce((answers, answer) => {
+    if (!answers.length) {
+      return answers.concat({ x: answer.answerTime, y: answer.score });
     }
-  }, currData);
+
+    const aggregatedScore = answers[answers.length - 1].y + answer.score;
+
+    return answers.concat({ x: answer.answerTime, y: aggregatedScore });
+  }, currentAnswers);
 }
 
 const actions = {
   getAnsweredQuestions: async ({ commit, state }) => {
-    const { data } = await api.getAnsweredQuestions(null, state.answeredQuestions.lastUpdate);
-    const groupped = Vue._.groupBy(data, 'userid');
+    const { data } = await api.getAnsweredQuestions(
+      null,
+      state.accumulatedAnsweredQuestions.lastUpdateDateTime,
+    );
 
-    commit('setAccumulatedAnsweredQuestions', groupped);
-    // commit('setAnsweredQuestions', groupped);
-    commit('increaseLastUpdate', state.answeredQuestions.lastUpdate + 1);
+    commit('setAccumulatedAnsweredQuestions', Vue._.groupBy(data, 'userid'));
+    commit('setLastUpdateDateTime', data[data.length - 1].answerTime);
   },
 };
 

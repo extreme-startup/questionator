@@ -42,19 +42,11 @@ checker.init({
       delete libData.url;
       delete libData.path;
       delete libData.dependencyPath;
-      let libInfo;
-      try{
-        libInfo = {
-          ...libData,
-          license: fs.readFileSync(strippedVersions[lib].licenseFile, { encoding: 'UTF-8' }),
-          name: lib,
-        };
-      } catch(e) {
-        console.log(strippedVersions[lib])
-        throw e;
-      }
-
-      
+      const libInfo = {
+        ...libData,
+        license: fs.readFileSync(strippedVersions[lib].licenseFile, { encoding: 'UTF-8' }),
+        name: lib,
+      };
 
       if (!isLicenseAllowed(libInfo)) {
         throw new Error(`Library ${lib} is not licensed appropriately with ${libInfo.licenses} license`);

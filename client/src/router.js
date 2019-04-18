@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Training from './views/Training.vue';
-import Chart from './components/Chart.vue';
+import TrainingSession from './views/TrainingSession.vue';
 import store from './store';
 import { getUserAuthenticated, getUser } from './api/auth';
 
@@ -32,14 +32,14 @@ const router = new Router({
       component: Login,
     },
     {
-      path: '/chart',
-      name: 'chart',
-      component: Chart,
-    },
-    {
       path: '/training/:id',
       name: 'training',
       component: Training,
+    },
+    {
+      path: '/training-session/:id',
+      name: 'training-session',
+      component: TrainingSession,
     },
   ],
 });
