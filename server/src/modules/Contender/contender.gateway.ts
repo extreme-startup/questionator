@@ -57,8 +57,8 @@ export class ContenderGateway implements OnGatewayConnection {
         first(),
         switchMap(({answer, success}: Answer) => success
           ? of(answer)
-          : throwError('Could not get answer')
-        )
+          : throwError('Could not get answer'),
+        ),
       );
   }
 
