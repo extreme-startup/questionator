@@ -1,77 +1,75 @@
 <template>
-  <ModalWrapper>
-    <ModalContent>
-      <ModalHeader>
-        <ModalTitle>Add new training</ModalTitle>
-      </ModalHeader>
-      <ModalCloseButton v-on:click="close">✖</ModalCloseButton>
+  <span>
+    <v-dialog v-model="dialog" max-width="600px">
+      <!--Activator is not used, but required for correct work-->
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Add new Training</v-btn>
+      </template>
 
       <form v-on:submit.prevent.stop="submit">
-        <ControlWrapper>
-          <ControlLabel for="competition-title-input">
-            Title:
-          </ControlLabel>
-          <input
-            v-model="competitionDetails.name"
-            v-on:input="changeDetails"
-            id="competition-title-input"
-            type="text"
-          />
-          <DetailsFieldError v-if="errors.nameRequired"
-            >The name field is required</DetailsFieldError
-          >
-        </ControlWrapper>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Add new training</span>
+            <ModalCloseButton v-on:click="close">✖</ModalCloseButton>
+          </v-card-title>
 
-        <ControlWrapper>
-          <ControlLabel for="competition-description-input">
-            Description:
-          </ControlLabel>
-          <textarea
-            v-model="competitionDetails.description"
-            v-on:input="changeDetails"
-            id="competition-description-input"
-            cols="30"
-            rows="10"
-          >
-          </textarea>
-          <DetailsFieldError v-if="errors.descriptionRequired"
-            >The description field is required</DetailsFieldError
-          >
-        </ControlWrapper>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <ControlWrapper>
+                    <v-text-field
+                      label="Title:"
+                      v-model="competitionDetails.name"
+                      v-on:input="changeDetails"
+                      id="competition-title-input"
+                    >
+                    </v-text-field>
 
-        <ControlWrapper>
-          <ControlLabel for="competition-category-select">
-            Category:
-          </ControlLabel>
+                    <DetailsFieldError v-if="errors.nameRequired"
+                      >The name field is required</DetailsFieldError
+                    >
+                  </ControlWrapper>
+                </v-flex>
 
-          <select name="competition-category" id="competition-category-select"> </select>
-        </ControlWrapper>
+                <v-flex>
+                  <ControlWrapper>
+                    <v-textarea
+                      label="Description:"
+                      v-model="competitionDetails.description"
+                      v-on:input="changeDetails"
+                      id="competition-description-input"
+                      cols="30"
+                      rows="10"
+                    >
+                    </v-textarea>
+                    <DetailsFieldError v-if="errors.descriptionRequired"
+                      >The description field is required</DetailsFieldError
+                    >
+                  </ControlWrapper>
+                </v-flex>
+              </v-layout>
+            </v-container>
 
-        <ModalFooter>
-          <CancelButton v-on:click="close">Cancel</CancelButton>
-          <Button :disabled="!canBeSaved" primary type="submit">Save</Button>
-        </ModalFooter>
+            <v-flex>
+              <small>*indicates required field</small>
+            </v-flex>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat v-on:click="close">Cancel</v-btn>
+            <v-btn color="blue darken-1" flat :disabled="!canBeSaved" type="submit">Save</v-btn>
+          </v-card-actions>
+        </v-card>
       </form>
-    </ModalContent>
-  </ModalWrapper>
+    </v-dialog>
+  </span>
 </template>
 
 <script>
-import { Button } from '@/common/styledComponents';
-import {
-  CancelButton,
-  ControlLabel,
-  ControlWrapper,
-  DetailsFieldError,
-} from './CompetitionDetailsModal.style';
-import {
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-  ModalWrapper,
-} from './Modal.style';
+import { ControlWrapper, DetailsFieldError } from './CompetitionDetailsModal.style';
+import { ModalCloseButton } from './Modal.style';
 import { CompetitionDetails } from '../competition-details.model';
 import {
   getInitialValidationErrors,
@@ -82,10 +80,18 @@ export default {
   name: 'CompetitionDetailsModal',
   data: component => {
     return {
+      dialog: true,
       initialCompetitionDetails: Object.assign({}, component.competitionDetails),
       canBeSaved: false,
       errors: getInitialValidationErrors(),
     };
+  },
+  watch: {
+    dialog: function(val) {
+      if (!val) {
+        this.$emit('close', null);
+      }
+    },
   },
   props: {
     competitionDetails: {
@@ -95,17 +101,8 @@ export default {
     },
   },
   components: {
-    CancelButton,
     ControlWrapper,
-    ControlLabel,
     DetailsFieldError,
-
-    Button,
-    ModalWrapper,
-    ModalContent,
-    ModalHeader,
-    ModalTitle,
-    ModalFooter,
     ModalCloseButton,
   },
   methods: {
