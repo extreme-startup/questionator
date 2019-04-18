@@ -8,6 +8,7 @@ export enum SessionStatus {
 }
 
 export class ManageSessionDto {
+  id: number;
   status: SessionStatus;
   trainer: UserDto;
   startedTime: string;
