@@ -52,7 +52,6 @@ export default {
 
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';
-
         session.trainerName = session.trainer.email;
         return session;
       });
