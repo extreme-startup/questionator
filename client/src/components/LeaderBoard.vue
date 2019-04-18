@@ -2,7 +2,10 @@
   <Section>
     <LineChart :chart-data="answeredQuestions"></LineChart>
     <ul>
-      <li v-for="userLegend in answeredQuestions.datasets" v-bind:key="userLegend.username" v-bind:style="{ color: userLegend.borderColor }">
+      <li
+        v-for="userLegend in answeredQuestions.datasets"
+        v-bind:key="userLegend.username"
+        v-bind:style="{ color: userLegend.borderColor }">
         User:{{ userLegend.label }} Score: {{ userLegend.totalScore }}
       </li>
     </ul>
