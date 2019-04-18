@@ -6,6 +6,7 @@ import { JoinRequestDto } from './dto/joinRequest.dto';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { filter, first, switchMap } from 'rxjs/internal/operators';
 import { Contender } from './dto/Contender';
+import * as uuid from 'uuid';
 
 const JOIN_MESSAGE_NAME = 'join';
 const QUESTION_MESSAGE_NAME = 'question';
@@ -34,7 +35,6 @@ export class ContenderGateway implements OnGatewayConnection {
 
     this.addContender(new Contender(joinRequest.login, client));
     client.emit(JOIN_MESSAGE_NAME, response);
-    this.getAnswer(joinRequest.login, '123').subscribe();
   }
 
   @SubscribeMessage(ANSWER_MESSAGE_NAME)
@@ -81,12 +81,7 @@ export class ContenderGateway implements OnGatewayConnection {
       .filter(({email: cEmail}) => cEmail !== email);
   }
 
-  getHash(question: string) {
-    let s = question + Math.random()+ new Date();
-    return s
-      .split("")
-      .reduce((prevHash, currVal) =>
-        (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0)
-      .toString();
+  getHash(question: string): string {
+    return question + uuid();
   }
 }
