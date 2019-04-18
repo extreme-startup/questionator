@@ -3,16 +3,16 @@ import { Repository } from 'typeorm';
 
 import { ManageSessionController } from './manage-session.controller';
 import { ManageSessionService } from './manage-session.service';
-import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
+import { ManageSessionDto, ManageSessionRO, SessionStatus } from './ManageSession.dto';
 import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
 import { User } from '../../entity/User';
 
-function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) {
+function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto): ManageSessionRO {
   const session = new ManageSessionEntity();
   const trainer = new User();
   session.startedTime = s.startedTime || '2000-01-01';
   session.status = s.status || SessionStatus.CREATED;
-  session.trainer = s.trainer as User || trainer;
+  session.trainer = trainer;
 
   return session;
 }
@@ -63,32 +63,32 @@ describe('ManageSession Controller', () => {
 
   describe('createSession', () => {
     it('should create session', async () => {
-      const trainer = new User();
       const newSession: Partial<ManageSessionDto> = {
         status: SessionStatus.CREATED,
-        trainer,
       };
+      const mockReq = { session: { user: '1' } };
       const session = generateSession(newSession);
 
       jest
         .spyOn(manageSessionService, 'create')
         .mockReturnValue(Promise.resolve(session));
 
-      expect(await controller.createSession(newSession)).toEqual(session);
-      expect(manageSessionService.create).toHaveBeenCalledWith(newSession);
+      expect(await controller.createSession(mockReq, newSession)).toEqual(session);
+      expect(manageSessionService.create).toHaveBeenCalledWith(newSession, mockReq.session.user);
     });
   });
 
   describe('showSessionById', () => {
     it('should get session by passed id', async () => {
       const session = generateSession();
+      const mockReq = { session: { user: '1' } };
 
       jest
         .spyOn(manageSessionService, 'findById')
         .mockReturnValue(Promise.resolve(session));
 
-      expect(await controller.showSessionById(session.id)).toEqual(session);
-      expect(manageSessionService.findById).toHaveBeenCalledWith(session.id);
+      expect(await controller.showSessionById(mockReq, session.id)).toEqual(session);
+      expect(manageSessionService.findById).toHaveBeenCalledWith(session.id, mockReq.session.user);
     });
   });
 
@@ -96,7 +96,7 @@ describe('ManageSession Controller', () => {
     it('should update session', async () => {
       const session = generateSession();
       const newData: Partial<ManageSessionDto> = {
-        status: SessionStatus.IN_PROGRES,
+        status: SessionStatus.IN_PROGRESS,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;

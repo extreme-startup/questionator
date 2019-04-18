@@ -3,15 +3,15 @@
     <ButtonList>
       <Button @click.stop="openDialog">New Session</Button>
     </ButtonList>
-    <ManageSessionTable :columns="columns" :data="sessions"/>
+    <ManageSessionTable :columns="columns" :data="sessions" />
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
 
     <ConfigDialog
-            :agree="createNewSession"
-            :disagree="closeDialog"
-            :is-open="isDialogOpen"
-            :title="dialogTitle"
+      :agree="createNewSession"
+      :disagree="closeDialog"
+      :is-open="isDialogOpen"
+      :title="dialogTitle"
     />
   </SessionContainer>
 </template>
@@ -21,7 +21,7 @@ import { Button } from '@/common/styledComponents';
 import * as dateUtils from '../utils/date-formatter.js';
 import ManageSessionTable from './ManageSessionTable';
 import ConfigDialog from '../components/ConfigDialog';
-import { SessionContainer, ButtonList } from './Styled';
+import { SessionContainer, ButtonList } from './ManageSession.styled';
 
 const sessionTableConfig = [
   { field: 'startedTime', title: 'Date' },

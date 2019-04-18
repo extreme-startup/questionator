@@ -10,7 +10,7 @@ function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) 
   const trainer = new User();
   session.startedTime = s.startedTime || '2000-01-01';
   session.status = s.status || SessionStatus.CREATED;
-  session.trainer = s.trainer as User || trainer;
+  session.trainer = trainer;
 
   return session;
 }
@@ -51,12 +51,14 @@ describe('ManageSessionService', () => {
   describe('findById', () => {
     it('should get session by passed id', async () => {
       const session = generateSession();
+      const trainerId = '1';
+
       jest
         .spyOn(sessionMockRepository, 'findOne')
         .mockReturnValue(Promise.resolve(session));
 
-      expect(await service.findById(session.id)).toEqual(session);
-      expect(sessionMockRepository.findOne).toHaveBeenCalledWith(session.id, { relations: ['trainer'] });
+      expect(await service.findById(session.id, trainerId)).toEqual(session);
+      expect(sessionMockRepository.findOne).toHaveBeenCalledWith(session.id, { where: { trainer: trainerId },  relations: ['trainer'] });
     });
   });
 
@@ -77,7 +79,7 @@ describe('ManageSessionService', () => {
         .spyOn(userMockRepository, 'findOne')
         .mockReturnValue(Promise.resolve(trainer));
 
-      expect(await service.create(newSession)).toEqual(session);
+      expect(await service.create(newSession, trainer.id)).toEqual(session);
       expect(sessionMockRepository.save).toHaveBeenCalledWith(newSession);
       expect(userMockRepository.findOne).toHaveBeenCalled();
     });
@@ -87,7 +89,7 @@ describe('ManageSessionService', () => {
     it('should update existing session', async () => {
       const session = generateSession();
       const newData: Partial<ManageSessionDto> = {
-        status: SessionStatus.IN_PROGRES,
+        status: SessionStatus.IN_PROGRESS,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;
