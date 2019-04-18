@@ -43,6 +43,7 @@
     "typeorm": "^0.2.14",
     "typeorm-store": "^1.2.0",
     "typescript": "^3.0.1",
+    "uuid-v4": "^0.1.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
