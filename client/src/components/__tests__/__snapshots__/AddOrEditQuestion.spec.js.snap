@@ -6,17 +6,19 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
   name="modal-fade"
 >
   <div
-    class="kuljaD"
+    class="kRBSif"
   >
     <header>
       <button
-        class="gsyLbm"
+        class="beFTTq"
       >
-        x
+        <v-icon>
+          close
+        </v-icon>
       </button>
        
       <h1
-        class="ePoQLf fdLKPL jBBvdc"
+        class="bhoRXc"
       >
         Add new question
       </h1>
@@ -25,29 +27,32 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
     <section>
        
       <div
-        class="bjGaHK"
+        class="jKkdhY"
       >
         <form
           novalidate="novalidate"
         >
           <div
-            class="jtUfTw kqXKrG"
+            class="jtUfTw jwWyFP"
           >
-            <button
-              class="dbZTLp"
-            >
-              
-        Static
-      
-            </button>
+            <p>
+              Type
+            </p>
              
-            <button
-              class="kJsYHB"
+            <v-radio-group
+              mandatory="true"
+              row=""
             >
-              
-        Dynamic
-      
-            </button>
+              <v-radio
+                label="Static"
+                value="static"
+              />
+               
+              <v-radio
+                label="Dynamic"
+                value="dynamic"
+              />
+            </v-radio-group>
           </div>
            
           <!---->
@@ -55,13 +60,12 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
           <div
             class="jtUfTw"
           >
-            <input
-              class="formInput"
+            <v-text-field
               id="question-text-input"
+              label="Question*"
               name="questionText"
               placeholder="Type your question"
-              required="required"
-              type="text"
+              required=""
             />
              
             <!---->
@@ -72,12 +76,13 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
           <div
             class="jtUfTw"
           >
-            <textarea
-              class="formTextArea"
+            <v-textarea
               id="question-answer-input"
+              label="Answer*"
               name="answer"
+              no-resize="false"
               placeholder="Type your answer"
-              required="required"
+              required=""
             />
              
             <!---->
@@ -88,13 +93,12 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
           <div
             class="jtUfTw"
           >
-            <input
-              class="formInput"
+            <v-text-field
               id="question-value-input"
+              label="Points*"
               name="questionValue"
               placeholder="Enter question value (points)"
-              required="required"
-              type="text"
+              required=""
             />
              
             <!---->
@@ -105,23 +109,27 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
           <div
             class="fvVliX"
           >
-            <button
-              class="jYfsmY liYJHj"
+            <v-btn
+              color="blue darken-1"
+              flat=""
               id="question-cancel-button"
               type="reset"
             >
               
         Cancel
       
-            </button>
+            </v-btn>
              
-            <button
-              class="lfvxis liYJHj"
+            <v-btn
+              color="blue darken-1"
+              flat=""
               id="question-save-button"
               type="submit"
             >
-              Save
-            </button>
+              
+        Save
+      
+            </v-btn>
           </div>
         </form>
       </div>
@@ -138,17 +146,19 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
   name="modal-fade"
 >
   <div
-    class="kuljaD"
+    class="kRBSif"
   >
     <header>
       <button
-        class="gsyLbm"
+        class="beFTTq"
       >
-        x
+        <v-icon>
+          close
+        </v-icon>
       </button>
        
       <h1
-        class="ePoQLf fdLKPL jBBvdc"
+        class="bhoRXc"
       >
         Edit question
       </h1>
@@ -157,7 +167,7 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
     <section>
        
       <div
-        class="bjGaHK"
+        class="jKkdhY"
       >
         <form
           novalidate="novalidate"
@@ -187,12 +197,13 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
           <div
             class="jtUfTw"
           >
-            <textarea
-              class="formTextArea"
+            <v-textarea
               id="question-answer-input"
+              label="Answer*"
               name="answer"
+              no-resize="false"
               placeholder="Type your answer"
-              required="required"
+              required=""
             />
              
             <!---->
@@ -203,13 +214,12 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
           <div
             class="jtUfTw"
           >
-            <input
-              class="formInput"
+            <v-text-field
               id="question-value-input"
+              label="Points*"
               name="questionValue"
               placeholder="Enter question value (points)"
-              required="required"
-              type="text"
+              required=""
             />
              
             <!---->
@@ -220,23 +230,27 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
           <div
             class="fvVliX"
           >
-            <button
-              class="jYfsmY liYJHj"
+            <v-btn
+              color="blue darken-1"
+              flat=""
               id="question-cancel-button"
               type="reset"
             >
               
         Cancel
       
-            </button>
+            </v-btn>
              
-            <button
-              class="lfvxis liYJHj"
+            <v-btn
+              color="blue darken-1"
+              flat=""
               id="question-save-button"
               type="submit"
             >
-              Update
-            </button>
+              
+        Update
+      
+            </v-btn>
           </div>
         </form>
       </div>
