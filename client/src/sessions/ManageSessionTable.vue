@@ -10,11 +10,9 @@
       </thead>
       <tbody>
         <TableRow v-for="row in data" :key="row.id" v-on:click.stop="openActiveSession(row)">
-          <td
-            v-for="(column, index) in columns"
-            @dblclick="openActiveSession(row)"
-            :key="index"
-          >{{ row[column.field] }}</td>
+          <td v-for="(column, index) in columns" @dblclick="openActiveSession(row)" :key="index">
+            {{ row[column.field] }}
+          </td>
         </TableRow>
       </tbody>
     </Table>

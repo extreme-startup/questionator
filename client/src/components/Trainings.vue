@@ -42,8 +42,7 @@
         v-on:close="onCompetitionModalClose"
       />
 
-      <ConfirmCompetitionDeletionModal ref="confirm">
-      </ConfirmCompetitionDeletionModal>
+      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
     </v-container>
   </section>
 </template>
@@ -53,6 +52,7 @@
 import CompetitionDetailsModal from '../competition/competition-details-modal/CompetitionDetailsModal';
 // eslint-disable-next-line max-len
 import ConfirmCompetitionDeletionModal from '../competition/confirm-competition-delete-modal/ConfirmCompetitionDeleteModal';
+import { CompetitionDataService } from '../competition/competition-data.service';
 
 export default {
   name: 'Trainings',
@@ -60,10 +60,13 @@ export default {
     return {
       isCompetitionModalVisible: false,
       competitions: [],
+      competitionDataService: new CompetitionDataService(this.$http),
     };
   },
   created: function() {
-    this.getCompetitions();
+    this.competitionDataService
+      .getCompetitions()
+      .then(competitions => this.onGetCompetitions(competitions));
   },
   components: {
     CompetitionDetailsModal,
@@ -73,28 +76,30 @@ export default {
     openCompetitionModal: function() {
       this.isCompetitionModalVisible = true;
     },
+
     onCompetitionModalClose: function(competitionDetails) {
       this.isCompetitionModalVisible = false;
       if (!competitionDetails) {
         return;
       }
-
-      this.$http.post('/contest', competitionDetails).then(() => this.getCompetitions());
+      this.competitionDataService
+        .createCompetition(competitionDetails)
+        .then(competitions => this.onGetCompetitions(competitions));
     },
-    deleteCompetition: function(id) {
-      this.$refs.confirm.open().then((isConfirmed) => {
-        if (isConfirmed) {
-          return this.$http(`/contest/${id}`, {
-            method: 'PUT',
-            data: { isDeleted: true },
-          }).then(() => this.getCompetitions());
-        }
 
+    deleteCompetition: function(id) {
+      this.$refs.confirm.open().then(isConfirmed => {
+        if (isConfirmed) {
+          return this.competitionDataService
+            .deleteCompetition(id)
+            .then(competitions => this.onGetCompetitions(competitions));
+        }
         return null;
       });
     },
-    getCompetitions: function() {
-      this.$http.get('/contest').then(response => (this.competitions = response.data));
+
+    onGetCompetitions(competitions) {
+      this.competitions = competitions;
     },
   },
 };
