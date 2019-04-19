@@ -6,9 +6,7 @@ import { ManageSessionEntity } from './ManageSessionEntity';
 @Entity({name: 'users'})
 export class User {
   @ApiModelProperty()
-  @PrimaryGeneratedColumn('uuid', {
-    name: 'id',
-  })
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
   @ApiModelProperty()
