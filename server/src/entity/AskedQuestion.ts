@@ -10,11 +10,11 @@ export class AskedQuestion {
   id: string;
 
   @ApiModelProperty()
-  @Column('integer', {
+  @Column('varchar', {
     name: 'contest_contender_id',
     nullable: false,
   })
-  contestContenderId: number;
+  contestContenderId: string;
 
   @ApiModelProperty()
   @Column('uuid', {

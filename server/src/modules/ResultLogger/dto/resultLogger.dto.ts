@@ -1,5 +1,5 @@
 export class ResultLoggerDto {
-  readonly contestContenderId: number;
+  readonly contestContenderId: string;
   readonly answeredOn: Date;
   readonly score: number;
 }

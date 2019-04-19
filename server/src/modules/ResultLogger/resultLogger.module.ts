@@ -3,11 +3,11 @@ import { ResultLoggerService } from './resultLogger.service';
 import { ResultLoggerController } from './resultLogger.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AskedQuestion } from '../../entity/AskedQuestion';
+import { User } from '../../entity/User';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AskedQuestion])],
+  imports: [TypeOrmModule.forFeature([AskedQuestion, User])],
   providers: [ResultLoggerService],
   controllers: [ResultLoggerController],
-  exports: [ResultLoggerService],
 })
 export class ResultLoggerModule {}

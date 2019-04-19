@@ -1,3 +1,8 @@
+import {Equal, MoreThan, Not} from 'typeorm';
+import * as dateFormat from 'dateformat';
+
+const MoreThanDate = (date: Date) => MoreThan(dateFormat(date, 'yyyy-mm-dd HH:MM:ss'));
+
 export const paramObjectMock = {
   order: {
     answeredOn: 'ASC',
@@ -9,5 +14,6 @@ export const paramObjectMock = {
   ],
   where: {
     sessionId: 2,
+    answeredOn: MoreThanDate(new Date(null)) && Not(Equal(0)),
   },
 };
