@@ -23,15 +23,6 @@ const getters = {
   lastUpdateDateTime: state => state.accumulatedAnsweredQuestions.lastUpdateDateTime,
 };
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF'.split('');
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
 const setAnsweredQuestionsMutations = {
   setAccumulatedAnsweredQuestions(state, answeredQuestions) {
     state.accumulatedAnsweredQuestions.data = getUpdatedAnswers(
@@ -48,7 +39,16 @@ const mutations = {
   ...setAnsweredQuestionsMutations,
 };
 
-function getUpdatedAnswers(inputData, currData = {}) {
+const getRandomColor = () => {
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const getUpdatedAnswers = (inputData, currData = {}) => {
   return Object.keys(inputData).reduce((acc, curr) => {
     if (acc[curr]) {
       return {
@@ -68,9 +68,9 @@ function getUpdatedAnswers(inputData, currData = {}) {
       },
     };
   }, currData);
-}
+};
 
-function getUpdatedAnswersByContender(newAnswers, currentAnswers = []) {
+const getUpdatedAnswersByContender = (newAnswers, currentAnswers = []) => {
   return newAnswers.reduce((answers, answer) => {
     if (!answers.length) {
       return answers.concat({ x: answer.answerTime, y: answer.score });
@@ -80,7 +80,7 @@ function getUpdatedAnswersByContender(newAnswers, currentAnswers = []) {
 
     return answers.concat({ x: answer.answerTime, y: aggregatedScore });
   }, currentAnswers);
-}
+};
 
 const actions = {
   getAnsweredQuestions: async ({ commit, state }) => {
