@@ -16,6 +16,7 @@ import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
 import { ManageSessionModule } from './modules/manage-session/manage-session.module';
+import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ManageSessionModule } from './modules/manage-session/manage-session.mod
     QuestionModule,
     ContenderModule,
     ManageSessionModule,
+    ResultLoggerModule,
   ],
 })
 

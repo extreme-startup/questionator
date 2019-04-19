@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany, PrimaryColumn} from 'typeorm';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 import { ManageSessionEntity } from './ManageSessionEntity';
@@ -6,9 +6,7 @@ import { ManageSessionEntity } from './ManageSessionEntity';
 @Entity({name: 'users'})
 export class User {
   @ApiModelProperty()
-  @PrimaryGeneratedColumn('uuid', {
-    name: 'id',
-  })
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
   @ApiModelProperty()
