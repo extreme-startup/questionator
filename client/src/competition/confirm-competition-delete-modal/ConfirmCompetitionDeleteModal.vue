@@ -1,9 +1,6 @@
 <template>
-  <v-dialog @keydown.esc="cancel">
+  <v-dialog @keydown.esc="cancel" v-model="dialog" max-width="290">
     <v-layout row justify-center>
-      <v-dialog
-              v-model="dialog"
-              max-width="290">
         <v-card>
           <v-card-title class="headline">Delete</v-card-title>
 
@@ -31,7 +28,6 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
     </v-layout>
   </v-dialog>
 </template>

@@ -7,7 +7,7 @@
         <a href="/">Sort by: ???</a>
       </h2>
 
-      <v-layout row wrap>
+      <v-layout v-if="competitions && competitions.length" row wrap>
         <v-flex xs4 v-for="competition in competitions" v-bind:key="competition.id">
           <v-card>
             <v-card-title>
@@ -33,6 +33,16 @@
             >
               delete
             </v-btn>
+          </v-card>
+        </v-flex>
+      </v-layout>
+
+      <v-layout v-if="!competitions || !competitions.length" row>
+        <v-flex>
+          <v-card>
+            <v-card-title>
+              You don't have any trainings
+            </v-card-title>
           </v-card>
         </v-flex>
       </v-layout>
