@@ -17,7 +17,9 @@ export class ContestService {
   }
 
   async findAll(): Promise<Contest[]> {
-    return await this.contestRepository.find();
+    const contests = await this.contestRepository.find();
+
+    return contests.filter((contest) => !contest.isDeleted);
   }
 
   async create(contest: ContestDto): Promise<InsertResult> {
