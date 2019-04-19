@@ -4,9 +4,7 @@
       <Button @click="showAddQuestion">Add new question</Button>
       <Button secondary>Question library</Button>
     </ButtonList>
-    <DataTable :columns="columns" :data="questions" />
-    <div v-if="isFetching">Loading....</div>
-    <div v-if="error">{{ error }}</div>
+    <DataTable :columns="columns" :data="questions" :loading="isFetching" :error="error" />
     <AddOrEditQuestion
       v-if="isFormShown && (modalType === 'edit' || modalType === 'add')"
       :question="question"
@@ -32,7 +30,11 @@ const ButtonList = styled.div`
   }
 `;
 
-const columnsConfig = [{ field: 'text', title: 'Question' }, { field: 'value', title: 'Points' }];
+const columnsConfig = [
+  { value: 'text', text: 'Question' },
+  { value: 'value', text: 'Points', align: 'right' },
+  { text: '', value: 'text', sortable: false },
+];
 
 export default {
   name: 'question-tab',

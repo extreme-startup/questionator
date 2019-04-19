@@ -2,114 +2,81 @@
   <FormWrapper>
     <form @submit.prevent="submitQuestion" novalidate>
       <InputSwitcherWrapper v-if="isEditable('type')">
-        <StyledSwitcherButton @click="toggleSwitcher($event, 'static')" :active="isStaticActive">
-          Static
-        </StyledSwitcherButton>
-        <StyledSwitcherButton @click="toggleSwitcher($event, 'dynamic')" :active="isDynamicActive">
-          Dynamic
-        </StyledSwitcherButton>
+        <p>Type</p>
+        <v-radio-group v-model="question.type" :mandatory="true" row>
+          <v-radio label="Static" value="static"></v-radio>
+          <v-radio label="Dynamic" value="dynamic"></v-radio>
+        </v-radio-group>
       </InputSwitcherWrapper>
       <StaticText v-if="!isEditable('type')">Type: {{ question.type }}</StaticText>
       <InputWrapper>
-        <input
-          :class="['formInput', { formInputError: !isFormInputValid(errors.text) }]"
+        <v-text-field
+          :error="!isFormInputValid(errors.text)"
           v-if="isEditable('text')"
           v-model.trim="question.text"
           name="questionText"
-          type="text"
           id="question-text-input"
+          label="Question*"
           placeholder="Type your question"
           required
-        />
+        ></v-text-field>
         <StaticText v-if="!isEditable('text')">Question: {{ question.text }}</StaticText>
         <ErrorMsg id="question-text-error" v-if="!isFormInputValid(errors.text)">
           {{ getErrorMessage(errors.text) }}
         </ErrorMsg>
       </InputWrapper>
       <InputWrapper>
-        <textarea
-          :class="['formTextArea', { formTextAreaError: !isFormInputValid(errors.answer) }]"
+        <v-textarea
+          :error="!isFormInputValid(errors.answer)"
+          name="answer"
+          label="Answer*"
           v-if="isEditable('answer')"
           v-model.trim="question.answer"
-          name="answer"
           id="question-answer-input"
           placeholder="Type your answer"
+          no-resize="false"
           required
-        ></textarea>
+        ></v-textarea>
         <StaticText v-if="!isEditable('answer')">Answer: {{ question.answer }}</StaticText>
         <ErrorMsg id="question-answer-error" v-if="!isFormInputValid(errors.answer)">
           {{ getErrorMessage(errors.answer) }}
         </ErrorMsg>
       </InputWrapper>
       <InputWrapper>
-        <input
-          :class="['formInput', { formInputError: !isFormInputValid(errors.value) }]"
+        <v-text-field
+          :error="!isFormInputValid(errors.value)"
           v-if="isEditable('value')"
           v-model.trim="question.value"
+          label="Points*"
           name="questionValue"
-          type="text"
           id="question-value-input"
           placeholder="Enter question value (points)"
           required
-        />
+        ></v-text-field>
         <ErrorMsg id="question-value-error" v-if="!isFormInputValid(errors.value)">
           {{ getErrorMessage(errors.value) }}
         </ErrorMsg>
         <StaticText v-if="!isEditable('value')">Value: {{ question.value }}</StaticText>
       </InputWrapper>
       <ControlGroup>
-        <StyledButton secondary type="reset" id="question-cancel-button" @click="close">
+        <v-btn color="blue darken-1" flat type="reset" id="question-cancel-button" @click="close">
           Cancel
-        </StyledButton>
-        <StyledButton type="submit" id="question-save-button">{{ submitTitle }}</StyledButton>
+        </v-btn>
+        <v-btn color="blue darken-1" flat type="submit" id="question-save-button">
+          {{ submitTitle }}
+        </v-btn>
       </ControlGroup>
     </form>
   </FormWrapper>
 </template>
 
-<style scoped>
-.formTextArea {
-  width: 100%;
-  height: 80px;
-  margin-bottom: 5px;
-  border: none;
-  font-size: 16px;
-  text-indent: 15px;
-  color: var(--text-color);
-  outline: none;
-  resize: none;
-}
-
-.formInput {
-  width: 100%;
-  height: 40px;
-  margin-bottom: 5px;
-  border: none;
-  font-size: 16px;
-  text-indent: 15px;
-  color: var(--text-color);
-  outline: none;
-}
-
-.formTextArea::placeholder,
-.formInput::placeholder {
-  color: var(--placeholder-color);
-}
-
-.formTextAreaError,
-.formInputError {
-  border: 1px solid red;
-}
-</style>
-
 <script>
 import styled from 'vue-styled-components';
-import { Button } from '@/common/styledComponents';
 
 const FormWrapper = styled.div`
   width: 570px;
   padding: 0 60px 30px;
-  background-color: var(--bg-color);
+  background-color: var(--btn-color);
   color: var(--text-color);
 `;
 
@@ -121,25 +88,10 @@ const InputWrapper = styled.div`
 `;
 
 const InputSwitcherWrapper = styled(InputWrapper)`
-  flex-direction: row;
-`;
-
-const SwitcherButtonProps = { active: Boolean };
-const StyledSwitcherButton = styled('button', SwitcherButtonProps)`
-  height: 36px;
-  width: 100%;
-  border: 1px solid #b3b3b3;
-  background-color: ${props => (props.active ? '#B3B3B3' : '#ffffff')};
-  color: ${props => (props.active ? '#ffffff' : '#B3B3B3')};
-  cursor: pointer;
-  outline: none;
-
-  &:first-child {
-    margin-right: 5px;
-  }
-
-  &:last-child {
-    margin-left: 5px;
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--btn-bg-secondary);
   }
 `;
 
@@ -151,19 +103,6 @@ const StaticText = styled.p`
 const ControlGroup = styled.div`
   padding-top: 25px;
   text-align: right;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100px;
-  height: 30px;
-  line-height: 30px;
-  padding: 0;
-  outline: none;
-  cursor: pointer;
-
-  &:first-child {
-    margin-right: 25px;
-  }
 `;
 
 const ErrorMsg = styled.span`
@@ -180,10 +119,8 @@ export default {
     FormWrapper,
     InputWrapper,
     InputSwitcherWrapper,
-    StyledSwitcherButton,
     StaticText,
     ControlGroup,
-    StyledButton,
     ErrorMsg,
   },
   computed: {
@@ -235,10 +172,6 @@ export default {
     },
     close() {
       this.$emit('close');
-    },
-    toggleSwitcher(event, type) {
-      event.preventDefault();
-      this.question.type = type;
     },
     isEditable(field) {
       return !this.editFieldsConfig || this.editFieldsConfig.includes(field);

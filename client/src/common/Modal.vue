@@ -3,7 +3,7 @@
     <ModalWrapper>
       <ModalContent>
         <header>
-          <ModalCloseBtn @click="close">x</ModalCloseBtn>
+          <ModalCloseBtn @click="close"><v-icon>close</v-icon></ModalCloseBtn>
           <slot name="header">Default title</slot>
         </header>
         <section>
@@ -46,8 +46,10 @@ const ModalContent = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  border-radius: 4px;
   background: var(--btn-color);
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0px 9px 46px 8px rgba(0, 0, 0, 0.12);
   overflow-x: auto;
 `;
 
@@ -57,7 +59,6 @@ const ModalCloseBtn = styled.button`
   right: 10px;
   border: none;
   background-color: transparent;
-  color: var(--btn-color-primary);
   cursor: pointer;
   outline: none;
 `;
