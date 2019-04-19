@@ -1,42 +1,45 @@
 <template>
   <form v-on:submit.prevent.stop="submit">
-    <Section>
-      <Section>
-        <Input
-          v-model="$v.userEmail.$model"
-          v-bind:border="$v.userEmail.$error && '1px solid #f79483'"
-          id="login"
-          type="text"
-          placeholder="Enter your email"
-        />
-      </Section>
-      <Section v-if="$v.userEmail.$error">
-        <Paragraph v-if="!$v.userEmail.required" class="invalid" color="#f79483">
-          Email required.
-        </Paragraph>
-        <Paragraph v-if="!$v.userEmail.email" class="invalid" color="#f79483">
-          Valid email required.
-        </Paragraph>
-      </Section>
-      <Section>
-        <Button id="submit" :disabled="$v.$invalid" type="submit">Login</Button>
-      </Section>
-    </Section>
+    <v-container grid-list-md align-content-center>
+      <v-layout>
+        <v-flex xs6 class="ma-auto">
+          <v-card class="pa-3 ma-auto">
+            <v-text-field
+              v-model="$v.userEmail.$model"
+              v-bind:border="$v.userEmail.$error && '1px solid #f79483'"
+              id="login"
+              type="text"
+              placeholder="Enter your email"
+            />
+
+            <div v-if="$v.userEmail.$error">
+              <Paragraph v-if="!$v.userEmail.required" class="invalid" color="#f79483">
+                Email required.
+              </Paragraph>
+              <Paragraph v-if="!$v.userEmail.email" class="invalid" color="#f79483">
+                Valid email required.
+              </Paragraph>
+            </div>
+
+            <v-btn color="info" id="submit" :disabled="$v.$invalid" type="submit">
+              Login
+            </v-btn>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </form>
 </template>
 
 <script>
-import { Button, Input, Paragraph, Section } from '@/common/styledComponents';
+import { Paragraph } from '@/common/styledComponents';
 import { login } from '@/api/auth';
 import { required, email } from 'vuelidate/lib/validators';
 
 export default {
   name: 'LoginForm',
   components: {
-    Section,
     Paragraph,
-    Button,
-    Input,
   },
   data() {
     return {

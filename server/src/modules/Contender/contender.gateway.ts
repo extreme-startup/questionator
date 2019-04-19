@@ -3,9 +3,10 @@ import { Client, Server } from 'socket.io';
 import { JoinResponseDto } from './dto/joinResponse.dto';
 import { Answer } from './dto/answer.dto';
 import { JoinRequestDto } from './dto/joinRequest.dto';
-import { Observable, Subject } from 'rxjs';
-import { filter, first, map } from 'rxjs/internal/operators';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { filter, first, switchMap } from 'rxjs/internal/operators';
 import { Contender } from './dto/Contender';
+import * as uuid from 'uuid';
 
 const JOIN_MESSAGE_NAME = 'join';
 const QUESTION_MESSAGE_NAME = 'question';
@@ -43,16 +44,21 @@ export class ContenderGateway implements OnGatewayConnection {
 
   getAnswer(email: string, question: string): Observable<string> {
     const contender = this.getContenderByEmail(email);
+    const hash = this.getHash(question);
+
     if (!contender) {
       return Observable.throw('No such contender');
     }
-    contender.client.emit(QUESTION_MESSAGE_NAME, question);
+    contender.client.emit(QUESTION_MESSAGE_NAME, {question, hash});
 
     return this.answerSubj
       .pipe(
-        filter(({login}: Answer) => login === email),
+        filter(({login, hash: answerHash}: Answer) => login === email && answerHash === hash),
         first(),
-        map(({answer}) => answer),
+        switchMap(({answer, success}: Answer) => success
+          ? of(answer)
+          : throwError('Could not get answer'),
+        ),
       );
   }
 
@@ -73,5 +79,9 @@ export class ContenderGateway implements OnGatewayConnection {
   removeContenderByEmail(email: string): void {
     this.contenders = this.contenders
       .filter(({email: cEmail}) => cEmail !== email);
+  }
+
+  getHash(question: string): string {
+    return question + uuid();
   }
 }

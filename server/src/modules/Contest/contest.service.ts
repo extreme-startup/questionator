@@ -40,6 +40,6 @@ export class ContestService {
       where: { id },
     });
 
-    return contest.questions;
+    return contest.questions.filter((question) => !question.isDeleted);
   }
 }

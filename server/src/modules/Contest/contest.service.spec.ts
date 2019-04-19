@@ -10,6 +10,7 @@ import {
   insertResult,
   MockRepository,
 } from './__mocks__/mocks';
+import { Question } from '../../entity/Question';
 
 describe('ContestService', () => {
   const contestId = 1;
@@ -84,6 +85,26 @@ describe('ContestService', () => {
 
       expect(await contestService.delete(contestId)).toBe(deleteResult);
       expect(contestRepository.delete).toHaveBeenCalledWith(contestId);
+    });
+  });
+
+  describe('findAllQuestions', () => {
+    it('should filter deleted questions', async () => {
+
+      const contestWithQs = new Contest();
+
+      const q1 = new Question();
+      const q2 = new Question();
+      q1.isDeleted = false;
+      q2.isDeleted = true;
+
+      contestWithQs.questions = [q1, q2];
+
+      jest
+        .spyOn(contestRepository, 'findOne')
+        .mockReturnValue(Promise.resolve(contestWithQs));
+
+      expect(await contestService.findAllQuestions(contestId)).toEqual([q1]);
     });
   });
 });

@@ -11,6 +11,7 @@ export enum SessionStatus {
 }
 
 export class ManageSessionDto {
+  id: number;
   startedTime: string;
   status: SessionStatus;
   trainer: UserDto;
