@@ -5,45 +5,53 @@ import { ManageSessionEntity } from './ManageSessionEntity';
 
 @Entity({ name: 'asked_question' })
 export class AskedQuestion {
+  @ApiModelProperty()
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
-  @Column('integer', {
+  @ApiModelProperty()
+  @Column('varchar', {
     name: 'contest_contender_id',
     nullable: false,
   })
-  contestContenderId: number;
+  contestContenderId: string;
 
+  @ApiModelProperty()
   @Column('uuid', {
     name: 'question_id',
     nullable: false,
   })
   questionId: string;
 
+  @ApiModelProperty()
   @Column('varchar', {
     name: 'question',
     nullable: false,
   })
   question: string;
 
+  @ApiModelProperty()
   @Column('varchar', {
     name: 'answer',
     nullable: false,
   })
   answer: string;
 
+  @ApiModelProperty()
   @Column('datetime', {
     name: 'asked_on',
     nullable: false,
   })
   askedOn: Date;
 
+  @ApiModelProperty()
   @Column('datetime', {
     name: 'answered_on',
     nullable: true,
   })
   answeredOn: Date;
 
+  @ApiModelProperty()
   @Column('numeric', {
     name: 'score',
     nullable: false,
@@ -51,6 +59,7 @@ export class AskedQuestion {
   })
   score: number;
 
+  @ApiModelProperty()
   @Column('boolean', {
     name: 'is_correct',
     nullable: false,
