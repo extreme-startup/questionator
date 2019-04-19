@@ -8,6 +8,7 @@ import Vuelidate from 'vuelidate';
 import Vuetify from 'vuetify';
 import VueLodash from 'vue-lodash';
 
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import 'vuetify/dist/vuetify.min.css';
 
 Vue.use(VueLodash);

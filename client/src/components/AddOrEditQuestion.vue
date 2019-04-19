@@ -18,16 +18,17 @@
 import styled from 'vue-styled-components';
 import Modal from '@/common/Modal.vue';
 import QuestionForm from '@/components/QuestionForm.vue';
-import { TitleH3 } from '@/common/styledComponents';
 
-const Title = styled(TitleH3)`
+const Title = styled('h1')`
   width: 100%;
   padding: 30px 0 30px 60px;
   margin: 0;
   text-align: left;
+  text-transform: uppercase;
   font-weight: 600;
+  font-size: 16px;
   box-sizing: border-box;
-  background-color: var(--bg-color);
+  background-color: var(--btn-color);
 `;
 
 const getModalTitles = modalType => {
