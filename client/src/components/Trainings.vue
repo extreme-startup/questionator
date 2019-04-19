@@ -12,14 +12,14 @@
           <v-card>
             <v-card-title>
               <router-link v-if="!competition.isDeleted" v-bind:to="'/training/' + competition.id">
-                <styled-list-title>
+                <h5>
                   {{ competition.name }}
-                </styled-list-title>
+                </h5>
               </router-link>
 
-              <styled-list-title v-if="competition.isDeleted">
+              <h5 v-if="competition.isDeleted">
                 {{ competition.name }}
-              </styled-list-title>
+              </h5>
             </v-card-title>
 
             <v-card-text>

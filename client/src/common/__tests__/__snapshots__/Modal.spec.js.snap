@@ -7,7 +7,9 @@ exports[`Modal renders correctly 1`] = `
   <modalcontent-stub>
     <header>
       <modalclosebtn-stub>
-        x
+        <v-icon>
+          close
+        </v-icon>
       </modalclosebtn-stub>
        Default title
     </header>

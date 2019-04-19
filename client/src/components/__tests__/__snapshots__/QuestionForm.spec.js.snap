@@ -6,31 +6,35 @@ exports[`QuestionForm renders correctly 1`] = `
     novalidate="novalidate"
   >
     <inputswitcherwrapper-stub>
-      <styledswitcherbutton-stub
-        active="true"
-      >
-        
-        Static
-      
-      </styledswitcherbutton-stub>
+      <p>
+        Type
+      </p>
        
-      <styledswitcherbutton-stub>
-        
-        Dynamic
-      
-      </styledswitcherbutton-stub>
+      <v-radio-group
+        mandatory="true"
+        row=""
+      >
+        <v-radio
+          label="Static"
+          value="static"
+        />
+         
+        <v-radio
+          label="Dynamic"
+          value="dynamic"
+        />
+      </v-radio-group>
     </inputswitcherwrapper-stub>
      
     <!---->
      
     <inputwrapper-stub>
-      <input
-        class="formInput"
+      <v-text-field
         id="question-text-input"
+        label="Question*"
         name="questionText"
         placeholder="Type your question"
-        required="required"
-        type="text"
+        required=""
       />
        
       <!---->
@@ -39,12 +43,13 @@ exports[`QuestionForm renders correctly 1`] = `
     </inputwrapper-stub>
      
     <inputwrapper-stub>
-      <textarea
-        class="formTextArea"
+      <v-textarea
         id="question-answer-input"
+        label="Answer*"
         name="answer"
+        no-resize="false"
         placeholder="Type your answer"
-        required="required"
+        required=""
       />
        
       <!---->
@@ -53,13 +58,12 @@ exports[`QuestionForm renders correctly 1`] = `
     </inputwrapper-stub>
      
     <inputwrapper-stub>
-      <input
-        class="formInput"
+      <v-text-field
         id="question-value-input"
+        label="Points*"
         name="questionValue"
         placeholder="Enter question value (points)"
-        required="required"
-        type="text"
+        required=""
       />
        
       <!---->
@@ -68,22 +72,27 @@ exports[`QuestionForm renders correctly 1`] = `
     </inputwrapper-stub>
      
     <controlgroup-stub>
-      <styledbutton-stub
+      <v-btn
+        color="blue darken-1"
+        flat=""
         id="question-cancel-button"
-        secondary="true"
         type="reset"
       >
         
         Cancel
       
-      </styledbutton-stub>
+      </v-btn>
        
-      <styledbutton-stub
+      <v-btn
+        color="blue darken-1"
+        flat=""
         id="question-save-button"
         type="submit"
       >
+        
         Edit question
-      </styledbutton-stub>
+      
+      </v-btn>
     </controlgroup-stub>
   </form>
 </formwrapper-stub>

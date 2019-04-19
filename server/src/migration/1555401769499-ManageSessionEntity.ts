@@ -17,8 +17,7 @@ export class ManageSessionEntity1555401769499 implements MigrationInterface {
         await queryRunner.query("ALTER TABLE `asked_question` DROP FOREIGN KEY (`sessionId`)");
         await queryRunner.query("ALTER TABLE `manage_session` DROP FOREIGN KEY (`contestId`)");
         await queryRunner.query("ALTER TABLE `customer` DROP COLUMN `id`");
-        await queryRunner.query("ALTER TABLE `customer` ADD `id` int NOT NULL");
-        await queryRunner.query("ALTER TABLE `customer` ADD PRIMARY KEY (`id`)");
+        await queryRunner.query("ALTER TABLE `customer` ADD `id` int NOT NULL PRIMARY KEY");
     }
 
 }

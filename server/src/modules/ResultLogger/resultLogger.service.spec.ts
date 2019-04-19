@@ -10,6 +10,7 @@ describe('ResultLogger Service', () => {
 
   beforeEach(async () => {
     askedQuestionRepository = new Repository();
+    userRepository = new Repository();
     resultLoggerService = new ResultLoggerService(askedQuestionRepository, userRepository);
   });
 
