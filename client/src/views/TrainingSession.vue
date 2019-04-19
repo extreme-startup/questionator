@@ -1,25 +1,19 @@
 <template>
   <div>
     <Header />
-    <Section>
-      <h2>Session #{{ $route.params.id }}</h2>
-      <LeaderBoard />
-    </Section>
+    <ActiveSession />
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue';
-import LeaderBoard from '@/components/LeaderBoard.vue';
-
-import { Section } from '@/common/styledComponents';
+import ActiveSession from '@/sessions/ActiveSession';
 
 export default {
   name: 'training-session',
   components: {
     Header,
-    LeaderBoard,
-    Section,
+    ActiveSession,
   },
 };
 </script>
