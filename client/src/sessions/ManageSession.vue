@@ -3,15 +3,15 @@
     <ButtonList>
       <Button @click.stop="openDialog">New Session</Button>
     </ButtonList>
-    <ManageSessionTable :columns="columns" :data="sessions"/>
+    <ManageSessionTable :columns="columns" :data="sessions" />
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
 
     <ConfigDialog
-            :agree="createNewSession"
-            :disagree="closeDialog"
-            :is-open="isDialogOpen"
-            :title="dialogTitle"
+      :agree="createNewSession"
+      :disagree="closeDialog"
+      :is-open="isDialogOpen"
+      :title="dialogTitle"
     />
   </SessionContainer>
 </template>
