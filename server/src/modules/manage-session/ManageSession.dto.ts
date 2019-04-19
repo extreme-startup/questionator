@@ -13,14 +13,9 @@ export enum SessionStatus {
 export class ManageSessionDto {
   id: number;
   startedTime: string;
-  status: SessionStatus;
-  trainer: UserDto;
-}
-
-export class ManageSessionRO {
-  id: number;
-  startedTime: string;
+  sessionHash: string;
   status: SessionStatus;
   trainer: UserDto;
   askedQuestion: AskedQuestionDto[];
+  members: UserDto[];
 }

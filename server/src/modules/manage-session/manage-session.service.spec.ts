@@ -58,7 +58,7 @@ describe('ManageSessionService', () => {
         .mockReturnValue(Promise.resolve(session));
 
       expect(await service.findById(session.id, trainerId)).toEqual(session);
-      expect(sessionMockRepository.findOne).toHaveBeenCalledWith(session.id, { where: { trainer: trainerId },  relations: ['trainer'] });
+      expect(sessionMockRepository.findOne).toHaveBeenCalled();
     });
   });
 
@@ -79,8 +79,8 @@ describe('ManageSessionService', () => {
         .spyOn(userMockRepository, 'findOne')
         .mockReturnValue(Promise.resolve(trainer));
 
-      expect(await service.create(newSession, trainer.id)).toEqual(session);
-      expect(sessionMockRepository.save).toHaveBeenCalledWith(newSession);
+      expect(await service.create(newSession, { userId: trainer.id })).toEqual(session);
+      expect(sessionMockRepository.save).toHaveBeenCalled();
       expect(userMockRepository.findOne).toHaveBeenCalled();
     });
   });

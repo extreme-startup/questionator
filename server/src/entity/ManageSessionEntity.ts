@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 import { User } from './User';
@@ -22,10 +22,19 @@ export class ManageSessionEntity {
   startedTime: string;
 
   @ApiModelProperty()
+  @Column('text')
+  sessionHash: string;
+
+  @ApiModelProperty()
   @ManyToOne(type => User, user => user.sessions)
   trainer: User;
 
   @ApiModelProperty()
   @OneToMany(type => AskedQuestion, question => question.session)
   askedQuestion: AskedQuestion[];
+
+  @ApiModelProperty()
+  @ManyToMany(type => User, user => user.competitions)
+  @JoinTable()
+  members: User[];
 }

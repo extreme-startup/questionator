@@ -3,11 +3,11 @@ import { Repository } from 'typeorm';
 
 import { ManageSessionController } from './manage-session.controller';
 import { ManageSessionService } from './manage-session.service';
-import { ManageSessionDto, ManageSessionRO, SessionStatus } from './ManageSession.dto';
+import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
 import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
 import { User } from '../../entity/User';
 
-function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto): ManageSessionRO {
+function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto): ManageSessionDto {
   const session = new ManageSessionEntity();
   const trainer = new User();
   session.startedTime = s.startedTime || '2000-01-01';
@@ -74,7 +74,7 @@ describe('ManageSession Controller', () => {
         .mockReturnValue(Promise.resolve(session));
 
       expect(await controller.createSession(mockReq, newSession)).toEqual(session);
-      expect(manageSessionService.create).toHaveBeenCalledWith(newSession, mockReq.session.user);
+      expect(manageSessionService.create).toHaveBeenCalledWith(newSession, { userId: mockReq.session.user });
     });
   });
 

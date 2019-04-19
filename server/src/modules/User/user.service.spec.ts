@@ -9,6 +9,7 @@ describe('User Service', () => {
     id: '1',
     email: 'test@test.com',
     sessions: [],
+    competitions: [],
   };
 
   beforeEach(async () => {

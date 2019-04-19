@@ -26,7 +26,7 @@ import { SessionContainer, ButtonList } from './ManageSession.styled';
 const sessionTableConfig = [
   { field: 'startedTime', title: 'Date' },
   { field: 'status', title: 'Status' },
-  { field: 'members', title: 'Members' },
+  { field: 'membersCount', title: 'Members' },
   { field: 'trainerName', title: 'Trainer' },
 ];
 
@@ -53,6 +53,7 @@ export default {
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';
         session.trainerName = session.trainer.email;
+        session.membersCount = session.members.length;
         return session;
       });
     },
