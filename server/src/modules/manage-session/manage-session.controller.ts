@@ -15,7 +15,7 @@ export class ManageSessionController {
   }
 
   @Post('add-member')
-  addMember(@Body() body: { sessionHash: string, userId: string }): Promise<ManageSessionDto> {
+  addMember(@Body() body: { sessionHash: string, memberId: string }): Promise<ManageSessionDto> {
     return this.msService.addMembers(body);
   }
 

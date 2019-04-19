@@ -48,9 +48,9 @@ export class ManageSessionService {
     return this.msRepository.findOne(id);
   }
 
-  async addMembers(body: { sessionHash: string, userId: string }) {
+  async addMembers(body: { sessionHash: string, memberId: string }) {
     try {
-      const user = await this.userRepository.findOne(body.userId);
+      const user = await this.userRepository.findOne(body.memberId);
       const session = await this.msRepository.findOne( { where: { link: body.sessionHash }, relations: ['trainer', 'members'] });
       session.members.push(user);
 
