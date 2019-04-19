@@ -121,11 +121,11 @@ describe('QuestionService', () => {
         .spyOn(mockAskedQuestionRepository, 'save')
         .mockReturnValue(Promise.resolve(generateAskedQuestion()));
       advanceTo(fakeDate.valueOf());
-      await service.ask('someValidId', 123);
+      await service.ask('someValidId', '123');
 
       expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
         questionId: 'someValidId',
-        contestContenderId: 123,
+        contestContenderId: '123',
         askedOn: fakeDate,
         question: question.text,
         answer: question.answer,
@@ -137,7 +137,7 @@ describe('QuestionService', () => {
       jest
         .spyOn(mockQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(undefined));
-      await expect(service.ask('garbageId', 321)).rejects.toThrow();
+      await expect(service.ask('garbageId', '321')).rejects.toThrow();
       clear();
     });
   });

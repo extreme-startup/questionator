@@ -14,6 +14,7 @@
           <v-btn
             :disabled="props.item.isDeleted"
             @click="showEditDialog($event, props.item)"
+            id="question-edit-btn"
             flat
             icon
           >
@@ -22,6 +23,7 @@
           <v-btn
             :disabled="props.item.isDeleted"
             @click="showDeleteDialog($event, props.item)"
+            id="question-delete-btn"
             flat
             icon
           >
