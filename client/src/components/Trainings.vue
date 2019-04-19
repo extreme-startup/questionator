@@ -41,6 +41,9 @@
         v-if="isCompetitionModalVisible"
         v-on:close="onCompetitionModalClose"
       />
+
+      <ConfirmCompetitionDeletionModal ref="confirm">
+      </ConfirmCompetitionDeletionModal>
     </v-container>
   </section>
 </template>
@@ -48,6 +51,8 @@
 <script>
 // eslint-disable-next-line max-len
 import CompetitionDetailsModal from '../competition/competition-details-modal/CompetitionDetailsModal';
+// eslint-disable-next-line max-len
+import ConfirmCompetitionDeletionModal from '../competition/confirm-competition-delete-modal/ConfirmCompetitionDeleteModal';
 
 export default {
   name: 'Trainings',
@@ -62,6 +67,7 @@ export default {
   },
   components: {
     CompetitionDetailsModal,
+    ConfirmCompetitionDeletionModal,
   },
   methods: {
     openCompetitionModal: function() {
@@ -76,10 +82,16 @@ export default {
       this.$http.post('/contest', competitionDetails).then(() => this.getCompetitions());
     },
     deleteCompetition: function(id) {
-      return this.$http(`/contest/${id}`, {
-        method: 'PUT',
-        data: { isDeleted: true },
-      }).then(() => this.getCompetitions());
+      this.$refs.confirm.open().then((isConfirmed) => {
+        if (isConfirmed) {
+          return this.$http(`/contest/${id}`, {
+            method: 'PUT',
+            data: { isDeleted: true },
+          }).then(() => this.getCompetitions());
+        }
+
+        return null;
+      });
     },
     getCompetitions: function() {
       this.$http.get('/contest').then(response => (this.competitions = response.data));
