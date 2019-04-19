@@ -27,8 +27,8 @@ export class Contest {
   isDeleted: boolean;
 
   @ApiModelProperty()
-  @Column('integer')
-  ownerId: number;
+  @Column('varchar')
+  ownerId: string;
 
   @OneToMany(() => Question, question => question.contest)
     questions: Question[];
