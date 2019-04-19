@@ -33,9 +33,15 @@ export class AskedQuestion {
   @ApiModelProperty()
   @Column('varchar', {
     name: 'answer',
-    nullable: false,
+    nullable: true,
   })
   answer: string;
+
+  @Column('varchar', {
+    name: 'context',
+    nullable: true,
+  })
+  context: string;
 
   @ApiModelProperty()
   @Column('datetime', {

@@ -31,6 +31,18 @@ export class Question {
     answer: string;
 
     @Column('varchar', {
+        name: 'contextGenerator',
+        nullable: true,
+    })
+    contextGenerator: string;
+
+    @Column('varchar', {
+        name: 'answer_check',
+        nullable: true,
+    })
+    answerCheck: string;
+
+    @Column('varchar', {
         name: 'value',
         nullable: false,
     })
