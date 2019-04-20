@@ -4,7 +4,6 @@
       <h2>
         Trainings
         <v-btn color="info" v-on:click="openCompetitionModal">Add new training</v-btn>
-        <a href="/">Sort by: ???</a>
       </h2>
 
       <v-layout v-if="competitions && competitions.length" row wrap>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <ButtonList>
-      <Button @click="showAddQuestion">Add new question</Button>
-      <Button secondary>Question library</Button>
+      <v-btn color="info" @click="showAddQuestion">Add new question</v-btn>
+      <v-btn disabled>Question library</v-btn>
     </ButtonList>
     <DataTable :columns="columns" :data="questions" :loading="isFetching" :error="error" />
     <AddOrEditQuestion
@@ -16,7 +16,6 @@
 
 <script>
 import styled from 'vue-styled-components';
-import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
 import AddOrEditQuestion from '@/components/AddOrEditQuestion.vue';
 import DeleteQuestion from '@/components/DeleteQuestion.vue';
@@ -41,7 +40,6 @@ export default {
   components: {
     DataTable,
     ButtonList,
-    Button,
     AddOrEditQuestion,
     DeleteQuestion,
   },
