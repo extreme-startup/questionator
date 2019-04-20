@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
+import { ManageSessionEntity } from '../../entity/ContestSession';
 import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
 import { User } from '../../entity/User';
 

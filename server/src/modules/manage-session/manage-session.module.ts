@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ManageSessionService } from './manage-session.service';
 import { ManageSessionController } from './manage-session.controller';
-import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
+import { ManageSessionEntity } from '../../entity/ContestSession';
 import { User } from '../../entity/User';
 
 @Module({

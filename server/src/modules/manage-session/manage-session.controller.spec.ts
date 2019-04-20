@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { ManageSessionController } from './manage-session.controller';
 import { ManageSessionService } from './manage-session.service';
 import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
-import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
+import { ManageSessionEntity } from '../../entity/ContestSession';
 import { User } from '../../entity/User';
 
 function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) {

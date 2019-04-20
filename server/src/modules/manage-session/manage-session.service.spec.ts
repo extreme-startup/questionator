@@ -1,7 +1,7 @@
 import { Repository, UpdateResult } from 'typeorm';
 
 import { ManageSessionService } from './manage-session.service';
-import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
+import { ManageSessionEntity } from '../../entity/ContestSession';
 import { User } from '../../entity/User';
 import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
 
