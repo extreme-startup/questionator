@@ -28,6 +28,5 @@ export class Round {
   public contestSession: ContestSession;
 
   @ManyToMany(type => Question, (question: Question) => question.id)
-  @JoinTable()
   public questions: Question[];
 }

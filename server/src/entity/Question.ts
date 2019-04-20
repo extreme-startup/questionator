@@ -48,7 +48,9 @@ export class Question {
   public deleted: boolean;
 
   @ManyToMany(type => Round, (round: Round) => round.id)
-  @JoinTable()
+  @JoinTable({
+    name: 'questions_rounds',
+  })
   public rounds: Round[];
 
   @OneToMany(
