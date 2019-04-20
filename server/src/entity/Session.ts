@@ -1,27 +1,34 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { SessionEntity } from 'typeorm-store';
-import { ApiModelProperty } from '@nestjs/swagger';
+import { User } from './User';
 
-@Entity({name: 'sessions'})
+@Entity({ name: 'sessions' })
 export class Session extends BaseEntity implements SessionEntity {
-  @ApiModelProperty()
   @PrimaryColumn('varchar', {
     nullable: false,
-    name: 'id',
   })
   id: string;
 
-  @ApiModelProperty()
-  @Column('integer', {
+  @Column('int', {
     nullable: false,
-    name: 'expiresAt',
+    name: 'expires_at',
   })
-  expiresAt: number;
+  public expiresAt: number;
 
-  @ApiModelProperty()
   @Column('varchar', {
     nullable: false,
-    name: 'data',
+    name: 'claims',
   })
-  data: string;
+  public data: string;
+
+  @ManyToOne(type => User, (user: User) => user.sessions)
+  @JoinColumn()
+  public user: User;
 }

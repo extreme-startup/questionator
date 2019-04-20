@@ -1,35 +1,50 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
-import { Question } from './Question';
-import { ApiModelProperty } from '@nestjs/swagger';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { User } from './User';
+import { ContestSession } from './ContestSession';
 
-@Entity()
+@Entity({ name: 'contests' })
 export class Contest {
-  @ApiModelProperty()
-  @PrimaryColumn('integer', {
-    generated: true,
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
+
+  @Column('varchar', {
+    nullable: false,
   })
-  id: number;
+  public name: string;
 
-  @ApiModelProperty()
-  @Column('varchar')
-  name: string;
+  @Column('text', {
+    nullable: true,
+  })
+  public description: string;
 
-  @ApiModelProperty()
-  @Column('text')
-  description: string;
+  @Column('boolean', {
+    nullable: true,
+    name: 'is_deleted',
+  })
+  public isDeleted: boolean;
 
-  @ApiModelProperty()
-  @Column('varchar')
-  category: string;
+  @Column('int', {
+    nullable: false,
+    default: 1,
+    name: 'round_count',
+  })
+  public roundCount: number;
 
-  @ApiModelProperty()
-  @Column('boolean')
-  isDeleted: boolean;
+  @ManyToOne(type => User, (user: User) => user.trainers)
+  @JoinColumn()
+  public trainer: User;
 
-  @ApiModelProperty()
-  @Column('varchar')
-  ownerId: string;
-
-  @OneToMany(() => Question, question => question.contest)
-    questions: Question[];
+  @OneToMany(
+    type => ContestSession,
+    (contestSession: ContestSession) => contestSession.id,
+  )
+  @JoinColumn()
+  public contestSessions: ContestSession[];
 }
