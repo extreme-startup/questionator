@@ -34,7 +34,6 @@
           v-model.trim="question.answer"
           id="question-answer-input"
           placeholder="Type your answer"
-          no-resize="false"
           required
         ></v-textarea>
         <StaticText v-if="!isEditable('answer')">Answer: {{ question.answer }}</StaticText>
