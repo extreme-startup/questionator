@@ -1,9 +1,6 @@
 <template>
   <div>
-    <ButtonList>
-      <Button @click="showAddQuestion">Add new question</Button>
-      <Button secondary>Question library</Button>
-    </ButtonList>
+    <v-btn color="info" @click="showAddQuestion">Add new question</v-btn>
     <DataTable :columns="columns" :data="questions" :loading="isFetching" :error="error" />
     <AddOrEditQuestion
       v-if="isFormShown && (modalType === 'edit' || modalType === 'add')"
@@ -15,20 +12,9 @@
 </template>
 
 <script>
-import styled from 'vue-styled-components';
-import { Button } from '@/common/styledComponents';
 import DataTable from '@/components/DataTable.vue';
 import AddOrEditQuestion from '@/components/AddOrEditQuestion.vue';
 import DeleteQuestion from '@/components/DeleteQuestion.vue';
-
-const ButtonList = styled.div`
-  margin: 35px 0;
-  display: flex;
-
-  & > * {
-    margin-right: 40px;
-  }
-`;
 
 const columnsConfig = [
   { value: 'text', text: 'Question' },
@@ -40,8 +26,6 @@ export default {
   name: 'question-tab',
   components: {
     DataTable,
-    ButtonList,
-    Button,
     AddOrEditQuestion,
     DeleteQuestion,
   },
