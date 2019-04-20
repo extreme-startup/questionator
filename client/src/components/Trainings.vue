@@ -9,7 +9,7 @@
       <v-layout v-if="competitions && competitions.length" row wrap>
         <v-flex xs4 v-for="competition in competitions" v-bind:key="competition.id">
           <v-card>
-            <v-card-title>
+            <v-card-title class="headline">
               <router-link v-if="!competition.isDeleted" v-bind:to="'/training/' + competition.id">
                 <h5>
                   {{ competition.name }}
@@ -24,14 +24,6 @@
             <v-card-text>
               {{ competition.description }}
             </v-card-text>
-
-            <v-btn
-              color="error"
-              v-on:click="deleteCompetition(competition.id)"
-              :disabled="competition.isDeleted"
-            >
-              delete
-            </v-btn>
           </v-card>
         </v-flex>
       </v-layout>
@@ -48,8 +40,6 @@
 
       <CompetitionDetailsModal ref="competitionDetailsModal">
       </CompetitionDetailsModal>
-      <ConfirmCompetitionDeletionModal ref="confirm">
-      </ConfirmCompetitionDeletionModal>
     </v-container>
   </section>
 </template>
@@ -58,7 +48,6 @@
 // eslint-disable-next-line max-len
 import CompetitionDetailsModal from '../competition/competition-details-modal/CompetitionDetailsModal';
 // eslint-disable-next-line max-len
-import ConfirmCompetitionDeletionModal from '../competition/confirm-competition-delete-modal/ConfirmCompetitionDeleteModal';
 import { CompetitionDataService } from '../competition/competition-data.service';
 
 export default {
@@ -76,7 +65,6 @@ export default {
   },
   components: {
     CompetitionDetailsModal,
-    ConfirmCompetitionDeletionModal,
   },
   methods: {
     createCompetition: function() {
@@ -89,17 +77,6 @@ export default {
             .createCompetition(competitionDetails)
             .then(competitions => this.onGetCompetitions(competitions));
         });
-    },
-
-    deleteCompetition: function(id) {
-      this.$refs.confirm.open().then(isConfirmed => {
-        if (isConfirmed) {
-          return this.competitionDataService
-            .deleteCompetition(id)
-            .then(competitions => this.onGetCompetitions(competitions));
-        }
-        return null;
-      });
     },
 
     onGetCompetitions(competitions) {
