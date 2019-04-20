@@ -28,7 +28,6 @@
 import TabbedPanel from '@/components/TabbedPanel.vue';
 import Header from '@/components/Header.vue';
 import { Section } from '@/common/styledComponents';
-import { CompetitionDataService } from '../competition/competition-data.service';
 // eslint-disable-next-line max-len
 import ConfirmCompetitionDeletionModal from '../competition/confirm-competition-delete-modal/ConfirmCompetitionDeleteModal';
 
@@ -43,18 +42,16 @@ export default {
   data: function() {
     return {
       tabs: ['Questions', 'Sessions'],
-      competitionDataService: new CompetitionDataService(),
     };
   },
 
   methods: {
-    deleteCompetition: function(id) {
-      this.$refs.confirm.open().then(isConfirmed => {
-        if (isConfirmed) {
-          return this.competitionDataService.deleteCompetition(id).then(() => this.$router.back());
-        }
-        return null;
-      });
+    deleteCompetition: async function(id) {
+      const isConfirmed = await this.$refs.confirm.open();
+      if (isConfirmed) {
+        await this.$store.dispatch('training/deleteTraining', id);
+        this.$router.back();
+      }
     },
   },
 };

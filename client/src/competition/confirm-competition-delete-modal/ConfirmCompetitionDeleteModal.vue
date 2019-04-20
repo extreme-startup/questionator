@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    open() {
+    async open() {
       this.dialog = true;
 
       return new Promise((resolve, reject) => {

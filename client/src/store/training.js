@@ -1,4 +1,4 @@
-import {createCompetition, getCompetitions} from '../api/training';
+import {createCompetition, deleteCompetition, getCompetitions} from '../api/training';
 
 const trainingState = {
   trainings: {
@@ -7,6 +7,10 @@ const trainingState = {
     error: null,
   },
   createTraining: {
+    isFetching: false,
+    error: null,
+  },
+  deleteTraining: {
     isFetching: false,
     error: null,
   },
@@ -37,9 +41,19 @@ const createTrainingMutations = {
   },
 };
 
+const deleteTrainingMutations = {
+  deleteTrainingIsFetching(state) {
+    state.deleteTraining.isFetching = !state.deleteTraining.isFetching;
+  },
+  deleteTrainingError(state, error) {
+    state.deleteTraining.error = error;
+  },
+};
+
 const mutations = {
   ...setTrainingMutations,
   ...createTrainingMutations,
+  ...deleteTrainingMutations,
 };
 
 const actions = {
@@ -61,9 +75,21 @@ const actions = {
       await createCompetition(payload);
       context.dispatch('getTrainings');
     } catch (error) {
-      context.dispatch('createTrainingError');
+      context.commit('createTrainingError');
     } finally {
-      context.dispatch('createTrainingIsFetching');
+      context.commit('createTrainingIsFetching');
+    }
+  },
+
+  deleteTraining: async (context, payload) => {
+    context.commit('deleteTrainingIsFetching');
+    try {
+      await deleteCompetition(payload);
+      context.dispatch('getTrainings');
+    } catch (error) {
+      context.commit('deleteTrainingError');
+    } finally {
+      context.commit('deleteTrainingIsFetching');
     }
   },
 };
