@@ -19,16 +19,11 @@ export class Contest {
   description: string;
 
   @ApiModelProperty()
-  @Column('varchar')
-  category: string;
-
-  @ApiModelProperty()
-  @Column('boolean')
+  @Column('boolean', {
+    name: 'isDeleted',
+    default: false,
+  })
   isDeleted: boolean;
-
-  @ApiModelProperty()
-  @Column('varchar')
-  ownerId: string;
 
   @OneToMany(() => Question, question => question.contest)
     questions: Question[];

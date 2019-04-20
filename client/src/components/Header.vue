@@ -8,10 +8,6 @@
 
     <v-toolbar-items>
       <v-layout>
-        <v-flex>
-          <v-text-field dark color="white" placeholder="Search" />
-        </v-flex>
-
         <v-flex align-self-center>
           <v-chip
             ><a class="subheading" id="profile" href="/">{{ $store.state.user.email }}</a></v-chip

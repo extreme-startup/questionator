@@ -38,12 +38,13 @@ describe('ManageSessionService', () => {
     it('should get all session from db', async () => {
       const sessions = [generateSession()];
       const userId = sessions[0].trainer.id;
+      const query = {};
 
       jest
         .spyOn(sessionMockRepository, 'find')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await service.findAll(userId)).toEqual(sessions);
+      expect(await service.findAll(userId, query)).toEqual(sessions);
       expect(sessionMockRepository.find).toHaveBeenCalled();
     });
   });

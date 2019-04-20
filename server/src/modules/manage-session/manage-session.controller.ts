@@ -1,17 +1,17 @@
-import { Body, Controller, Get, Param, Post, Put, Request } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, Request } from '@nestjs/common';
 
 import { ManageSessionService } from './manage-session.service';
-import { ManageSessionDto } from './ManageSession.dto';
+import { ManageSessionDto, ManageSessionQueryList } from './ManageSession.dto';
 
 @Controller('manage-session')
 export class ManageSessionController {
   constructor(private msService: ManageSessionService) {}
 
   @Get()
-  showAllSessions(@Request() req): Promise<ManageSessionDto[]> {
+  showAllSessions(@Request() req, @Query() query: ManageSessionQueryList): Promise<ManageSessionDto[]> {
     const userId = req.session.user;
 
-    return this.msService.findAll(userId);
+    return this.msService.findAll(userId, query);
   }
 
   @Post('add-member')

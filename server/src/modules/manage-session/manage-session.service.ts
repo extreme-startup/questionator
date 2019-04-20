@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import * as uuid from 'uuid';
 
 import { ManageSessionEntity } from '../../entity/ManageSessionEntity';
-import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
+import { ManageSessionDto, ManageSessionQueryList, SessionStatus } from './ManageSession.dto';
 import { User } from '../../entity/User';
 
 @Injectable()
@@ -16,9 +16,9 @@ export class ManageSessionService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findAll(userId: string): Promise<ManageSessionDto[]> {
+  async findAll(userId: string, query: ManageSessionQueryList): Promise<ManageSessionDto[]> {
     try {
-      return this.msRepository.find({  where: { trainer: userId }, relations: ['trainer', 'members'] });
+      return this.msRepository.find({  where: { trainer: userId, ...query }, relations: ['trainer', 'members'] });
     } catch (e) {
       return e;
     }

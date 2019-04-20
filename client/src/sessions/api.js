@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 // session api
-export const getSession = () => Vue.axios.get('/manage-session');
+export const getSession = query => Vue.axios.get('/manage-session', { params: query });
 export const addSession = session => Vue.axios.post('/manage-session', session);
 
 // active session api

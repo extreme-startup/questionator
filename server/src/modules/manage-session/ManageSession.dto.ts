@@ -19,3 +19,7 @@ export class ManageSessionDto {
   askedQuestion: AskedQuestionDto[];
   members: UserDto[];
 }
+
+export interface ManageSessionQueryList {
+  status?: SessionStatus;
+}
