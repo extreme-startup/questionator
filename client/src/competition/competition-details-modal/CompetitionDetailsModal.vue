@@ -91,8 +91,12 @@ export default {
     open(competitionDetails) {
       this.dialog = true;
 
-      this.competitionDetails = competitionDetails ? competitionDetails : new CompetitionDetails();
+      this.competitionDetails = competitionDetails ?
+        Object.assign({}, competitionDetails) : new CompetitionDetails();
       this.initialCompetitionDetails = Object.assign({}, this.competitionDetails);
+
+      this.canBeSaved = false;
+      this.errors = getInitialValidationErrors();
 
       return new Promise((resolve, reject) => {
         this.resolve = resolve;
@@ -111,6 +115,9 @@ export default {
     },
 
     changeDetails: function() {
+      this.competitionDetails.name = this.competitionDetails.name.trim();
+      this.competitionDetails.description = this.competitionDetails.description.trim();
+
       const { canBeSaved, errors } = validateCompetitionDetails(
         this.competitionDetails,
         this.initialCompetitionDetails,

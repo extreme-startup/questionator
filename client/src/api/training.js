@@ -6,6 +6,15 @@ export function createCompetition(competitionDetails) {
   return Vue.axios.post(basicUrl, competitionDetails);
 }
 
+export function editTraining(trainingDetails) {
+  const params = {
+    method: 'PUT',
+    data: trainingDetails,
+  };
+
+  return Vue.axios(`${basicUrl}/${trainingDetails.id}`, params);
+}
+
 export function deleteCompetition(id) {
   const params = {
     method: 'PUT',

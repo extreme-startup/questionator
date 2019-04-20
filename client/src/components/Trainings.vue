@@ -38,7 +38,7 @@
         </v-flex>
       </v-layout>
 
-      <CompetitionDetailsModal ref="competitionDetailsModal"> </CompetitionDetailsModal>
+      <CompetitionDetailsModal ref="competitionDetailsModal"></CompetitionDetailsModal>
     </v-container>
   </section>
 </template>
@@ -62,13 +62,12 @@ export default {
   },
   methods: {
     createCompetition: function() {
-      this.$refs.competitionDetailsModal.open()
-        .then((competitionDetails) => {
-          if (!competitionDetails) {
-            return;
-          }
-          this.$store.dispatch('training/createTraining', competitionDetails);
-        });
+      this.$refs.competitionDetailsModal.open().then(competitionDetails => {
+        if (!competitionDetails) {
+          return;
+        }
+        this.$store.dispatch('training/createTraining', competitionDetails);
+      });
     },
   },
 };

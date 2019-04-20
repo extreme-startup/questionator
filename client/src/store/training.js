@@ -1,4 +1,9 @@
-import {createCompetition, deleteCompetition, getCompetitions} from '../api/training';
+import {
+  createCompetition,
+  deleteCompetition,
+  editTraining,
+  getCompetitions,
+} from '../api/training';
 
 const trainingState = {
   trainings: {
@@ -7,6 +12,10 @@ const trainingState = {
     error: null,
   },
   createTraining: {
+    isFetching: false,
+    error: null,
+  },
+  editTraining: {
     isFetching: false,
     error: null,
   },
@@ -41,6 +50,15 @@ const createTrainingMutations = {
   },
 };
 
+const editTrainingMutations = {
+  editTrainingIsFetching(state) {
+    state.editTraining.isFetching = !state.editTraining.isFetching;
+  },
+  editTrainingError(state, error) {
+    state.editTraining.error = error;
+  },
+};
+
 const deleteTrainingMutations = {
   deleteTrainingIsFetching(state) {
     state.deleteTraining.isFetching = !state.deleteTraining.isFetching;
@@ -53,6 +71,7 @@ const deleteTrainingMutations = {
 const mutations = {
   ...setTrainingMutations,
   ...createTrainingMutations,
+  ...editTrainingMutations,
   ...deleteTrainingMutations,
 };
 
@@ -78,6 +97,18 @@ const actions = {
       context.commit('createTrainingError');
     } finally {
       context.commit('createTrainingIsFetching');
+    }
+  },
+
+  editTraining: async (context, payload) => {
+    context.commit('editTrainingIsFetching');
+    try {
+      await editTraining(payload);
+      context.dispatch('getTrainings');
+    } catch (error) {
+      context.commit('editTrainingError');
+    } finally {
+      context.commit('editTrainingIsFetching');
     }
   },
 
