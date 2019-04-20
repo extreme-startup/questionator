@@ -5,7 +5,6 @@ import { ConfigModule } from './config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormStore } from 'typeorm-store';
 import { getConnection } from 'typeorm';
-import { CustomerModule } from './modules/Customer/customer.module';
 import { ConfigService } from './config/config.service';
 import { Session } from './entity/Session';
 import { UserModule } from './modules/User/user.module';
@@ -22,7 +21,6 @@ import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
   imports: [
     ConfigModule,
     TypeOrmModule.forRoot(),
-    CustomerModule,
     UserModule,
     AuthModule,
     SessionModule,
