@@ -4,4 +4,6 @@ export class UserDto {
   id: string;
   email: string;
   sessions: ManageSessionDto[];
+  players: any[];
+  trainers: any[];
 }

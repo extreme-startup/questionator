@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 import { Session } from '../../entity/Session';
 import { SessionService } from './session.service';
+import { User } from '../../entity/User';
 
 describe('Session Service', () => {
   let sessionService: SessionService;
@@ -10,6 +11,7 @@ describe('Session Service', () => {
     email: 'test@test.com',
     expiresAt: 1111111,
     data: 'user data',
+    user: new User(),
     hasId: jest.fn(() => true),
     save: jest.fn(),
     remove: jest.fn(),
