@@ -51,13 +51,14 @@ describe('ManageSession Controller', () => {
     it('should get all sessions', async () => {
       const sessions = [generateSession()];
       const mockReq = { session: { user: '1' } };
+      const query = {};
 
       jest
         .spyOn(manageSessionService, 'findAll')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await controller.showAllSessions(mockReq)).toEqual(sessions);
-      expect(manageSessionService.findAll).toHaveBeenCalledWith(mockReq.session.user);
+      expect(await controller.showAllSessions(mockReq, query)).toEqual(sessions);
+      expect(manageSessionService.findAll).toHaveBeenCalled();
     });
   });
 

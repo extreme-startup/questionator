@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { Table, TableRow, ColumnTitle } from './Styled';
+import { Table, TableRow, ColumnTitle } from './ManageSession.styled';
 
 export default {
   name: 'SessionTable',

@@ -61,10 +61,10 @@ const mutations = {
 };
 
 const actions = {
-  getSessions: async context => {
+  getSessions: async (context, payload) => {
     context.commit('setSessionsIsFetching');
     try {
-      const { data } = await api.getSession();
+      const { data } = await api.getSession(payload);
       context.commit('setSessions', data);
     } catch (e) {
       context.commit('setSessionsError', e);
