@@ -7,7 +7,7 @@
         <a href="/">Sort by: ???</a>
       </h2>
 
-      <v-layout row wrap>
+      <v-layout v-if="competitions && competitions.length" row wrap>
         <v-flex xs4 v-for="competition in competitions" v-bind:key="competition.id">
           <v-card>
             <v-card-title>
@@ -37,10 +37,22 @@
         </v-flex>
       </v-layout>
 
+      <v-layout v-if="!competitions || !competitions.length" row>
+        <v-flex>
+          <v-card>
+            <v-card-title>
+              You don't have any trainings
+            </v-card-title>
+          </v-card>
+        </v-flex>
+      </v-layout>
+
       <CompetitionDetailsModal
         v-if="isCompetitionModalVisible"
         v-on:close="onCompetitionModalClose"
       />
+
+      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
     </v-container>
   </section>
 </template>
@@ -48,6 +60,9 @@
 <script>
 // eslint-disable-next-line max-len
 import CompetitionDetailsModal from '../competition/competition-details-modal/CompetitionDetailsModal';
+// eslint-disable-next-line max-len
+import ConfirmCompetitionDeletionModal from '../competition/confirm-competition-delete-modal/ConfirmCompetitionDeleteModal';
+import { CompetitionDataService } from '../competition/competition-data.service';
 
 export default {
   name: 'Trainings',
@@ -55,34 +70,46 @@ export default {
     return {
       isCompetitionModalVisible: false,
       competitions: [],
+      competitionDataService: new CompetitionDataService(this.$http),
     };
   },
   created: function() {
-    this.getCompetitions();
+    this.competitionDataService
+      .getCompetitions()
+      .then(competitions => this.onGetCompetitions(competitions));
   },
   components: {
     CompetitionDetailsModal,
+    ConfirmCompetitionDeletionModal,
   },
   methods: {
     openCompetitionModal: function() {
       this.isCompetitionModalVisible = true;
     },
+
     onCompetitionModalClose: function(competitionDetails) {
       this.isCompetitionModalVisible = false;
       if (!competitionDetails) {
         return;
       }
+      this.competitionDataService
+        .createCompetition(competitionDetails)
+        .then(competitions => this.onGetCompetitions(competitions));
+    },
 
-      this.$http.post('/contest', competitionDetails).then(() => this.getCompetitions());
-    },
     deleteCompetition: function(id) {
-      return this.$http(`/contest/${id}`, {
-        method: 'PUT',
-        data: { isDeleted: true },
-      }).then(() => this.getCompetitions());
+      this.$refs.confirm.open().then(isConfirmed => {
+        if (isConfirmed) {
+          return this.competitionDataService
+            .deleteCompetition(id)
+            .then(competitions => this.onGetCompetitions(competitions));
+        }
+        return null;
+      });
     },
-    getCompetitions: function() {
-      this.$http.get('/contest').then(response => (this.competitions = response.data));
+
+    onGetCompetitions(competitions) {
+      this.competitions = competitions;
     },
   },
 };
