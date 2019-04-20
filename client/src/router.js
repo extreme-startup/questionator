@@ -27,11 +27,13 @@ const router = new Router({
       path: '/training/:id',
       name: 'training',
       component: Training,
+      props: true,
     },
     {
       path: '/training-session/:id',
       name: 'training-session',
       component: TrainingSession,
+      props: true,
     },
   ],
 });
