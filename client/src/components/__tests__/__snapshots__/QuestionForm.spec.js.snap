@@ -47,7 +47,6 @@ exports[`QuestionForm renders correctly 1`] = `
         id="question-answer-input"
         label="Answer*"
         name="answer"
-        no-resize="false"
         placeholder="Type your answer"
         required=""
       />
