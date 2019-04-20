@@ -3,7 +3,7 @@
     <v-container grid-list-md>
       <h2>
         Trainings
-        <v-btn color="info" v-on:click="openCompetitionModal">Add new training</v-btn>
+        <v-btn color="info" v-on:click="createCompetition">Add new training</v-btn>
       </h2>
 
       <v-layout v-if="competitions && competitions.length" row wrap>
@@ -46,12 +46,10 @@
         </v-flex>
       </v-layout>
 
-      <CompetitionDetailsModal
-        v-if="isCompetitionModalVisible"
-        v-on:close="onCompetitionModalClose"
-      />
-
-      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
+      <CompetitionDetailsModal ref="competitionDetailsModal">
+      </CompetitionDetailsModal>
+      <ConfirmCompetitionDeletionModal ref="confirm">
+      </ConfirmCompetitionDeletionModal>
     </v-container>
   </section>
 </template>
@@ -67,7 +65,6 @@ export default {
   name: 'Trainings',
   data: function() {
     return {
-      isCompetitionModalVisible: false,
       competitions: [],
       competitionDataService: new CompetitionDataService(this.$http),
     };
@@ -82,18 +79,16 @@ export default {
     ConfirmCompetitionDeletionModal,
   },
   methods: {
-    openCompetitionModal: function() {
-      this.isCompetitionModalVisible = true;
-    },
-
-    onCompetitionModalClose: function(competitionDetails) {
-      this.isCompetitionModalVisible = false;
-      if (!competitionDetails) {
-        return;
-      }
-      this.competitionDataService
-        .createCompetition(competitionDetails)
-        .then(competitions => this.onGetCompetitions(competitions));
+    createCompetition: function() {
+      this.$refs.competitionDetailsModal.open()
+        .then((competitionDetails) => {
+          if (!competitionDetails) {
+            return;
+          }
+          return this.competitionDataService
+            .createCompetition(competitionDetails)
+            .then(competitions => this.onGetCompetitions(competitions));
+        });
     },
 
     deleteCompetition: function(id) {

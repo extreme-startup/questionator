@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog persistent @keydown.esc="cancel" v-model="dialog" max-width="600px">
       <form v-on:submit.prevent.stop="submit">
         <v-card>
           <v-card-title>
@@ -75,25 +75,12 @@ export default {
   name: 'CompetitionDetailsModal',
   data: component => {
     return {
-      dialog: true,
-      initialCompetitionDetails: Object.assign({}, component.competitionDetails),
+      dialog: false,
+      initialCompetitionDetails: new CompetitionDetails(),
+      competitionDetails: new CompetitionDetails(),
       canBeSaved: false,
       errors: getInitialValidationErrors(),
     };
-  },
-  watch: {
-    dialog: function(val) {
-      if (!val) {
-        this.$emit('close', null);
-      }
-    },
-  },
-  props: {
-    competitionDetails: {
-      type: CompetitionDetails,
-      default: () => new CompetitionDetails(),
-      required: false,
-    },
   },
   components: {
     ControlWrapper,
@@ -101,12 +88,26 @@ export default {
     ModalCloseButton,
   },
   methods: {
+    open(competitionDetails) {
+      this.dialog = true;
+
+      this.competitionDetails = competitionDetails ? competitionDetails : new CompetitionDetails();
+      this.initialCompetitionDetails = Object.assign({}, this.competitionDetails);
+
+      return new Promise((resolve, reject) => {
+        this.resolve = resolve;
+        this.reject = reject;
+      });
+    },
+
     close: function() {
-      this.$emit('close', null);
+      this.dialog = false;
+      this.resolve(null);
     },
 
     submit: function() {
-      this.$emit('close', this.competitionDetails);
+      this.dialog = false;
+      this.resolve(this.competitionDetails);
     },
 
     changeDetails: function() {
