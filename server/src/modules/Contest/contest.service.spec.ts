@@ -41,8 +41,24 @@ describe('ContestService', () => {
         .spyOn(contestRepository, 'find')
         .mockReturnValue(Promise.resolve(returnConsents));
 
-      expect(await contestService.findAll()).toBe(returnConsents);
+      expect(await contestService.findAll()).toEqual(returnConsents);
       expect(contestRepository.find).toHaveBeenCalledWith();
+    });
+
+    it('should return only not deleted contests', async () => {
+      const regularContest = new Contest();
+      regularContest.isDeleted = false;
+      const deletedContest = new Contest();
+      deletedContest.isDeleted = true;
+
+      const returnContests: Contest[] = [regularContest, deletedContest];
+      const expectedContests: Contest[] = [regularContest];
+
+      jest
+          .spyOn(contestRepository, 'find')
+          .mockReturnValue(Promise.resolve(returnContests));
+
+      expect(await contestService.findAll()).toEqual(expectedContests);
     });
   });
 

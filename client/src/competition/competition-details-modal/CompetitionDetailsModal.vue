@@ -1,11 +1,6 @@
 <template>
   <span>
     <v-dialog v-model="dialog" max-width="600px">
-      <!--Activator is not used, but required for correct work-->
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">Add new Training</v-btn>
-      </template>
-
       <form v-on:submit.prevent.stop="submit">
         <v-card>
           <v-card-title>
