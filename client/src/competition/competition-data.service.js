@@ -1,12 +1,10 @@
+import Vue from 'vue';
+
 export class CompetitionDataService {
   basicUrl = '/contest';
 
-  constructor($http) {
-    this.$http = $http;
-  }
-
   createCompetition(competitionDetails) {
-    return this.$http.post(this.basicUrl, competitionDetails).then(() => this.getCompetitions());
+    return Vue.axios.post(this.basicUrl, competitionDetails).then(() => this.getCompetitions());
   }
 
   deleteCompetition(id) {
@@ -15,10 +13,10 @@ export class CompetitionDataService {
       data: { isDeleted: true },
     };
 
-    return this.$http(`${this.basicUrl}/${id}`, params).then(() => this.getCompetitions());
+    return Vue.axios.delete(`${this.basicUrl}/${id}`, params).then(() => this.getCompetitions());
   }
 
   getCompetitions() {
-    return this.$http.get(this.basicUrl).then(response => response.data);
+    return Vue.axios.get(this.basicUrl).then(response => response.data);
   }
 }

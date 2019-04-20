@@ -8,8 +8,7 @@
         </v-flex>
 
         <v-flex align-self-center class="text-sm-right">
-          <v-btn color="error"
-            @click="deleteCompetition($route.params.id)">
+          <v-btn color="error" @click="deleteCompetition($route.params.id)">
             delete
           </v-btn>
 
@@ -17,13 +16,11 @@
             edit
           </v-btn>
         </v-flex>
-
       </v-layout>
       <TabbedPanel :tabs="tabs" />
     </Section>
 
-    <ConfirmCompetitionDeletionModal ref="confirm">
-    </ConfirmCompetitionDeletionModal>
+    <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
   </div>
 </template>
 
@@ -46,7 +43,7 @@ export default {
   data: function() {
     return {
       tabs: ['Questions', 'Sessions'],
-      competitionDataService: new CompetitionDataService(this.$http),
+      competitionDataService: new CompetitionDataService(),
     };
   },
 
@@ -54,9 +51,7 @@ export default {
     deleteCompetition: function(id) {
       this.$refs.confirm.open().then(isConfirmed => {
         if (isConfirmed) {
-          return this.competitionDataService
-            .deleteCompetition(id)
-            .then(() => this.$router.back())
+          return this.competitionDataService.deleteCompetition(id).then(() => this.$router.back());
         }
         return null;
       });

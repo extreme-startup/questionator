@@ -38,8 +38,7 @@
         </v-flex>
       </v-layout>
 
-      <CompetitionDetailsModal ref="competitionDetailsModal">
-      </CompetitionDetailsModal>
+      <CompetitionDetailsModal ref="competitionDetailsModal"> </CompetitionDetailsModal>
     </v-container>
   </section>
 </template>
@@ -47,21 +46,16 @@
 <script>
 // eslint-disable-next-line max-len
 import CompetitionDetailsModal from '../competition/competition-details-modal/CompetitionDetailsModal';
-// eslint-disable-next-line max-len
-import { CompetitionDataService } from '../competition/competition-data.service';
 
 export default {
   name: 'Trainings',
-  data: function() {
-    return {
-      competitions: [],
-      competitionDataService: new CompetitionDataService(this.$http),
-    };
+  computed: {
+    competitions: function() {
+      return this.$store.getters['training/trainings'];
+    },
   },
-  created: function() {
-    this.competitionDataService
-      .getCompetitions()
-      .then(competitions => this.onGetCompetitions(competitions));
+  async mounted() {
+    this.$store.dispatch('training/getTrainings');
   },
   components: {
     CompetitionDetailsModal,
@@ -73,14 +67,8 @@ export default {
           if (!competitionDetails) {
             return;
           }
-          return this.competitionDataService
-            .createCompetition(competitionDetails)
-            .then(competitions => this.onGetCompetitions(competitions));
+          this.$store.dispatch('training/createTraining', competitionDetails);
         });
-    },
-
-    onGetCompetitions(competitions) {
-      this.competitions = competitions;
     },
   },
 };
