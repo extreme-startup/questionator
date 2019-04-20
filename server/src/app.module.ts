@@ -35,7 +35,7 @@ import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
 })
 
 export class AppModule {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   configure(consumer: MiddlewareConsumer) {
     ExpressSessionMiddleware.configure({
