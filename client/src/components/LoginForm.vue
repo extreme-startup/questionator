@@ -57,7 +57,7 @@ export default {
     submit() {
       login(this.userEmail)
         .then(response => {
-          this.$store.dispatch('setUser', response.data.email);
+          this.$store.commit('setUser', response.data);
           this.$router.push(this.$route.query.returnUrl || '/');
         })
         .catch(error => {
