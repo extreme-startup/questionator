@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import question from './question';
-import session from './session';
+import contestSession from './contest-session';
 import form from './form';
 import contest from './contest';
 import contenders from './contenders';
@@ -30,7 +30,7 @@ const store = new Vuex.Store({
     question,
     form,
     contest,
-    session,
+    contestSession,
     contenders,
   },
 });

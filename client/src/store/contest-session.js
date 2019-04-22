@@ -1,4 +1,4 @@
-import * as api from '@/sessions/api';
+import * as api from '@/contest-session/api';
 
 const sessionState = {
   sessions: {

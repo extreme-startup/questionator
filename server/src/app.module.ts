@@ -14,7 +14,7 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
-import { ManageSessionModule } from './modules/manage-session/manage-session.module';
+import { ContestSessionModule } from './modules/ContestSession/contest-session.module';
 import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
 
 @Module({
@@ -27,7 +27,7 @@ import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
     ContestModule,
     QuestionModule,
     ContenderModule,
-    ManageSessionModule,
+    ContestSessionModule,
     ResultLoggerModule,
   ],
 })

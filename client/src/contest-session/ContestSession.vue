@@ -3,11 +3,11 @@
     <ButtonList>
       <Button @click.stop="openDialog">New Session</Button>
     </ButtonList>
-    <ManageSessionTable :columns="columns" :data="sessions" />
+    <ContestSessionTable :columns="columns" :data="sessions" />
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
 
-    <ConfigDialog
+    <ConfirmDialog
       :agree="createNewSession"
       :disagree="closeDialog"
       :is-open="isDialogOpen"
@@ -19,8 +19,8 @@
 <script>
 import { Button } from '@/common/styledComponents';
 import * as dateUtils from '../utils/date-formatter.js';
-import ManageSessionTable from './ManageSessionTable';
-import ConfigDialog from '../components/ConfigDialog';
+import ContestSessionTable from './ContestSessionTable';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { SessionContainer, ButtonList } from './Styled';
 
 const sessionTableConfig = [
@@ -36,10 +36,10 @@ export default {
   name: 'manage-session',
   components: {
     Button,
-    ManageSessionTable,
+    ContestSessionTable,
     ButtonList,
     SessionContainer,
-    ConfigDialog,
+    ConfirmDialog,
   },
   data: () => ({
     columns: sessionTableConfig,
@@ -48,7 +48,7 @@ export default {
   }),
   computed: {
     sessions: function() {
-      const sessions = [...this.$store.getters['session/sessions']];
+      const sessions = [...this.$store.getters['session/contest-session']];
 
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';

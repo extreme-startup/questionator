@@ -51,7 +51,7 @@
 
 <script>
 import ContendersTable from '../contenders/ContendersTable';
-import LeaderBoard from '@/sessions/LeaderBoard.vue';
+import LeaderBoard from '@/contest-session/LeaderBoard.vue';
 
 export default {
   name: 'active-session',
