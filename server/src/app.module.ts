@@ -14,6 +14,7 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
+import { AskQuestionsModule } from './modules/AskQuestions/ask-questions.module';
 import { ContestSessionModule } from './modules/ContestSession/contest-session.module';
 import { ResultModule } from './modules/Result/result.module';
 
@@ -27,11 +28,11 @@ import { ResultModule } from './modules/Result/result.module';
     ContestModule,
     QuestionModule,
     ContenderModule,
+    AskQuestionsModule,
     ContestSessionModule,
     ResultModule,
   ],
 })
-
 export class AppModule {
   constructor(private readonly configService: ConfigService) { }
 
