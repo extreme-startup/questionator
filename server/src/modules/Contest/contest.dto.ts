@@ -6,7 +6,4 @@ export class ContestDto {
 
   @ApiModelProperty()
   description: string;
-
-  @ApiModelProperty()
-  category: string;
 }
