@@ -12,7 +12,11 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(AskedQuestion)
     private readonly askedQuestionRepository: Repository<AskedQuestion>,
-  ) {}
+  ) {
+    this.getRandom.bind(this);
+    this.ask.bind(this);
+    this.reply.bind(this);
+  }
 
   async findAll(): Promise<Question[]> {
     try {

@@ -1,11 +1,11 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import {
   MAX_ASK_QUESTION_INTERVAL_MS,
   MIN_ASK_QUESTION_INTERVAL_MS,
 } from './constants';
 import { Scheduler } from './scheduler';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { QuestionService } from '../Question/question.service';
 import { ContenderGateway } from '../Contender/contender.gateway';
 
@@ -21,14 +21,26 @@ export class AskQuestionsService {
   ) {}
 
   private generateAskQuestionAction(contenderEmail: string) {
-    const { getRandom } = this.questionService;
+    const { getRandom, ask, reply } = this.questionService;
     const { getAnswer } = this.contenderGateway;
 
     return async () => {
-      // TODO: replace this with `AskedQuestion` entity
-      // once we get the module generating asked questions
-      const question = await getRandom();
-      return getAnswer(contenderEmail, question.text);
+      // We random question from the DB here;
+      // TODO: update `getRandom` to something like `getRandomOfCurrentLevel`
+      const { id: questionId } = await getRandom();
+      const question = await ask(questionId, contenderEmail); // `contenderEmail` serves as an ID here
+      // TODO: update this if needed to `contenderId`
+      let answerSubscription: Subscription;
+      try {
+        answerSubscription = getAnswer(contenderEmail, question.text).subscribe(
+          answer => {
+            reply(questionId, answer);
+            answerSubscription.unsubscribe();
+          },
+        );
+      } catch (err) {
+        answerSubscription.unsubscribe();
+      }
     };
   }
 

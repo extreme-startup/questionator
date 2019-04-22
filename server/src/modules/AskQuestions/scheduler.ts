@@ -1,5 +1,4 @@
 import { INITIAL_ASK_QUESTION_INTERVAL_MS } from './constants';
-import { Observable } from 'rxjs';
 
 export class Scheduler {
   private currentTimer: NodeJS.Timeout;
@@ -7,7 +6,7 @@ export class Scheduler {
 
   constructor(
     private id: string,
-    private task: () => Promise<Observable<string>>,
+    private task: () => void,
     private executionPeriod: number = INITIAL_ASK_QUESTION_INTERVAL_MS,
   ) {}
 
@@ -36,8 +35,7 @@ export class Scheduler {
   public async start() {
     this.isTicking = true;
     while (this.isTicking) {
-      const observ = await this.nextTick();
-      observ.subscribe();
+      await this.nextTick();
     }
   }
 
