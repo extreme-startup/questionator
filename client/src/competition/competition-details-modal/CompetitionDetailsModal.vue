@@ -14,7 +14,7 @@
                 <v-flex xs12>
                   <ControlWrapper>
                     <v-text-field
-                      label="Title:"
+                      label="Title:*"
                       v-model="competitionDetails.name"
                       v-on:input="changeDetails"
                       id="competition-title-input"
@@ -30,7 +30,7 @@
                 <v-flex>
                   <ControlWrapper>
                     <v-textarea
-                      label="Description:"
+                      label="Description:*"
                       v-model="competitionDetails.description"
                       v-on:input="changeDetails"
                       id="competition-description-input"
