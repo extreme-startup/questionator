@@ -1,31 +1,28 @@
 import { Repository, UpdateResult } from 'typeorm';
 
-import { ManageSessionService } from './manage-session.service';
-import { ManageSessionEntity } from '../../entity/ContestSession';
-import { User } from '../../entity/User';
-import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
+import { ContestSessionService } from './contest-session.service';
+import { ContestSession } from '../../entity/ContestSession';
 
-function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) {
-  const session = new ManageSessionEntity();
-  const trainer = new User();
+import { ContestSessionDto, Status } from './contest-session.dto';
+
+function generateSession(s: Partial<ContestSessionDto> = {} as ContestSessionDto) {
+  const session = new ContestSession();
+
   session.startedTime = s.startedTime || '2000-01-01';
-  session.status = s.status || SessionStatus.CREATED;
-  session.trainer = s.trainer as User || trainer;
+  session.status = s.status || Status.CREATED;
 
   return session;
 }
 
-describe('ManageSessionService', () => {
+describe('ContestSessionService', () => {
   jest.mock('typeorm');
 
-  let sessionMockRepository: Repository<ManageSessionEntity>;
-  let userMockRepository: Repository<User>;
-  let service: ManageSessionService;
+  let sessionMockRepository: Repository<ContestSession>;
+  let service: ContestSessionService;
 
   beforeEach(async () => {
     sessionMockRepository = new Repository();
-    userMockRepository = new Repository();
-    service = new ManageSessionService(sessionMockRepository, userMockRepository);
+    service = new ContestSessionService(sessionMockRepository);
   });
 
   describe('manage service instantiation', () => {
@@ -37,13 +34,12 @@ describe('ManageSessionService', () => {
   describe('findAll', () => {
     it('should get all session from db', async () => {
       const sessions = [generateSession()];
-      const userId = sessions[0].trainer.id;
 
       jest
         .spyOn(sessionMockRepository, 'find')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await service.findAll(userId)).toEqual(sessions);
+      expect(await service.findAll()).toEqual(sessions);
       expect(sessionMockRepository.find).toHaveBeenCalled();
     });
   });
@@ -56,16 +52,14 @@ describe('ManageSessionService', () => {
         .mockReturnValue(Promise.resolve(session));
 
       expect(await service.findById(session.id)).toEqual(session);
-      expect(sessionMockRepository.findOne).toHaveBeenCalledWith(session.id, { relations: ['trainer'] });
+      expect(sessionMockRepository.findOne).toHaveBeenCalled();
     });
   });
 
   describe('create', () => {
     it('should insert new session to the session table', async () => {
-      const trainer = new User();
-      const newSession: Partial<ManageSessionDto> = {
-        status: SessionStatus.CREATED,
-        trainer,
+      const newSession: Partial<ContestSessionDto> = {
+        status: Status.CREATED,
       };
 
       const session = generateSession(newSession);
@@ -73,21 +67,16 @@ describe('ManageSessionService', () => {
         .spyOn(sessionMockRepository, 'save')
         .mockReturnValue(Promise.resolve(session));
 
-      jest
-        .spyOn(userMockRepository, 'findOne')
-        .mockReturnValue(Promise.resolve(trainer));
-
       expect(await service.create(newSession)).toEqual(session);
       expect(sessionMockRepository.save).toHaveBeenCalledWith(newSession);
-      expect(userMockRepository.findOne).toHaveBeenCalled();
     });
   });
 
   describe('update', () => {
     it('should update existing session', async () => {
       const session = generateSession();
-      const newData: Partial<ManageSessionDto> = {
-        status: SessionStatus.IN_PROGRES,
+      const newData: Partial<ContestSessionDto> = {
+        status: Status.IN_PROGRES,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;

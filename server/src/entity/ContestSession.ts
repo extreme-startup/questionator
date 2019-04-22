@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
 } from 'typeorm';
-import { SessionStatus } from '../modules/manage-session/ManageSession.dto';
+import { Status } from '../modules/ContestSession/contest-session.dto';
 import { AskedQuestion } from './AskedQuestion';
 import { Contest } from './Contest';
 import { Player } from './Player';
@@ -19,9 +19,9 @@ export class ContestSession {
 
   @Column('varchar', {
     nullable: false,
-    default: SessionStatus.CREATED,
+    default: Status.CREATED,
   })
-  public status: SessionStatus;
+  public status: Status;
 
   @Column('timestamp', {
     nullable: true,

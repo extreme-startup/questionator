@@ -1,44 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 
-import { ManageSessionController } from './manage-session.controller';
-import { ManageSessionService } from './manage-session.service';
-import { ManageSessionDto, SessionStatus } from './ManageSession.dto';
-import { ManageSessionEntity } from '../../entity/ContestSession';
+import { ContestSessionController } from './contest-session.controller';
+import { ContestSessionService } from './contest-session.service';
+import { ContestSessionDto, Status } from './contest-session.dto';
+import { ContestSession } from '../../entity/ContestSession';
 import { User } from '../../entity/User';
 
-function generateSession(s: Partial<ManageSessionDto> = {} as ManageSessionDto) {
-  const session = new ManageSessionEntity();
-  const trainer = new User();
+function generateSession(s: Partial<ContestSessionDto> = {} as ContestSessionDto) {
+  const session = new ContestSession();
+
   session.startedTime = s.startedTime || '2000-01-01';
-  session.status = s.status || SessionStatus.CREATED;
-  session.trainer = s.trainer as User || trainer;
+  session.status = s.status || Status.CREATED;
 
   return session;
 }
 
 describe('ManageSession Controller', () => {
-  let controller: ManageSessionController;
-  let manageSessionService: ManageSessionService;
+  let controller: ContestSessionController;
+  let manageSessionService: ContestSessionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ManageSessionService,
+        ContestSessionService,
         {
-          provide: 'ManageSessionEntityRepository',
-          useClass: Repository,
-        },
-        {
-          provide: 'UserRepository',
+          provide: 'ContestSessionRepository',
           useClass: Repository,
         },
       ],
-      controllers: [ManageSessionController],
+      controllers: [ContestSessionController],
     }).compile();
 
-    controller = module.get<ManageSessionController>(ManageSessionController);
-    manageSessionService = module.get<ManageSessionService>(ManageSessionService);
+    controller = module.get<ContestSessionController>(ContestSessionController);
+    manageSessionService = module.get<ContestSessionService>(ContestSessionService);
   });
 
   describe('manage controller instantiation', () => {
@@ -48,7 +43,7 @@ describe('ManageSession Controller', () => {
   });
 
   describe('showAllSessions', () => {
-    it('should get all sessions', async () => {
+    it('should get all contest-session', async () => {
       const sessions = [generateSession()];
       const mockReq = { session: { user: '1' } };
 
@@ -57,16 +52,15 @@ describe('ManageSession Controller', () => {
         .mockReturnValue(Promise.resolve(sessions));
 
       expect(await controller.showAllSessions(mockReq)).toEqual(sessions);
-      expect(manageSessionService.findAll).toHaveBeenCalledWith(mockReq.session.user);
+      expect(manageSessionService.findAll).toHaveBeenCalled();
     });
   });
 
   describe('createSession', () => {
     it('should create session', async () => {
       const trainer = new User();
-      const newSession: Partial<ManageSessionDto> = {
-        status: SessionStatus.CREATED,
-        trainer,
+      const newSession: Partial<ContestSessionDto> = {
+        status: Status.CREATED,
       };
       const session = generateSession(newSession);
 
@@ -95,8 +89,8 @@ describe('ManageSession Controller', () => {
   describe('updateSession', () => {
     it('should update session', async () => {
       const session = generateSession();
-      const newData: Partial<ManageSessionDto> = {
-        status: SessionStatus.IN_PROGRES,
+      const newData: Partial<ContestSessionDto> = {
+        status: Status.IN_PROGRES,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;

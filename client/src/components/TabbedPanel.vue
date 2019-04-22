@@ -17,7 +17,7 @@
 <script>
 import styled from 'vue-styled-components';
 import QuestionTab from './QuestionTab.vue';
-import ManageSession from '@/sessions/ManageSession.vue';
+import ContestSession from '@/contest-session/ContestSession.vue';
 
 const TabList = styled.ul`
   margin-bottom: 15px;
@@ -50,7 +50,7 @@ export default {
     TabList,
     Tab,
     questions: QuestionTab,
-    sessions: ManageSession,
+    sessions: ContestSession,
   },
   methods: {
     swithTab(tab) {
