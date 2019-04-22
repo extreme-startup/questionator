@@ -1,9 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Question } from '../../entity/Question';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
+import { toQuestionDto } from './helpers/questions.helper';
+import { ResponseDto } from '../../models/response.dto';
 
 @Injectable()
 export class QuestionService {
@@ -12,79 +14,140 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(AskedQuestion)
     private readonly askedQuestionRepository: Repository<AskedQuestion>,
-  ) {
-    this.getRandom.bind(this);
-    this.ask.bind(this);
-    this.reply.bind(this);
-  }
+  ) {}
 
-  async findAll(): Promise<Question[]> {
+  public async findAll(): Promise<ResponseDto<QuestionDto[]>> {
     try {
-      return await this.questionRepository.find();
-    } catch (err) {
-      return err;
+      const questions: Question[] = await this.questionRepository.find();
+
+      return {
+        data: questions.map(
+          ({ type, text, answer, value, deleted }: Question) => ({
+            type,
+            text,
+            answer,
+            value,
+            isDeleted: deleted,
+          }),
+        ),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        error,
+        data: undefined,
+      };
     }
   }
 
   // todo it's a temporary solution and will be implemented in #23/24 stories
-  async getRandom(): Promise<Question> {
+  public getRandom = async (): Promise<ResponseDto<QuestionDto>> => {
     try {
-      return await this.questionRepository
+      const question: Question = await this.questionRepository
         .createQueryBuilder()
         .orderBy('RAND()')
         .getOne();
-    } catch (err) {
-      return err;
-    }
-  }
 
-  async findById(id: string): Promise<Question> {
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
+    }
+  };
+
+  public async findById(id: string): Promise<ResponseDto<QuestionDto>> {
     try {
-      return await this.questionRepository.findOne(id);
-    } catch (err) {
-      return err;
+      const question: Question = await this.questionRepository.findOne(id);
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
     }
   }
 
-  async insert(question: QuestionDto): Promise<Question> {
-    const newQuestion = this.questionRepository.create(question);
+  public async insert(payload: QuestionDto): Promise<ResponseDto<QuestionDto>> {
+    const newQuestion: Question = this.questionRepository.create(payload);
 
     try {
-      return await this.questionRepository.save(newQuestion);
-    } catch (err) {
-      return err;
+      const question: Question = await this.questionRepository.save(
+        newQuestion,
+      );
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
     }
   }
 
-  async update(
-    oldQuestion: Question,
-    updatedValues: QuestionDto,
-  ): Promise<Question> {
+  public async update(
+    id: string,
+    payload: QuestionDto,
+  ): Promise<ResponseDto<QuestionDto>> {
+    const oldQuestion = await this.questionRepository.findOne(id);
     const updatedQuestion = this.questionRepository.create({
       ...oldQuestion,
-      ...updatedValues,
+      ...payload,
     });
 
-    Object.keys(updatedValues).forEach(key => {
-      updatedQuestion[key] = updatedValues[key];
+    Object.keys(payload).forEach(key => {
+      updatedQuestion[key] = payload[key];
     });
 
     try {
-      return await this.questionRepository.save(updatedQuestion);
-    } catch (err) {
-      return err;
+      const question: Question = await this.questionRepository.save(
+        updatedQuestion,
+      );
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
     }
   }
 
-  async delete(id: string) {
+  public async delete(id: string): Promise<ResponseDto<QuestionDto>> {
     try {
-      return await this.questionRepository.delete({ id });
-    } catch (err) {
-      return err;
+      const result: DeleteResult = await this.questionRepository.delete({ id });
+
+      return {
+        data: result as any,
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
     }
   }
 
-  async ask(questionId: string, contenderId: string): Promise<AskedQuestion> {
+  // ToDo: Need to update this with new db structure
+  public ask = async (
+    questionId: string,
+    contenderId: string,
+  ): Promise<AskedQuestion> => {
     const question = await this.questionRepository.findOne({ id: questionId });
 
     if (!question) {
@@ -109,9 +172,12 @@ export class QuestionService {
         HttpStatus.BAD_REQUEST,
       );
     }
-  }
+  };
 
-  async reply(askedQuestionId: string, answer: string): Promise<AskedQuestion> {
+  public reply = async (
+    askedQuestionId: string,
+    answer: string,
+  ): Promise<AskedQuestion> => {
     const askedQuestion = await this.askedQuestionRepository.findOne({
       id: askedQuestionId,
     });
@@ -139,5 +205,5 @@ export class QuestionService {
         HttpStatus.BAD_REQUEST,
       );
     }
-  }
+  };
 }
