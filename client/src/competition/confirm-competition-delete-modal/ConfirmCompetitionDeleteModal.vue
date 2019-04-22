@@ -5,7 +5,7 @@
           <v-card-title class="headline">Delete</v-card-title>
 
           <v-card-text>
-            Are you sure want to delete this competition?
+            Are you sure you want to delete training?
           </v-card-text>
 
           <v-card-actions>
