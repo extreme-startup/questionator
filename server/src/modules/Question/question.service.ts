@@ -41,22 +41,14 @@ export class QuestionService {
   }
 
   // todo it's a temporary solution and will be implemented in #23/24 stories
-  public getRandom = async (): Promise<ResponseDto<QuestionDto>> => {
+  public getRandom = async (): Promise<Question> => {
     try {
-      const question: Question = await this.questionRepository
+      return await this.questionRepository
         .createQueryBuilder()
         .orderBy('RAND()')
         .getOne();
-
-      return {
-        data: toQuestionDto(question),
-        error: undefined,
-      };
     } catch (error) {
-      return {
-        data: undefined,
-        error,
-      };
+      return error;
     }
   };
 
@@ -143,7 +135,6 @@ export class QuestionService {
     }
   }
 
-  // ToDo: Need to update this with new db structure
   public ask = async (
     questionId: string,
     contenderId: string,
@@ -155,13 +146,14 @@ export class QuestionService {
     }
 
     const newAskedQuestion = new AskedQuestion();
-    newAskedQuestion.contestContenderId = contenderId;
-    newAskedQuestion.questionId = questionId;
-    newAskedQuestion.askedOn = new Date();
-    newAskedQuestion.score = question.value;
+    // ToDo: Need to update this with new db structure
+    // newAskedQuestion.contestContenderId = contenderId;
+    // newAskedQuestion.questionId = questionId;
+    // newAskedQuestion.askedOn = new Date();
+    // newAskedQuestion.score = question.value;
 
-    newAskedQuestion.question = question.text;
-    newAskedQuestion.answer = question.answer;
+    // newAskedQuestion.question = question.text;
+    // newAskedQuestion.answer = question.answer;
     // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
 
     try {
