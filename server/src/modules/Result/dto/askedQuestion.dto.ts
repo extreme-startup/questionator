@@ -1,12 +1,14 @@
+
 export class AskedQuestionDto {
   readonly id: string;
-  readonly contestContenderId: string;
-  readonly questionId: string;
-  readonly question: string;
+  readonly contestPlayerId: string;
+  readonly question: any;
+  readonly text: string;
   readonly answer: string;
   readonly askedOn: Date;
   readonly answeredOn: Date;
   readonly score: number;
   readonly isCorrect: boolean;
-  readonly session: any;
+  readonly contestSession: any;
+  readonly player: any;
 }

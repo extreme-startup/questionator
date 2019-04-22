@@ -1,33 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ResultLoggerController } from './resultLogger.controller';
-import { ResultLoggerService } from './resultLogger.service';
+import { ResultController } from './result.controller';
+import { ResultService } from './result.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AskedQuestion } from '../../entity/AskedQuestion';
-import { User } from '../../entity/User';
 import { AskedQuestionDto } from './dto/askedQuestion.dto';
-import { resultAllMockRepository, resultUserMockRepository } from './__mocks__/resultLoggerMocks';
+import { resultAllMockRepository } from './__mocks__/resultMocks';
 
 describe('ResultLogger Controller', () => {
-  let controller: ResultLoggerController;
-  let service: ResultLoggerService;
+  let controller: ResultController;
+  let service: ResultService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ResultLoggerController],
+      controllers: [ResultController],
       providers: [
-        ResultLoggerService,
+        ResultService,
         {
           provide: getRepositoryToken(AskedQuestion),
           useValue: resultAllMockRepository,
         },
-        {
-          provide: getRepositoryToken(User),
-          useValue: resultUserMockRepository,
-        },
       ],
     }).compile();
 
-    controller = module.get<ResultLoggerController>(ResultLoggerController);
-    service = module.get<ResultLoggerService>(ResultLoggerService);
+    controller = module.get<ResultController>(ResultController);
+    service = module.get<ResultService>(ResultService);
   });
 
   it('should be defined', () => {
