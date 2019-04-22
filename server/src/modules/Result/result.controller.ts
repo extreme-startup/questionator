@@ -1,11 +1,11 @@
 import {Controller, Get, HttpStatus, Response, Query, Param} from '@nestjs/common';
-import { ResultLoggerService } from './resultLogger.service';
+import { ResultService } from './result.service';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { ApiResponse, ApiOperation, ApiImplicitQuery} from '@nestjs/swagger';
 
 @Controller('results')
-export class ResultLoggerController {
-  constructor(private readonly resultLoggerService: ResultLoggerService) {}
+export class ResultController {
+  constructor(private readonly resultLoggerService: ResultService) {}
 
   @Get()
   @ApiOperation({ title: 'Result Logger', description: 'Get All Results' })
@@ -36,7 +36,7 @@ export class ResultLoggerController {
     try {
       const { time, userId } = query;
       const result = await this.resultLoggerService
-        .getAllResults(parseInt(id, 10), parseInt(time, 10), userId);
+        .getAllResults(id, parseInt(time, 10), userId);
       return response.status(HttpStatus.OK).json(result);
     } catch (err) {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -15,7 +15,7 @@ import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
 import { ContestSessionModule } from './modules/ContestSession/contest-session.module';
-import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
+import { ResultModule } from './modules/Result/result.module';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
     QuestionModule,
     ContenderModule,
     ContestSessionModule,
-    ResultLoggerModule,
+    ResultModule,
   ],
 })
 

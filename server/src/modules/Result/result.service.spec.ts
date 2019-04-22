@@ -1,17 +1,14 @@
 import { Repository } from 'typeorm';
 import { AskedQuestion } from '../../entity/AskedQuestion';
-import { User } from '../../entity/User';
-import { ResultLoggerService } from './resultLogger.service';
+import { ResultService } from './result.service';
 
 describe('ResultLogger Service', () => {
-  let resultLoggerService: ResultLoggerService;
+  let resultLoggerService: ResultService;
   let askedQuestionRepository: Repository<AskedQuestion>;
-  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     askedQuestionRepository = new Repository();
-    userRepository = new Repository();
-    resultLoggerService = new ResultLoggerService(askedQuestionRepository, userRepository);
+    resultLoggerService = new ResultService(askedQuestionRepository);
   });
 
   it('should be defined', () => {
