@@ -12,7 +12,7 @@ export class ContestService {
     private readonly contestRepository: Repository<Contest>,
   ) {}
 
-  async findOne(id: number): Promise<Contest> {
+  async findOne(id: string): Promise<Contest> {
     return await this.contestRepository.findOne(id);
   }
 
@@ -27,21 +27,22 @@ export class ContestService {
     return await this.contestRepository.insert(newContest);
   }
 
-  async update(id: number, contest: ContestDto): Promise<UpdateResult> {
+  async update(id: string, contest: ContestDto): Promise<UpdateResult> {
     return await this.contestRepository.update(id, contest);
   }
 
-  async delete(id: number): Promise<DeleteResult> {
+  async delete(id: string): Promise<DeleteResult> {
     return await this.contestRepository.delete(id);
   }
 
-  async findAllQuestions(id: number): Promise<any> {
+  async findAllQuestions(id: string): Promise<any> {
 
     const contest = await this.contestRepository.findOne({
       relations: ['questions'],
       where: { id },
     });
 
-    return contest.questions.filter((question) => !question.isDeleted);
+    // TODO: FIX ME
+    // return contest.questions.filter((question) => !question.isDeleted);
   }
 }
