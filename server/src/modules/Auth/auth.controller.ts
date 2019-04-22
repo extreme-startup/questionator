@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LocalPayload } from './local-payload.dto';
+import { UserRequestDto } from './models/user.dto';
 import { User } from '../../entity/User';
 
 @Controller('auth')
@@ -18,7 +18,7 @@ export class AuthController {
 
   @Post('login')
   @ApiResponse({ status: 200, type: User })
-  async loginUser(@Response() res, @Body() body: LocalPayload, @Request() req) {
+  public async loginUser(@Response() res, @Body() body: UserRequestDto, @Request() req) {
     if (!(body && body.email)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email is required!' });
     }
@@ -40,7 +40,7 @@ export class AuthController {
 
   @Post('register')
   @ApiResponse({ status: 201, type: User })
-  async registerUser(@Response() res, @Body() body: LocalPayload, @Request() req) {
+  public async registerUser(@Response() res, @Body() body: UserRequestDto, @Request() req) {
     if (!(body && body.email)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email are required!' });
     }
@@ -61,7 +61,7 @@ export class AuthController {
   }
 
   @Get('logout')
-  async logoutUser(@Response() res, @Request() req) {
+  public async logoutUser(@Response() res, @Request() req) {
     if (req.session && req.cookies) {
       if (req.session.user && req.cookies['connect.sid']) {
         res.clearCookie('connect.sid');
@@ -73,7 +73,7 @@ export class AuthController {
   }
 
   @Get('getUserAuthenticated')
-  async getUserAuthenticated(@Response() res, @Request() req) {
+  public async getUserAuthenticated(@Response() res, @Request() req) {
     if (req.session && req.cookies) {
       return req.session.user && req.cookies['connect.sid'] ?
         res.status(HttpStatus.OK).json({user: req.session.user}) :

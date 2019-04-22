@@ -21,15 +21,7 @@ export class QuestionService {
       const questions: Question[] = await this.questionRepository.find();
 
       return {
-        data: questions.map(
-          ({ type, text, answer, value, deleted }: Question) => ({
-            type,
-            text,
-            answer,
-            value,
-            isDeleted: deleted,
-          }),
-        ),
+        data: questions.map(toQuestionDto),
         error: undefined,
       };
     } catch (error) {
@@ -41,14 +33,22 @@ export class QuestionService {
   }
 
   // todo it's a temporary solution and will be implemented in #23/24 stories
-  public getRandom = async (): Promise<Question> => {
+  public getRandom = async (): Promise<ResponseDto<QuestionDto>> => {
     try {
-      return await this.questionRepository
+      const question = await this.questionRepository
         .createQueryBuilder()
         .orderBy('RAND()')
         .getOne();
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
     } catch (error) {
-      return error;
+      return {
+        data: undefined,
+        error,
+      };
     }
   };
 

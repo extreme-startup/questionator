@@ -8,6 +8,7 @@ import { Scheduler } from './scheduler';
 import { Observable, Subscription } from 'rxjs';
 import { QuestionService } from '../Question/question.service';
 import { ContenderGateway } from '../Contender/contender.gateway';
+import { QuestionDto } from '../Question/dto/question.dto';
 
 export type AskQuestionFn = () => Observable<string>;
 
@@ -27,7 +28,8 @@ export class AskQuestionsService {
     return async () => {
       // We random question from the DB here;
       // TODO: update `getRandom` to something like `getRandomOfCurrentLevel`
-      const { id: questionId } = await getRandom();
+      const { data }: { data: QuestionDto } = await getRandom();
+      const questionId: string = data && data.id;
       const question = await ask(questionId, contenderEmail); // `contenderEmail` serves as an ID here
       // TODO: update this if needed to `contenderId`
       let answerSubscription: Subscription;

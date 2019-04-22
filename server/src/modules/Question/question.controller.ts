@@ -10,7 +10,8 @@ import {
 import { ApiResponse } from '@nestjs/swagger';
 import { QuestionDto } from './dto/question.dto';
 import { QuestionService } from './question.service';
-import { ResponseDto } from 'src/models/response.dto';
+import { ResponseDto } from '../../models/response.dto';
+import { Question } from '../../entity/Question';
 
 @Controller('questions')
 export class QuestionController {
