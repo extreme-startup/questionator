@@ -36,11 +36,11 @@ export class Question {
     })
     contextGenerator: string;
 
-    @Column('varchar', {
-        name: 'answer_check',
-        nullable: true,
-    })
-    answerCheck: string;
+    // @Column('varchar', {
+    //     name: 'answer_check',
+    //     nullable: true,
+    // })
+    // answerCheck: string;
 
     @Column('varchar', {
         name: 'value',

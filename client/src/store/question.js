@@ -131,6 +131,9 @@ const actions = {
       context.commit('deleteQuestionIsFetching');
     }
   },
+  askQuestion: async (context, payload) => {
+    console.log((await api.askQuestion(payload)).data);
+  },
 };
 
 export default {

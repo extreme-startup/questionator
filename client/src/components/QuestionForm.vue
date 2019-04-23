@@ -27,6 +27,16 @@
       </InputWrapper>
       <InputWrapper>
         <v-textarea
+          v-if="question.type === 'dynamic'"
+          name="context"
+          label="Context*"
+          v-model.trim="question.contextGenerator"
+          id="question-context-input"
+          placeholder="Type question context"
+        ></v-textarea>
+      </InputWrapper>
+      <InputWrapper>
+        <v-textarea
           :error="!isFormInputValid(errors.answer)"
           name="answer"
           label="Answer*"

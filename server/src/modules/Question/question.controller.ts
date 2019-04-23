@@ -3,6 +3,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { QuestionDto } from './dto/question.dto';
 import { AnswerDto } from './dto/answer.dto';
 import { QuestionService } from './question.service';
+import { AskedQuestion } from 'src/entity/AskedQuestion';
 
 @Controller('questions')
 export class QuestionController {
@@ -19,6 +20,12 @@ export class QuestionController {
     @Get('random')
     async getRandom(): Promise<QuestionDto> {
         return await this.questionService.getRandom();
+    }
+
+    @Get(':id/ask')
+    async ask(): Promise<AskedQuestion> {
+        return await this.questionService.ask('ea6bb938-a774-48a2-b7c0-dea028c8da0d', '1');
+        // return await this.questionService.reply('9f2bb1a4-d12e-4e81-a598-5fdcac3c5ae0', '');
     }
 
     @Get(':id')

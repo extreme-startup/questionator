@@ -12,6 +12,13 @@
         <td class="text-md-right">{{ props.item.value }}</td>
         <td class="text-xs-right">
           <v-btn
+            @click="ask()"
+            flat
+            icon
+          >
+            <v-icon small>ask</v-icon>
+          </v-btn>
+          <v-btn
             :disabled="props.item.isDeleted"
             @click="showEditDialog($event, props.item)"
             flat
@@ -48,6 +55,9 @@ export default {
     error: Object,
   },
   methods: {
+    ask() {
+      this.$store.dispatch('question/askQuestion');
+    },
     showEditDialog(e, item) {
       this.showForm(item, 'edit');
     },

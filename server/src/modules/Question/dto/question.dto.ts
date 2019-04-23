@@ -14,8 +14,8 @@ export class QuestionDto {
     @ApiModelProperty()
     readonly contextGenerator: string;
 
-    @ApiModelProperty()
-    readonly answerCheck: string;
+    // @ApiModelProperty()
+    // readonly answerCheck: string;
 
     @ApiModelProperty()
     readonly value: number;

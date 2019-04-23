@@ -8,11 +8,12 @@ import { QuestionType } from '../../constants';
 import { Context, runInContext , createContext } from 'vm';
 import { promisify } from 'util';
 import { compile } from 'handlebars';
-import { get } from 'scrabbler';
+// import { get } from 'scrabbler';
 import axios from 'axios';
 import * as numberToWords from 'number-to-words';
 import * as intseq from 'integer-sequences';
 import * as _ from 'lodash';
+import * as fibonacci from 'fibonacci';
 
 @Injectable()
 export class QuestionService {
@@ -98,10 +99,15 @@ export class QuestionService {
             newAskedQuestion.answer = question.answer;
         } else {
             const rawContext = runInContext(
-              question.contextGenerator,
-              this.dynamicQuestionSandbox,
+                question.contextGenerator,
+                this.dynamicQuestionSandbox,
+            );
+            const answer = runInContext(
+                question.answer,
+                createContext({ ...this.dynamicQuestionSandbox, ...rawContext }),
             );
             newAskedQuestion.context = JSON.stringify(rawContext);
+            newAskedQuestion.answer = JSON.stringify(answer);
             newAskedQuestion.question = compile(question.text)(rawContext); // what is {{a}} + {{b}}
         }
 
@@ -117,13 +123,13 @@ export class QuestionService {
         try {
             askedQuestion = await this.askedQuestionRepository.findOneOrFail({
                 where: { id: askedQuestionId },
-                join: {
-                    alias: 'question',
-                    leftJoinAndSelect: {
-                        type: 'question.type',
-                        answerCheck: 'question.answerCheck',
-                    },
-                },
+                // join: {
+                //     alias: 'question',
+                //     leftJoinAndSelect: {
+                //         type: 'question.type',
+                //         answerCheck: 'question.answerCheck',
+                //     },
+                // },
             });
         } catch (e) {
             throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
@@ -134,16 +140,17 @@ export class QuestionService {
         }
 
         askedQuestion.answeredOn = new Date();
+        askedQuestion.isCorrect = answer === askedQuestion.answer;
         // TODO: process player score here
-        if (askedQuestion.question.type === QuestionType.STATIC) {
-            askedQuestion.isCorrect = answer === askedQuestion.answer;
-        } else {
-            const answerCheck = runInContext(
-              askedQuestion.question.answerCheck,
-              this.dynamicQuestionSandbox,
-            );
-            askedQuestion.isCorrect = answerCheck(answer, JSON.parse(askedQuestion.context));
-        }
+        // if (askedQuestion.question.type === QuestionType.STATIC) {
+        //     askedQuestion.isCorrect = answer === askedQuestion.answer;
+        // } else {
+        //     const answerCheck = runInContext(
+        //       askedQuestion.question.answer,
+        //       this.dynamicQuestionSandbox,
+        //     );
+        //     askedQuestion.isCorrect = answerCheck === answer;
+        // }
 
         try {
             return this.askedQuestionRepository.save(askedQuestion);
@@ -157,7 +164,8 @@ export class QuestionService {
         numberToWords,
         intseq,
         _,
-        scrabbler: promisify(get),
+        fibonacci,
+        // scrabbler: promisify(get),
     });
 
     private async evalInSandbox(code, ...args) {
