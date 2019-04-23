@@ -11,7 +11,7 @@ export class ContestSessionDto {
   startedTime: string;
   includePreviousRounds: boolean;
   activeRound: number;
-  contests: any;
+  contest: any;
   rounds: any[];
   askedQuestions: any[];
   players: any[];
