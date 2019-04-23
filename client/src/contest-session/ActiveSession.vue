@@ -42,8 +42,11 @@
     </v-layout>
     <v-layout row>
       <template v-if="!isCompleted">
-        <v-flex xl3 v-if="(!isStarted || isPaused)">
+        <v-flex xl3 v-if="(!isStarted && !activeSession.startedTime)">
           <v-btn dark @click="startActiveSession">START SESSION</v-btn>
+        </v-flex>
+        <v-flex xl3 v-if="(isPaused && activeSession.startedTime)">
+          <v-btn dark @click="continueActiveSession">START SESSION</v-btn>
         </v-flex>
         <v-flex xl2 v-if="isStarted">
           <v-btn dark @click="pauseActiveSession">PAUSE SESSION</v-btn>
@@ -130,6 +133,9 @@ export default {
     },
     pauseActiveSession() {
       this.$store.dispatch('activeSession/pauseActiveSession');
+    },
+    continueActiveSession() {
+      this.$store.dispatch('activeSession/continueActiveSession');
     },
     stopActiveSession() {
       this.$store.dispatch('activeSession/stopActiveSession');
