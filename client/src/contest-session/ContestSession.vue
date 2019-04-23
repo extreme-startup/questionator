@@ -1,7 +1,7 @@
 <template>
   <SessionContainer>
     <ButtonList>
-      <Button @click.stop="openDialog">New Session</Button>
+      <v-btn color="info" @click.stop="openDialog">New Session</v-btn>
     </ButtonList>
     <ContestSessionTable :columns="columns" :data="sessions" />
     <div v-if="isFetching">Loading...</div>
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { Button } from '@/common/styledComponents';
 import * as dateUtils from '../utils/date-formatter.js';
 import ContestSessionTable from './ContestSessionTable';
 import ConfirmDialog from '../components/ConfirmDialog';
@@ -26,7 +25,7 @@ import { SessionContainer, ButtonList } from './Styled';
 const sessionTableConfig = [
   { field: 'startedTime', title: 'Date' },
   { field: 'status', title: 'Status' },
-  { field: 'members', title: 'Members' },
+  { field: 'playersCount', title: 'Members' },
   { field: 'trainerName', title: 'Trainer' },
 ];
 
@@ -35,7 +34,6 @@ const dialogTitle = 'Do you want to create a new session?';
 export default {
   name: 'manage-session',
   components: {
-    Button,
     ContestSessionTable,
     ButtonList,
     SessionContainer,
@@ -48,27 +46,27 @@ export default {
   }),
   computed: {
     sessions: function() {
-      const sessions = [...this.$store.getters['session/contest-session']];
+      const sessions = [...this.$store.getters['contestSession/sessions']];
 
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';
-        session.trainerName = session.trainer.email;
+        session.playersCount = session.players.length;
         return session;
       });
     },
     isFetching: function() {
-      return this.$store.getters['session/sessionsFetchingStatus'].isFetching;
+      return this.$store.getters['contestSession/sessionsFetchingStatus'].isFetching;
     },
     error: function() {
-      return this.$store.getters['session/sessionsFetchingStatus'].error;
+      return this.$store.getters['contestSession/sessionsFetchingStatus'].error;
     },
   },
   methods: {
     createNewSession() {
       this.closeDialog();
 
-      this.$store.dispatch('session/addSession', {
-        trainer: this.$store.state.user.id,
+      this.$store.dispatch('contestSession/addSession', {
+        contests: this.$route.params.id,
       });
     },
     openDialog() {
@@ -79,7 +77,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('session/getSessions');
+    this.$store.dispatch('contestSession/getSessions', { contest: this.$route.params.id });
   },
 };
 </script>

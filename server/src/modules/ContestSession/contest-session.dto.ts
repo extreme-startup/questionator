@@ -6,7 +6,13 @@ export enum Status {
 }
 
 export class ContestSessionDto {
-  id: number;
+  id: string;
   status: Status;
   startedTime: string;
+  includePreviousRounds: boolean;
+  activeRound: number;
+  contests: any;
+  rounds: any[];
+  askedQuestions: any[];
+  players: any[];
 }

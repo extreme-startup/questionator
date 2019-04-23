@@ -50,7 +50,7 @@ export class QuestionService {
         error,
       };
     }
-  };
+  }
 
   public async findById(id: string): Promise<ResponseDto<QuestionDto>> {
     try {
@@ -164,7 +164,7 @@ export class QuestionService {
         HttpStatus.BAD_REQUEST,
       );
     }
-  };
+  }
 
   public reply = async (
     askedQuestionId: string,
@@ -197,5 +197,5 @@ export class QuestionService {
         HttpStatus.BAD_REQUEST,
       );
     }
-  };
+  }
 }

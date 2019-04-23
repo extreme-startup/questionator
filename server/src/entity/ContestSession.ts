@@ -15,7 +15,7 @@ import { Round } from './Round';
 @Entity('contest_sessions')
 export class ContestSession {
   @PrimaryGeneratedColumn('uuid')
-  public id: number;
+  public id: string;
 
   @Column('varchar', {
     nullable: false,

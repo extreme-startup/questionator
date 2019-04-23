@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 // session api
-export const getSession = () => Vue.axios.get('/contest-sessions');
+export const getSession = (payload) => Vue.axios.get('/contest-sessions', { params: payload });
 export const addSession = session => Vue.axios.post('/contest-sessions', session);
 
 // TODO: add implementation for this at the backend or change the route to the one

@@ -12,9 +12,9 @@ export class ContestSessionService {
     private msRepository: Repository<ContestSession>,
   ) {}
 
-  async findAll(): Promise<ContestSessionDto[]> {
+  async findAll(query): Promise<ContestSessionDto[]> {
     try {
-      return this.msRepository.find();
+      return this.msRepository.find({ where: { ...query }, relations: ['players', 'contests'] });
     } catch (e) {
       return e;
     }
@@ -30,7 +30,8 @@ export class ContestSessionService {
 
   async create(data: Partial<ContestSessionDto>): Promise<ContestSessionDto> {
     const session = new ContestSession();
-    session.status = Status.CREATED;
+
+    session.contests = data.contests;
 
     return this.msRepository.save(session);
   }

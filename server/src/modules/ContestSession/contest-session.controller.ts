@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Request } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, Request } from '@nestjs/common';
 
 import { ContestSessionService } from './contest-session.service';
 import { ContestSessionDto } from './contest-session.dto';
@@ -8,8 +8,8 @@ export class ContestSessionController {
   constructor(private msService: ContestSessionService) {}
 
   @Get()
-  showAllSessions(@Request() req): Promise<ContestSessionDto[]> {
-    return this.msService.findAll();
+  showAllSessions(@Request() req, @Query() query): Promise<ContestSessionDto[]> {
+    return this.msService.findAll(query);
   }
 
   @Post()
