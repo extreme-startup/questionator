@@ -3,7 +3,24 @@
     <ButtonList>
       <v-btn color="info" @click.stop="openDialog">New Session</v-btn>
     </ButtonList>
-    <ContestSessionTable :columns="columns" :data="sessions" />
+    <div>
+      <v-data-table
+        :headers="contestSessionHeaders"
+        :items="sessions"
+        :hide-actions="true"
+        class="body-2 bordered"
+      >
+        <template v-slot:items="props">
+          <tr @dblclick="openContestSession(props.item)">
+            <td class="subheading">{{ props.item.startedTime }}</td>
+            <td class="subheading">{{ props.item.status }}</td>
+            <td class="subheading">{{ props.item.playersCount }}</td>
+            <td class="subheading">{{ props.item.trainerName }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+    </div>
+
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
 
@@ -18,31 +35,27 @@
 
 <script>
 import * as dateUtils from '../utils/date-formatter.js';
-import ContestSessionTable from './ContestSessionTable';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { SessionContainer, ButtonList } from './Styled';
-
-const sessionTableConfig = [
-  { field: 'startedTime', title: 'Date' },
-  { field: 'status', title: 'Status' },
-  { field: 'playersCount', title: 'Members' },
-  { field: 'trainerName', title: 'Trainer' },
-];
 
 const dialogTitle = 'Do you want to create a new session?';
 
 export default {
   name: 'manage-session',
   components: {
-    ContestSessionTable,
     ButtonList,
     SessionContainer,
     ConfirmDialog,
   },
   data: () => ({
-    columns: sessionTableConfig,
     isDialogOpen: false,
     dialogTitle: dialogTitle,
+    contestSessionHeaders: [
+      { text: 'Date', value: 'startedTime', class: 'title', sortable: false },
+      { text: 'Status', value: 'status', class: 'title', sortable: false },
+      { text: 'Members', value: 'playersCount', class: 'title', sortable: false },
+      { text: 'Trainer', value: 'trainerName', class: 'title', sortable: false },
+    ],
   }),
   computed: {
     sessions: function() {
@@ -74,6 +87,9 @@ export default {
     },
     closeDialog() {
       this.isDialogOpen = false;
+    },
+    openContestSession(contestSession) {
+      this.$router.push(`/contest-session/${contestSession.id}`);
     },
   },
   mounted() {

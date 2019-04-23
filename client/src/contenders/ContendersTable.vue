@@ -31,7 +31,7 @@ export default {
     };
   },
   props: {
-    sessionId: Number,
+    contestSessionId: String,
     contensers: Array,
   },
   computed: {
@@ -46,7 +46,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('contenders/startPollingContenders', this.sessionId);
+    this.$store.dispatch('contenders/startPollingContenders', this.contestSessionId);
   },
   destroyed() {
     this.$store.dispatch('contenders/stopPollingContenders');

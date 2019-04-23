@@ -10,7 +10,7 @@ const sessionState = {
     isFetching: false,
     error: null,
   },
-  activeSessionId: 1,
+  selectedContestSessionId: '3f3910e7-d1ee-4712-8abe-e1294301b91d',
 };
 
 const getters = {
@@ -22,8 +22,8 @@ const getters = {
   addSessionFetchingStatus: state => ({
     isFetching: state.addSession,
   }),
-  activeSession: state => {
-    return state.sessions.data.find(session => session.id === state.activeSessionId);
+  selectedContestSession: state => {
+    return state.sessions.data.find(session => session.id === state.selectedContestSessionId);
   },
 };
 

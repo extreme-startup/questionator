@@ -29,8 +29,8 @@ const router = new Router({
       component: Training,
     },
     {
-      path: '/training-session/:id',
-      name: 'training-session',
+      path: '/contest-session/:id',
+      name: 'contest-session',
       component: TrainingSession,
     },
   ],

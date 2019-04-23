@@ -1,19 +1,19 @@
 <template>
   <div>
     <Header />
-    <ActiveSession />
+    <SelectedContestSession />
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue';
-import ActiveSession from '@/contest-session/ActiveSession';
+import SelectedContestSession from '@/contest-session/SelectedContestSession';
 
 export default {
   name: 'training-session',
   components: {
     Header,
-    ActiveSession,
+    SelectedContestSession,
   },
 };
 </script>
