@@ -17,10 +17,10 @@
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex md8>
+      <v-flex md7>
         <v-card-text class="headline font-weight-black">Session#{{sessionId}}</v-card-text>
       </v-flex>
-      <v-flex md1>
+      <v-flex md2>
         <v-card-text class="subheading">{{activeSession.status}}</v-card-text>
       </v-flex>
       <v-flex md3 align="right">
@@ -141,9 +141,7 @@ export default {
       this.$store.dispatch('activeSession/stopActiveSession');
     },
     backToWorkshop() {
-      // !TODO! - replace with real training id
-      const trainingId = 1;
-      this.$router.push(`/training/${trainingId}`);
+      this.$router.go(-1);
     },
   },
 };

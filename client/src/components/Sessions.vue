@@ -19,6 +19,8 @@
           </v-card>
         </v-flex>
 
+        <v-flex v-if="!sessions.length">You don't have active sessions!</v-flex>
+
       </v-layout>
     </v-container>
   </section>

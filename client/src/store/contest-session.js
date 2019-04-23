@@ -48,16 +48,9 @@ const addSessionMutation = {
   },
 };
 
-const startSessionMutations = {
-  startSessionError(state, error) {
-    state.addSession.error = error;
-  },
-};
-
 const mutations = {
   ...setSessionMutations,
   ...addSessionMutation,
-  ...startSessionMutations,
 };
 
 const actions = {
@@ -76,19 +69,11 @@ const actions = {
     context.commit('addSessionIsFetching');
     try {
       await api.addSession(payload);
-      context.dispatch('getSessions');
+      context.dispatch('getSessions', payload);
     } catch (e) {
       context.commit('addSessionError', e);
     } finally {
       context.commit('addSessionIsFetching');
-    }
-  },
-  startSession: async (context, payload) => {
-    try {
-      await api.startSession(payload);
-      context.dispatch('getSessions');
-    } catch (e) {
-      context.commit('startSessionError', e);
     }
   },
 };

@@ -17,7 +17,13 @@ export class ContestSessionService {
 
   async findAll(query): Promise<ContestSessionDto[]> {
     try {
-      return this.msRepository.find({ where: { ...query }, relations: ['players', 'contests'] });
+      return this.msRepository.find({
+        order: {
+          startedTime: 'ASC',
+        },
+        where: { ...query },
+          relations: ['players', 'contests'],
+        });
     } catch (e) {
       return e;
     }

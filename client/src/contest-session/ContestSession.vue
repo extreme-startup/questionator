@@ -3,7 +3,22 @@
     <ButtonList>
       <v-btn color="info" @click.stop="openDialog">New Session</v-btn>
     </ButtonList>
-    <ContestSessionTable :columns="columns" :data="sessions" />
+    <v-data-table
+            :headers="headers"
+            :items="sessions"
+            :hide-actions="true"
+            :sort-icon="null"
+            class="body-2 bordered"
+    >
+      <template v-slot:items="props">
+        <tr class="" @click.stop="openActiveSession(props.item)">
+          <td class="subheading">{{ props.item.startedTime }}</td>
+          <td class="subheading">{{ props.item.status }}</td>
+          <td class="subheading">{{ props.item.players.length }}</td>
+          <td class="subheading">{{ props.item.trainerName }}</td>
+        </tr>
+      </template>
+    </v-data-table>
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
 
@@ -18,31 +33,27 @@
 
 <script>
 import * as dateUtils from '../utils/date-formatter.js';
-import ContestSessionTable from './ContestSessionTable';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { SessionContainer, ButtonList } from './Styled';
-
-const sessionTableConfig = [
-  { field: 'startedTime', title: 'Date' },
-  { field: 'status', title: 'Status' },
-  { field: 'playersCount', title: 'Members' },
-  { field: 'trainerName', title: 'Trainer' },
-];
 
 const dialogTitle = 'Do you want to create a new session?';
 
 export default {
   name: 'manage-session',
   components: {
-    ContestSessionTable,
     ButtonList,
     SessionContainer,
     ConfirmDialog,
   },
   data: () => ({
-    columns: sessionTableConfig,
     isDialogOpen: false,
     dialogTitle: dialogTitle,
+    headers: [
+      { text: 'Data', class: 'title', sortable: false },
+      { text: 'Status', value: 'status', class: 'title', sortable: false },
+      { text: 'Members', value: 'playersCount', class: 'title', sortable: false },
+      { text: 'Trainer', value: 'trainerName', class: 'title', sortable: false },
+    ],
   }),
   computed: {
     sessions: function() {
@@ -69,6 +80,9 @@ export default {
         contests: this.$route.params.id,
       });
     },
+    openActiveSession(session) {
+      this.$router.push(`/training-session/${session.id}`);
+    },
     openDialog() {
       this.isDialogOpen = true;
     },
@@ -77,7 +91,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('contestSession/getSessions', { contest: this.$route.params.id });
+    this.$store.dispatch('contestSession/getSessions', { contests: this.$route.params.id });
   },
 };
 </script>
