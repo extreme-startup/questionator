@@ -8,4 +8,11 @@ export const addSession = session => Vue.axios.post('/contest-sessions', session
 export const getActiveSession = sessionId => Vue.axios.get(`/contest-sessions/${sessionId}`);
 // TODO: add implementation for this at the backend or change the route to the one
 // that is going to be implemented for the session implementation
-export const updateSession = session => Vue.axios.put(`/contest-sessions/${session.id}`, session);
+export const startSession = session =>
+  Vue.axios.put(`/contest-sessions/start`, session);
+export const pauseSession = session =>
+  Vue.axios.put(`/contest-sessions/pause`, session);
+export const continueSession = session =>
+  Vue.axios.put(`/contest-sessions/continue`, session);
+export const completeSession = session =>
+  Vue.axios.put(`/contest-sessions/complete`, session);

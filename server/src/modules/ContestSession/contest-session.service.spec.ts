@@ -76,7 +76,7 @@ describe('ContestSessionService', () => {
     it('should update existing session', async () => {
       const session = generateSession();
       const newData: Partial<ContestSessionDto> = {
-        status: Status.IN_PROGRES,
+        status: Status.IN_PROGRESS,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;

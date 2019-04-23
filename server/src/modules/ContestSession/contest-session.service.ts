@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ContestSession } from '../../entity/ContestSession';
-import { ContestSessionDto, Status } from './contest-session.dto';
+import { ContestSessionDto } from './contest-session.dto';
 import { Player } from '../../entity/Player';
 
 @Injectable()
@@ -11,6 +11,7 @@ export class ContestSessionService {
   constructor(
     @InjectRepository(ContestSession)
     private msRepository: Repository<ContestSession>,
+    @InjectRepository(Player)
     private playerRepository: Repository<Player>,
   ) {}
 
@@ -51,8 +52,8 @@ export class ContestSessionService {
     }
   }
 
-  async update(id: number, data: Partial<ContestSessionDto>): Promise<ContestSessionDto> {
-    await this.msRepository.update(id, data);
-    return this.msRepository.findOne(id);
+  async update(data: Partial<ContestSessionDto>): Promise<ContestSessionDto> {
+    await this.msRepository.update(data.id, data);
+    return this.msRepository.findOne(data.id);
   }
 }

@@ -109,7 +109,7 @@ const actions = {
     clearInterval(context.state.isGetActiveSessionPolling.timerId);
     context.commit('togglePollingIsStarted');
   },
-  updateSession: async context => {
+  updateSession: async (context, payload) => {
     try {
       await api.updateSession(context.state.data);
     } catch (err) {
@@ -117,16 +117,36 @@ const actions = {
     }
   },
   startActiveSession: async context => {
-    context.commit('startActiveSession');
-    context.dispatch('updateSession');
+    try {
+      await api.startSession({ id: context.state.data.id });
+      context.commit('startActiveSession');
+    } catch (e) {
+      context.dispatch('setActiveSessionError', e);
+    }
   },
   pauseActiveSession: async context => {
-    context.commit('pauseActiveSession');
-    context.dispatch('updateSession');
+    try {
+      await api.pauseSession({ id: context.state.data.id });
+      context.commit('pauseActiveSession');
+    } catch (e) {
+      context.dispatch('setActiveSessionError', e);
+    }
+  },
+  continueActiveSession: async context => {
+    try {
+      await api.continueSession({ id: context.state.data.id });
+      context.commit('startActiveSession');
+    } catch (e) {
+      context.dispatch('setActiveSessionError', e);
+    }
   },
   stopActiveSession: async context => {
-    context.commit('stopActiveSession');
-    context.dispatch('updateSession');
+    try {
+      await api.completeSession({ id: context.state.data.id });
+      context.commit('stopActiveSession');
+    } catch (e) {
+      context.dispatch('setActiveSessionError', e);
+    }
   },
 };
 

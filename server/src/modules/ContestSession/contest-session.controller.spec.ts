@@ -46,12 +46,13 @@ describe('ManageSession Controller', () => {
     it('should get all contest-session', async () => {
       const sessions = [generateSession()];
       const mockReq = { session: { user: '1' } };
+      const query = {};
 
       jest
         .spyOn(manageSessionService, 'findAll')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await controller.showAllSessions(mockReq)).toEqual(sessions);
+      expect(await controller.showAllSessions(mockReq, query)).toEqual(sessions);
       expect(manageSessionService.findAll).toHaveBeenCalled();
     });
   });
@@ -90,7 +91,7 @@ describe('ManageSession Controller', () => {
     it('should update session', async () => {
       const session = generateSession();
       const newData: Partial<ContestSessionDto> = {
-        status: Status.IN_PROGRES,
+        status: Status.IN_PROGRESS,
         startedTime: '2000-01-01',
       };
       session.status = newData.status;
