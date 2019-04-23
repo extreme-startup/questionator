@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { ContestSession } from '../../entity/ContestSession';
 import { ContestSessionDto } from './contest-session.dto';
 import { Player } from '../../entity/Player';
+import { Round } from '../../entity/Round';
+import { RoundService } from './round.service';
+import { ResponseDto } from '../../models/response.dto';
 
 @Injectable()
 export class ContestSessionService {
@@ -13,23 +16,24 @@ export class ContestSessionService {
     private msRepository: Repository<ContestSession>,
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
+    private readonly roundService: RoundService,
   ) {}
 
-  async findAll(query): Promise<ContestSessionDto[]> {
+  async findAll(query): Promise<ContestSession[]> {
     try {
       return this.msRepository.find({
         order: {
           startedTime: 'ASC',
         },
         where: { ...query },
-          relations: ['players', 'contests'],
+          relations: ['players', 'contests', 'rounds'],
         });
     } catch (e) {
       return e;
     }
   }
 
-  async findById(id: number): Promise<ContestSessionDto> {
+  async findById(id: number): Promise<ContestSession> {
     try {
       return this.msRepository.findOne(id, { relations: ['players'] });
     } catch (e) {
@@ -37,15 +41,19 @@ export class ContestSessionService {
     }
   }
 
-  async create(data: Partial<ContestSessionDto>): Promise<ContestSessionDto> {
+  async create(data: Partial<ContestSessionDto>): Promise<ContestSession> {
+    const round: ResponseDto<Round> = await this.roundService.create({
+      round: 1,
+    });
     const session = new ContestSession();
 
-    session.contests = data.contests;
+    session.contest = data.contest;
+    session.rounds = [round.data];
 
     return this.msRepository.save(session);
   }
 
-  async addPlayer(body: { sessionId: string, playerId: string }) {
+  async addPlayer(body: { sessionId: string; playerId: string }) {
     try {
       const player = await this.playerRepository.findOne(body.playerId);
       const session = await this.msRepository.findOne(body.sessionId);

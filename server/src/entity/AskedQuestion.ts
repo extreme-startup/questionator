@@ -53,20 +53,17 @@ export class AskedQuestion {
     name: 'contest_contender_id',
     nullable: false,
   })
-  contestPlayerId: string;
+  public contestPlayerId: string;
 
   @ManyToOne(
     type => ContestSession,
     (contestSession: ContestSession) => contestSession.askedQuestions,
   )
-  @JoinColumn()
   public contestSession: ContestSession;
 
   @ManyToOne(type => Question, (question: Question) => question.askedQuestions)
-  @JoinColumn()
   public question: Question;
 
   @ManyToOne(type => Player, (player: Player) => player.askedQuestions)
-  @JoinColumn()
   public player: Player;
 }

@@ -29,6 +29,5 @@ export class Session extends BaseEntity implements SessionEntity {
   public data: string;
 
   @ManyToOne(type => User, (user: User) => user.sessions)
-  @JoinColumn()
   public user: User;
 }

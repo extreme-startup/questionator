@@ -22,9 +22,9 @@ export class ContestService {
     return contests.filter((contest) => !contest.isDeleted);
   }
 
-  async create(contest: ContestDto): Promise<InsertResult> {
+  async create(contest: ContestDto): Promise<Contest> {
     const newContest: Contest = this.contestRepository.create(contest);
-    return await this.contestRepository.insert(newContest);
+    return await this.contestRepository.save(newContest);
   }
 
   async update(id: string, contest: ContestDto): Promise<UpdateResult> {

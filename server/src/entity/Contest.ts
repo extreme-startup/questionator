@@ -37,14 +37,12 @@ export class Contest {
   })
   public roundCount: number;
 
-  @ManyToOne(type => User, (user: User) => user.trainers)
-  @JoinColumn()
+  @ManyToOne(type => User, (user: User) => user.contests)
   public trainer: User;
 
   @OneToMany(
     type => ContestSession,
-    (contestSession: ContestSession) => contestSession.id,
+    (contestSession: ContestSession) => contestSession.contest,
   )
-  @JoinColumn()
   public contestSessions: ContestSession[];
 }

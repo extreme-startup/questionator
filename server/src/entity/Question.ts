@@ -47,16 +47,12 @@ export class Question {
   })
   public deleted: boolean;
 
-  @ManyToMany(type => Round, (round: Round) => round.id)
-  @JoinTable({
-    name: 'questions_rounds',
-  })
+  @ManyToMany(type => Round, (round: Round) => round.questions)
   public rounds: Round[];
 
   @OneToMany(
     type => AskedQuestion,
     (askedQuestion: AskedQuestion) => askedQuestion.question,
   )
-  @JoinColumn()
   public askedQuestions: AskedQuestion[];
 }

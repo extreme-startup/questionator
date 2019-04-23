@@ -24,9 +24,11 @@ export class Round {
     type => ContestSession,
     (contestSession: ContestSession) => contestSession.rounds,
   )
-  @JoinColumn()
   public contestSession: ContestSession;
 
-  @ManyToMany(type => Question, (question: Question) => question.id)
+  @ManyToMany(type => Question, (question: Question) => question.rounds)
+  @JoinTable({
+    name: 'questions_rounds',
+  })
   public questions: Question[];
 }
