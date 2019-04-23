@@ -6,10 +6,15 @@
     <DataTable :columns="columns" :data="questions" :loading="isFetching" :error="error" />
     <AddOrEditQuestion
       v-if="isFormShown && (modalType === 'edit' || modalType === 'add')"
-      :question="question"
+      :isShown="isFormShown"
       :modalType="modalType"
+      :question="question"
     />
-    <DeleteQuestion v-if="isFormShown && modalType === 'delete'" :question="question" />
+    <DeleteQuestion
+      v-if="isFormShown && modalType === 'delete'"
+      :isShown="isFormShown"
+      :question="question"
+    />
   </v-container>
 </template>
 

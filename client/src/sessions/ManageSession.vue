@@ -1,19 +1,21 @@
 <template>
-  <SessionContainer>
-    <ButtonList>
-      <Button @click.stop="openDialog">New Session</Button>
-    </ButtonList>
-    <ManageSessionTable :columns="columns" :data="sessions" />
-    <div v-if="isFetching">Loading...</div>
-    <div v-if="error">{{ error }}</div>
+  <v-container my-2>
+    <SessionContainer>
+      <ButtonList>
+        <Button @click.stop="openDialog">New Session</Button>
+      </ButtonList>
+      <ManageSessionTable :columns="columns" :data="sessions" />
+      <div v-if="isFetching">Loading...</div>
+      <div v-if="error">{{ error }}</div>
 
-    <ConfigDialog
-      :agree="createNewSession"
-      :disagree="closeDialog"
-      :is-open="isDialogOpen"
-      :title="dialogTitle"
-    />
-  </SessionContainer>
+      <ConfigDialog
+        :agree="createNewSession"
+        :disagree="closeDialog"
+        :is-open="isDialogOpen"
+        :title="dialogTitle"
+      />
+    </SessionContainer>
+  </v-container>
 </template>
 
 <script>

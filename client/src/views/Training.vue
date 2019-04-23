@@ -1,26 +1,23 @@
 <template>
   <v-app>
-    <Header />
+    <Header>
+      <v-layout align-center>
+        <v-chip color="white" text-color="cyan">
+          <h4 class="title font-weight-medium cayn--text">Training #{{ $route.params.id }}</h4>
+          <v-btn icon small @click="editTraining">
+            <v-icon>edit</v-icon>
+          </v-btn>
+          <v-btn icon small @click="deleteTraining($route.params.id)">
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </v-chip>
+      </v-layout>
+    </Header>
     <v-card color="grey lighten-4" height="100%" flat>
-      <v-toolbar color="cyan" dark tabs>
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>
-            Training  #{{ $route.params.id }}
-
-            <v-btn color="error" @click="deleteTraining($route.params.id)">
-                delete
-            </v-btn>
-
-            <v-btn color="primary" @click="editTraining">
-                edit
-            </v-btn>
-        </v-toolbar-title>
-      </v-toolbar>
       <TabbedPanel :tabs="tabs" />
     </v-card>
-
-      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
-      <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
+    <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
+    <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
   </v-app>
 </template>
 
