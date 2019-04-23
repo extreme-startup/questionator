@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <ActiveSession />
+    <ActiveSession :sessionId="id" />
   </div>
 </template>
 
@@ -14,6 +14,9 @@ export default {
   components: {
     Header,
     ActiveSession,
+  },
+  props: {
+    id: String,
   },
 };
 </script>
