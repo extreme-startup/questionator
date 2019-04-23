@@ -12,6 +12,11 @@ export class ContestSessionController {
     return this.msService.findAll(query);
   }
 
+  @Post('add-player')
+  addPlayer(@Body() body: { sessionId: string, playerId: string }) {
+    return this.msService.addPlayer(body);
+  }
+
   @Post()
   createSession(@Body() session): Promise<ContestSessionDto> {
     return this.msService.create(session);
