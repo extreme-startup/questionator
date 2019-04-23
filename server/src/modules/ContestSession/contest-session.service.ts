@@ -22,7 +22,7 @@ export class ContestSessionService {
 
   async findById(id: number): Promise<ContestSessionDto> {
     try {
-      return this.msRepository.findOne(id);
+      return this.msRepository.findOne(id, { relations: ['players'] });
     } catch (e) {
       return e;
     }
