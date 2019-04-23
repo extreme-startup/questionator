@@ -44,21 +44,17 @@ export class ContestSession {
   public activeRound: number;
 
   @ManyToOne(type => Contest, (contest: Contest) => contest.contestSessions)
-  @JoinColumn()
-  public contests: Contest;
+  public contest: Contest;
 
-  @OneToMany(type => Round, (round: Round) => round.id)
-  @JoinColumn()
+  @OneToMany(type => Round, (round: Round) => round.contestSession)
   public rounds: Round[];
 
   @OneToMany(
     type => AskedQuestion,
-    (askedQuestion: AskedQuestion) => askedQuestion.id,
+    (askedQuestion: AskedQuestion) => askedQuestion.contestSession,
   )
-  @JoinColumn()
   public askedQuestions: AskedQuestion[];
 
   @OneToMany(type => Player, (player: Player) => player.contestSession)
-  @JoinColumn()
   public players: Player[];
 }

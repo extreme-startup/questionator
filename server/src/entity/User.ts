@@ -21,13 +21,11 @@ export class User {
   public email: string;
 
   @OneToMany(type => Session, session => session.user)
-  @JoinColumn()
   public sessions: Session[];
 
-  @OneToMany(type => Player, (player: Player) => player.id)
+  @OneToMany(type => Player, (player: Player) => player.user)
   public players: Player[];
 
   @OneToMany(type => Contest, (contest: Contest) => contest.trainer)
-  @JoinColumn()
-  public trainers: User[];
+  public contests: Contest[];
 }

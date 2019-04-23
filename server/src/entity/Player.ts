@@ -23,20 +23,17 @@ export class Player {
   public nickname: string;
 
   @ManyToOne(type => User, (user: User) => user.players)
-  @JoinColumn()
   public user: User;
 
   @ManyToOne(
     type => ContestSession,
     (contestSession: ContestSession) => contestSession.players,
   )
-  @JoinTable()
   public contestSession: ContestSession;
 
   @OneToMany(
     type => AskedQuestion,
     (askedQuestion: AskedQuestion) => askedQuestion.player,
   )
-  @JoinColumn()
   public askedQuestions: AskedQuestion[];
 }
