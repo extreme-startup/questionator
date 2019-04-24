@@ -1,11 +1,11 @@
 <template>
-  <v-dialog @keydown.esc="cancel" v-model="dialog" max-width="290">
+  <v-dialog persistent @keydown.esc="cancel" v-model="dialog" max-width="290">
     <v-layout row justify-center>
         <v-card>
           <v-card-title class="headline">Delete</v-card-title>
 
           <v-card-text>
-            Are you sure want to delete this competition?
+            Are you sure you want to delete training?
           </v-card-text>
 
           <v-card-actions>
@@ -43,15 +43,8 @@ export default {
       reject: null,
     };
   },
-  watch: {
-    dialog: function(val) {
-      if (!val) {
-        this.$emit('close', false);
-      }
-    },
-  },
   methods: {
-    open() {
+    async open() {
       this.dialog = true;
 
       return new Promise((resolve, reject) => {
