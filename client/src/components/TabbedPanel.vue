@@ -1,42 +1,17 @@
 <template>
   <div>
-    <TabList>
-      <Tab
-        v-for="tab in tabs"
-        :key="tab"
-        :class="[{ active: activeTab === tab }]"
-        @click="swithTab(tab)"
-      >
+    <v-tabs v-model="activeTab" color="cyan" dark fixed-tabs slider-color="white">
+      <v-tab v-for="tab in tabs" :key="tab" :href="'#' + tab" ripple>
         {{ tab }}
-      </Tab>
-    </TabList>
+      </v-tab>
+    </v-tabs>
     <component :is="currentTabComponent"></component>
   </div>
 </template>
 
 <script>
-import styled from 'vue-styled-components';
 import QuestionTab from './QuestionTab.vue';
 import ContestSession from '@/contest-session/ContestSession.vue';
-
-const TabList = styled.ul`
-  margin-bottom: 15px;
-  padding: 0;
-  display: flex;
-  font-size: 1.2rem;
-  list-style-type: none;
-`;
-
-const Tab = styled.li`
-  padding: 8px 0;
-  margin-right: 40px;
-  cursor: pointer;
-
-  &.active {
-    font-weight: 600;
-    border-bottom: solid 1px grey;
-  }
-`;
 
 export default {
   name: 'TabbedPanel',
@@ -47,15 +22,8 @@ export default {
     tabs: Array,
   },
   components: {
-    TabList,
-    Tab,
     questions: QuestionTab,
     sessions: ContestSession,
-  },
-  methods: {
-    swithTab(tab) {
-      this.activeTab = tab;
-    },
   },
   computed: {
     currentTabComponent: function() {

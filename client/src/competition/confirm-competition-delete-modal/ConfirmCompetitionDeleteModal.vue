@@ -1,5 +1,5 @@
 <template>
-  <v-dialog @keydown.esc="cancel" v-model="dialog" max-width="290">
+  <v-dialog persistent @keydown.esc="cancel" v-model="dialog" max-width="290">
     <v-layout row justify-center>
       <v-card>
         <v-card-title class="headline">Delete</v-card-title>
@@ -34,15 +34,8 @@ export default {
       reject: null,
     };
   },
-  watch: {
-    dialog: function(val) {
-      if (!val) {
-        this.$emit('close', false);
-      }
-    },
-  },
   methods: {
-    open() {
+    async open() {
       this.dialog = true;
 
       return new Promise((resolve, reject) => {
