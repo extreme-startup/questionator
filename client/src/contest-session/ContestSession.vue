@@ -15,7 +15,7 @@
           <td class="subheading">{{ props.item.startedTime }}</td>
           <td class="subheading">{{ props.item.status }}</td>
           <td class="subheading">{{ props.item.players.length }}</td>
-          <td class="subheading">{{ props.item.trainerName }}</td>
+          <td class="subheading">{{ $store.state.user.email }}</td>
         </tr>
       </template>
     </v-data-table>

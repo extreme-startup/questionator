@@ -14,7 +14,7 @@
       </v-flex>
       <v-flex md3 align="right">
         <v-card-text class="subheading">
-          Trainer: {{ activeSession.trainer && activeSession.trainer.email }}
+          Trainer: {{ $store.state.user.email }}
         </v-card-text>
       </v-flex>
     </v-layout>
