@@ -11,7 +11,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { QuestionDto } from './dto/question.dto';
 import { QuestionService } from './question.service';
 import { ResponseDto } from '../../models/response.dto';
-import { Question } from '../../entity/Question';
+import { QuestionCreateDto } from './dto/question-create.dto';
 
 @Controller('questions')
 export class QuestionController {
@@ -40,7 +40,7 @@ export class QuestionController {
   @Post()
   @ApiResponse({ status: 200, type: QuestionDto })
   public async create(
-    @Body() question: QuestionDto,
+    @Body() question: QuestionCreateDto,
   ): Promise<ResponseDto<QuestionDto>> {
     return await this.questionService.insert(question);
   }

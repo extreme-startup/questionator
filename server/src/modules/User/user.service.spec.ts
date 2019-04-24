@@ -11,7 +11,7 @@ describe('User Service', () => {
     sessions: [],
     players: [],
     trainers: [],
-    contests: []
+    contests: [],
   };
 
   beforeEach(async () => {
