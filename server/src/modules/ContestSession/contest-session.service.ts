@@ -33,9 +33,9 @@ export class ContestSessionService {
     }
   }
 
-  async findById(id: number): Promise<ContestSession> {
+  async findById(id: string): Promise<ContestSession> {
     try {
-      return this.msRepository.findOne(id, { relations: ['players'] });
+      return this.msRepository.findOne(id, { relations: ['players', 'rounds'] });
     } catch (e) {
       return e;
     }

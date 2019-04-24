@@ -4,6 +4,8 @@ import { ContestSessionService } from './contest-session.service';
 import { ContestSession } from '../../entity/ContestSession';
 
 import { ContestSessionDto, Status } from './contest-session.dto';
+import { RoundService } from './round.service';
+import { PlayerService } from '../Player/player.service';
 
 function generateSession(s: Partial<ContestSessionDto> = {} as ContestSessionDto) {
   const session = new ContestSession();
@@ -22,7 +24,8 @@ describe('ContestSessionService', () => {
 
   beforeEach(async () => {
     sessionMockRepository = new Repository();
-    service = new ContestSessionService(sessionMockRepository);
+    // @ts-ignore
+    service = new ContestSessionService(sessionMockRepository, new RoundService(), new PlayerService());
   });
 
   describe('manage service instantiation', () => {
@@ -34,12 +37,13 @@ describe('ContestSessionService', () => {
   describe('findAll', () => {
     it('should get all session from db', async () => {
       const sessions = [generateSession()];
+      const query = {};
 
       jest
         .spyOn(sessionMockRepository, 'find')
         .mockReturnValue(Promise.resolve(sessions));
 
-      expect(await service.findAll()).toEqual(sessions);
+      expect(await service.findAll(query)).toEqual(sessions);
       expect(sessionMockRepository.find).toHaveBeenCalled();
     });
   });
@@ -68,7 +72,7 @@ describe('ContestSessionService', () => {
         .mockReturnValue(Promise.resolve(session));
 
       expect(await service.create(newSession)).toEqual(session);
-      expect(sessionMockRepository.save).toHaveBeenCalledWith(newSession);
+      expect(sessionMockRepository.save).toHaveBeenCalled();
     });
   });
 
@@ -90,7 +94,7 @@ describe('ContestSessionService', () => {
         .spyOn(sessionMockRepository, 'findOne')
         .mockReturnValue(Promise.resolve(session));
 
-      expect(await service.update(session.id, newData));
+      expect(await service.update(newData));
       expect(sessionMockRepository.update).toHaveBeenCalledWith(session.id, newData);
     });
   });
