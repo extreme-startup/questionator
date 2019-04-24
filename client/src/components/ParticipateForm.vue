@@ -11,6 +11,12 @@
             label="Nickname"
             required
           ></v-text-field>
+          <v-text-field
+            v-model="url"
+            :rules="urlRules"
+            label="Client URL"
+            required
+          ></v-text-field>
           <v-btn color="success" type="submit" :disabled="!valid">Register</v-btn>
         </v-form>
       </v-flex>
@@ -26,6 +32,8 @@ export default {
   name: 'LoginForm',
   data: () => ({
     valid: false,
+    url: '',
+    urlRules: [getIsRequiredValidator({ inputName: 'Client URL' })],
     nickname: '',
     nicknameRules: [
       getIsRequiredValidator({ inputName: 'Nickname' }),
@@ -40,9 +48,10 @@ export default {
   methods: {
     submit: function() {
       registerInCompetition({
-        playerId: this.user,
+        userId: this.user,
         sessionId: this.$route.params.sessionId,
-        playerName: this.nickname,
+        nickname: this.nickname,
+        url: this.url,
       });
     },
   },
