@@ -1,15 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Repository } from 'typeorm';
+
 import { PlayerService } from './player.service';
+import { Player } from '../../entity/Player';
 
 describe('PlayerService', () => {
+  jest.mock('typeorm');
+
+  let playerMockRepository: Repository<Player>;
   let service: PlayerService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PlayerService],
-    }).compile();
+    playerMockRepository = new Repository();
 
-    service = module.get<PlayerService>(PlayerService);
+    service = new PlayerService(playerMockRepository);
   });
 
   it('should be defined', () => {
