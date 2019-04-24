@@ -1,18 +1,21 @@
 <template>
-  <v-dialog v-model="isOpen" max-width="350">
+  <v-dialog v-model="isOpen" persistent :max-width="maxWidth">
     <v-card>
-      <v-card-title v-if="title" class="headline">{{ title }}</v-card-title>
-      <v-card-text v-if="text">{{ text }}</v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="green darken-1" flat="flat" @click="disagree">
-          {{ disagreeName }}
-        </v-btn>
+      <v-container>
+        <v-card-title v-if="title" class="headline">{{ title }}</v-card-title>
+        <v-card-text v-if="text">{{ text }}</v-card-text>
+        <slot></slot>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn v-if="hideControls === false" color="green darken-1" flat="flat" @click="disagree">
+            {{ disagreeName }}
+          </v-btn>
 
-        <v-btn color="green darken-1" flat="flat" @click="agree">
-          {{ agreeName }}
-        </v-btn>
-      </v-card-actions>
+          <v-btn v-if="hideControls === false" color="green darken-1" flat="flat" @click="agree">
+            {{ agreeName }}
+          </v-btn>
+        </v-card-actions>
+      </v-container>
     </v-card>
   </v-dialog>
 </template>
@@ -22,6 +25,10 @@ export default {
   name: 'config-dialog',
   props: {
     isOpen: Boolean,
+    maxWidth: {
+      type: [String, Number],
+      default: 390,
+    },
     title: String,
     text: String,
     agree: Function,
@@ -33,6 +40,10 @@ export default {
     disagreeName: {
       type: String,
       default: 'Cancel',
+    },
+    hideControls: {
+      type: Boolean,
+      default: false,
     },
   },
 };

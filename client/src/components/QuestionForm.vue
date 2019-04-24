@@ -1,15 +1,15 @@
 <template>
-  <FormWrapper>
+  <v-container>
     <form @submit.prevent="submitQuestion" novalidate>
-      <InputSwitcherWrapper v-if="isEditable('type')">
-        <p>Type</p>
+      <v-layout v-if="isEditable('type')">
+        <p class="caption grey--text lighten-2--text">Type</p>
         <v-radio-group v-model="question.type" :mandatory="true" row>
           <v-radio label="Static" value="static"></v-radio>
           <v-radio label="Dynamic" value="dynamic"></v-radio>
         </v-radio-group>
-      </InputSwitcherWrapper>
-      <StaticText v-if="!isEditable('type')">Type: {{ question.type }}</StaticText>
-      <InputWrapper>
+      </v-layout>
+      <p class="pt-8" v-if="!isEditable('type')">Type: {{ question.type }}</p>
+      <v-layout justify-space-between column mb-4>
         <v-text-field
           :error="!isFormInputValid(errors.text)"
           v-if="isEditable('text')"
@@ -20,12 +20,12 @@
           placeholder="Type your question"
           required
         ></v-text-field>
-        <StaticText v-if="!isEditable('text')">Question: {{ question.text }}</StaticText>
-        <ErrorMsg id="question-text-error" v-if="!isFormInputValid(errors.text)">
+        <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
+        <p class="caption red--text" id="question-text-error" v-if="!isFormInputValid(errors.text)">
           {{ getErrorMessage(errors.text) }}
-        </ErrorMsg>
-      </InputWrapper>
-      <InputWrapper>
+        </p>
+      </v-layout>
+      <v-layout justify-space-between column mb-4>
         <v-textarea
           :error="!isFormInputValid(errors.answer)"
           name="answer"
@@ -34,14 +34,19 @@
           v-model.trim="question.answer"
           id="question-answer-input"
           placeholder="Type your answer"
+          no-resize
           required
         ></v-textarea>
-        <StaticText v-if="!isEditable('answer')">Answer: {{ question.answer }}</StaticText>
-        <ErrorMsg id="question-answer-error" v-if="!isFormInputValid(errors.answer)">
+        <p class="pt-8" v-if="!isEditable('answer')">Answer: {{ question.answer }}</p>
+        <p
+          class="caption red--text"
+          id="question-answer-error"
+          v-if="!isFormInputValid(errors.answer)"
+        >
           {{ getErrorMessage(errors.answer) }}
-        </ErrorMsg>
-      </InputWrapper>
-      <InputWrapper>
+        </p>
+      </v-layout>
+      <v-layout justify-space-between column mb-4>
         <v-text-field
           :error="!isFormInputValid(errors.value)"
           v-if="isEditable('value')"
@@ -52,76 +57,34 @@
           placeholder="Enter question value (points)"
           required
         ></v-text-field>
-        <ErrorMsg id="question-value-error" v-if="!isFormInputValid(errors.value)">
+        <p
+          class="caption red--text"
+          id="question-value-error"
+          v-if="!isFormInputValid(errors.value)"
+        >
           {{ getErrorMessage(errors.value) }}
-        </ErrorMsg>
-        <StaticText v-if="!isEditable('value')">Value: {{ question.value }}</StaticText>
-      </InputWrapper>
-      <ControlGroup>
+        </p>
+        <p class="pt-8" v-if="!isEditable('value')">Value: {{ question.value }}</p>
+      </v-layout>
+      <small class="grey--text lighten-2--text">*indicates required field</small>
+      <div class="pt-4 right">
         <v-btn color="blue darken-1" flat type="reset" id="question-cancel-button" @click="close">
           Cancel
         </v-btn>
         <v-btn color="blue darken-1" flat type="submit" id="question-save-button">
           {{ submitTitle }}
         </v-btn>
-      </ControlGroup>
+      </div>
     </form>
-  </FormWrapper>
+  </v-container>
 </template>
 
 <script>
-import styled from 'vue-styled-components';
-
-const FormWrapper = styled.div`
-  width: 570px;
-  padding: 0 60px 30px;
-  background-color: var(--btn-color);
-  color: var(--text-color);
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 25px;
-`;
-
-const InputSwitcherWrapper = styled(InputWrapper)`
-  p {
-    margin: 0;
-    font-size: 12px;
-    color: var(--btn-bg-secondary);
-  }
-`;
-
-const StaticText = styled.p`
-  padding: 8px 0;
-  margin: 0;
-`;
-
-const ControlGroup = styled.div`
-  padding-top: 25px;
-  text-align: right;
-`;
-
-const ErrorMsg = styled.span`
-  font-size: 10px;
-  color: red;
-`;
-
 const isNumber = n => /^\d+$/.test(n);
 
 export default {
   name: 'QuestionForm',
   props: ['question', 'errors', 'submitTitle', 'editFieldsConfig'],
-  components: {
-    FormWrapper,
-    InputWrapper,
-    InputSwitcherWrapper,
-    StaticText,
-    ControlGroup,
-    ErrorMsg,
-  },
   computed: {
     isStaticActive: function() {
       return this.question.type === 'static';

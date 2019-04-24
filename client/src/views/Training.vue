@@ -1,10 +1,8 @@
 <template>
   <v-app>
-    <Header />
-    <v-card color="grey lighten-4" height="100%" flat>
-      <v-toolbar color="cyan" dark tabs>
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>
+    <Header>
+      <v-layout align-center>
+        <v-toolbar-title color='grey' class="white--text">
             Training  #{{ $route.params.id }}
 
             <v-btn color="error" @click="deleteTraining($route.params.id)">
@@ -15,12 +13,13 @@
                 edit
             </v-btn>
         </v-toolbar-title>
-      </v-toolbar>
+      </v-layout>
+    </Header>
+    <v-card color="grey lighten-4" height="100%" flat>
       <TabbedPanel :tabs="tabs" />
     </v-card>
-
-      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
-      <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
+    <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
+    <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
   </v-app>
 </template>
 
