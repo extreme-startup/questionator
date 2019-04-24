@@ -8,6 +8,7 @@ import { toQuestionDto } from './helpers/questions.helper';
 import { ResponseDto } from '../../models/response.dto';
 import { Contest } from 'src/entity/Contest';
 import { ContestSession } from 'src/entity/ContestSession';
+import { QuestionCreateDto } from './dto/question-create.dto';
 
 @Injectable()
 export class QuestionService {
@@ -74,7 +75,7 @@ export class QuestionService {
     }
   }
 
-  public async insert(payload: QuestionDto): Promise<ResponseDto<QuestionDto>> {
+  public async insert(payload: QuestionCreateDto): Promise<ResponseDto<QuestionDto>> {
     try {
       const contest = await this.contestRepository.findOne({
         relations: ['contestSessions'],
