@@ -1,15 +1,31 @@
-language: node_js
-node_js:
-  - "8"
-dist: trusty
-env:
-  - NODE_ENV=ci PORT=3000
-cache:
-  directories:
-    - dist
-    - node_modules
-install:
-  - npm install
-script:
-  - npm run lint
-  - npm run test
+matrix:
+  include:
+    language: node_js
+    node_js:
+      - "8"
+    dist: trusty
+    env:
+      - NODE_ENV=ci PORT=3000
+    cache:
+      directories:
+        - dist
+        - node_modules
+    install:
+      - npm install
+    script:
+      - npm run lint
+      - npm run test
+
+    language: java
+    dist: trusty
+    jdk: oraclejdk9
+    before_install:
+    - git clone https://github.com/extreme-startup/TAF.git
+    - chmod +x mvnw
+#    jobs:
+#      include:
+#      - stage: Download TAF
+#        script:
+#        - git clone https://github.com/extreme-startup/TAF.git
+#        - cd TAF/
+#        - chmod +x mvnw
