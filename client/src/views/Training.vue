@@ -5,24 +5,15 @@
       <v-toolbar color="cyan" dark tabs>
         <v-toolbar-side-icon></v-toolbar-side-icon>
         <v-toolbar-title>
-            <v-layout row align-content-space-between justify-center>
-                <v-flex class="v-p-">
-                    <h1 class="display-3">Training  #{{ $route.params.id }}</h1>
-                    <p class="body-1">
-                        {{training.description}}
-                    </p>
-                </v-flex>
+            Training  #{{ $route.params.id }}
 
-                <v-flex align-self-center class="text-sm-right">
-                    <v-btn color="error" @click="deleteTraining($route.params.id)">
-                        delete
-                    </v-btn>
+            <v-btn color="error" @click="deleteTraining($route.params.id)">
+                delete
+            </v-btn>
 
-                    <v-btn color="primary" @click="editTraining">
-                        edit
-                    </v-btn>
-                </v-flex>
-            </v-layout>
+            <v-btn color="primary" @click="editTraining">
+                edit
+            </v-btn>
         </v-toolbar-title>
       </v-toolbar>
       <TabbedPanel :tabs="tabs" />
