@@ -91,7 +91,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('contestSession/getSessions', { contest: this.$route.params.id });
+    this.$store.dispatch('contestSession/getSessions', { contests: this.$route.params.id });
   },
 };
 </script>
