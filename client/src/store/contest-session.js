@@ -10,7 +10,6 @@ const sessionState = {
     isFetching: false,
     error: null,
   },
-  activeSessionId: 1,
 };
 
 const getters = {
@@ -22,9 +21,6 @@ const getters = {
   addSessionFetchingStatus: state => ({
     isFetching: state.addSession,
   }),
-  activeSession: state => {
-    return state.sessions.data.find(session => session.id === state.activeSessionId);
-  },
 };
 
 const setSessionMutations = {

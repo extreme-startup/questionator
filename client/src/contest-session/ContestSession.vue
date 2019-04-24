@@ -4,11 +4,11 @@
       <v-btn color="info" @click.stop="openDialog">New Session</v-btn>
     </ButtonList>
     <v-data-table
-            :headers="headers"
-            :items="sessions"
-            :hide-actions="true"
-            :sort-icon="null"
-            class="body-2 bordered"
+      :headers="headers"
+      :items="sessions"
+      :hide-actions="true"
+      :sort-icon="null"
+      class="body-2 bordered"
     >
       <template v-slot:items="props">
         <tr class="" @click.stop="openActiveSession(props.item)">

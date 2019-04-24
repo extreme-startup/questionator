@@ -5,22 +5,22 @@
         Ongoing sessions
       </h2>
       <v-layout row wrap>
-
         <v-flex v-for="session in sessions" :key="session.id" xs3>
           <v-card>
             <router-link v-bind:to="'/training-session/' + session.id">
-              <v-card-title><h4>Session #{{ session.id }}</h4></v-card-title>
+              <v-card-title
+                ><h4>Session #{{ session.id }}</h4></v-card-title
+              >
             </router-link>
             <v-card-text>
               <div>{{ session.players.length }} members</div>
-              <div>Trainer </div>
+              <div>Trainer</div>
               <div>Start time {{ session.startedTime }}</div>
             </v-card-text>
           </v-card>
         </v-flex>
 
         <v-flex v-if="!sessions.length">You don't have active sessions!</v-flex>
-
       </v-layout>
     </v-container>
   </section>
@@ -34,7 +34,7 @@ export default {
   components: {},
   computed: {
     sessions: function() {
-      const sessions =[...this.$store.getters['contestSession/sessions']];
+      const sessions = [...this.$store.getters['contestSession/sessions']];
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';
         return session;
