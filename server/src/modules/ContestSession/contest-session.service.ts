@@ -4,11 +4,12 @@ import { Repository } from 'typeorm';
 
 import { Round } from '../../entity/Round';
 import { ContestSession } from '../../entity/ContestSession';
-import { ContestSessionDto } from './contest-session.dto';
+import { ContestSessionDto, Status } from './contest-session.dto';
 import { RoundService } from './round.service';
 import { ResponseDto } from '../../models/response.dto';
 import { PlayerDto } from '../Player/player.dto';
 import { PlayerService } from '../Player/player.service';
+import { AskQuestionsService } from '../AskQuestions/ask-questions.service';
 
 @Injectable()
 export class ContestSessionService {
@@ -17,6 +18,7 @@ export class ContestSessionService {
     private msRepository: Repository<ContestSession>,
     private readonly roundService: RoundService,
     private readonly playerService: PlayerService,
+    private readonly askQuestionsService: AskQuestionsService,
   ) {}
 
   async findAll(query): Promise<ContestSession[]> {
@@ -26,8 +28,8 @@ export class ContestSessionService {
           startedTime: 'ASC',
         },
         where: { ...query },
-          relations: ['players', 'contest', 'rounds'],
-        });
+        relations: ['players', 'contest', 'rounds'],
+      });
     } catch (e) {
       return e;
     }
@@ -55,7 +57,8 @@ export class ContestSessionService {
 
   async addPlayer(body: Partial<PlayerDto>) {
     try {
-      await this.playerService.create(body);
+      const playerData = await this.playerService.create(body);
+      this.askQuestionsService.addAskQuestionJob(playerData.user.email);
       return {
         success: true,
       };
@@ -66,6 +69,14 @@ export class ContestSessionService {
 
   async update(data: Partial<ContestSessionDto>): Promise<ContestSessionDto> {
     await this.msRepository.update(data.id, data);
+    switch (data.status) {
+      case Status.COMPLETED: {
+        this.askQuestionsService.stopAllSchedulers();
+      }
+      case Status.IN_PROGRESS: {
+        await this.askQuestionsService.startAllSchedulers();
+      }
+    }
     return this.msRepository.findOne(data.id);
   }
 }

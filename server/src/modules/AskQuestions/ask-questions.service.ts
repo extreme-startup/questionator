@@ -19,7 +19,11 @@ export class AskQuestionsService {
   constructor(
     private questionService: QuestionService,
     private contenderGateway: ContenderGateway,
-  ) {}
+  ) {
+    this.addAskQuestionJob.bind(this);
+    this.startAllSchedulers.bind(this);
+    this.stopAllSchedulers.bind(this);
+  }
 
   private generateAskQuestionAction(contenderEmail: string) {
     const { getRandom, ask, reply } = this.questionService;
@@ -89,10 +93,9 @@ export class AskQuestionsService {
     contenderEmails.forEach(this.decreaseAskQuestionInterval, this);
   }
 
-  public startAllSchedulers() {
-    this.askQuestionsJobs.forEach(job => {
-      job.start();
-    }, this);
+  public async startAllSchedulers() {
+    const jobStarters = this.askQuestionsJobs.map(({ start }) => start);
+    await Promise.all(jobStarters);
   }
 
   public stopAllSchedulers() {
