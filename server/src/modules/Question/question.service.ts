@@ -6,6 +6,8 @@ import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
 import { toQuestionDto } from './helpers/questions.helper';
 import { ResponseDto } from '../../models/response.dto';
+import { Contest } from 'src/entity/Contest';
+import { ContestSession } from 'src/entity/ContestSession';
 
 @Injectable()
 export class QuestionService {
@@ -14,6 +16,10 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(AskedQuestion)
     private readonly askedQuestionRepository: Repository<AskedQuestion>,
+    @InjectRepository(Contest)
+    private readonly contestRepository: Repository<Contest>,
+    @InjectRepository(ContestSession)
+    private msRepository: Repository<ContestSession>,
   ) {}
 
   public async findAll(): Promise<ResponseDto<QuestionDto[]>> {
@@ -69,9 +75,22 @@ export class QuestionService {
   }
 
   public async insert(payload: QuestionDto): Promise<ResponseDto<QuestionDto>> {
-    const newQuestion: Question = this.questionRepository.create(payload);
-
     try {
+      const contest = await this.contestRepository.findOne({
+        relations: ['contestSessions'],
+        where: { id: payload.contestId },
+      });
+
+      const contestSession = await this.msRepository.findOne({
+        relations: ['rounds'],
+        where: { id: contest.contestSessions[0].id },
+      });
+
+      const newQuestion: Question = this.questionRepository.create({
+        ...payload,
+        rounds: [contestSession.rounds[0]],
+      });
+
       const question: Question = await this.questionRepository.save(
         newQuestion,
       );

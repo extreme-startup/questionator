@@ -3,13 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult, UpdateResult, InsertResult } from 'typeorm';
 
 import { Contest } from '../../entity/Contest';
+import { ContestSession } from '../../entity/ContestSession';
+import { RoundService } from '../ContestSession/round.service';
 import { ContestDto } from './contest.dto';
+import { Question } from 'src/entity/Question';
 
 @Injectable()
 export class ContestService {
   constructor(
     @InjectRepository(Contest)
     private readonly contestRepository: Repository<Contest>,
+    @InjectRepository(ContestSession)
+    private msRepository: Repository<ContestSession>,
+    private readonly roundService: RoundService,
+    @InjectRepository(Question)
+    private readonly questionRepository: Repository<Question>,
   ) {}
 
   async findOne(id: string): Promise<Contest> {
@@ -24,7 +32,18 @@ export class ContestService {
 
   async create(contest: ContestDto): Promise<Contest> {
     const newContest: Contest = this.contestRepository.create(contest);
-    return await this.contestRepository.save(newContest);
+    const savedContest = await this.contestRepository.save(newContest);
+
+    const round = await this.roundService.create({
+      round: 1,
+    });
+    const session = new ContestSession();
+
+    session.contest = newContest;
+    session.rounds = [round.data];
+
+    this.msRepository.save(session);
+    return savedContest;
   }
 
   async update(id: string, contest: ContestDto): Promise<UpdateResult> {
@@ -38,11 +57,19 @@ export class ContestService {
   async findAllQuestions(id: string): Promise<any> {
 
     const contest = await this.contestRepository.findOne({
-      relations: ['questions'],
+      relations: ['contestSessions'],
       where: { id },
     });
 
-    // TODO: FIX ME
-    // return contest.questions.filter((question) => !question.isDeleted);
+    const contestSession = await this.msRepository.findOne({
+      relations: ['rounds'],
+      where: { id: contest.contestSessions[0].id },
+    });
+
+    const questions = await this.questionRepository.find({
+      where: { roundId: contestSession.rounds[0].id },
+    });
+
+    return questions.filter((question) => !question.deleted);
   }
 }

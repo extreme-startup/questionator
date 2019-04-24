@@ -19,4 +19,7 @@ export class QuestionDto {
 
   @ApiModelProperty()
   public readonly isDeleted: boolean;
+
+  @ApiModelProperty()
+  public readonly contestId: string;
 }
