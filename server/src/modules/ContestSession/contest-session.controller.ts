@@ -12,8 +12,8 @@ export class ContestSessionController {
     return this.msService.findAll(query);
   }
 
-  @Post('add-player')
-  addPlayer(@Body() body: { sessionId: string, playerId: string }) {
+  @Post('add-Player')
+  addPlayer(@Body() body) {
     return this.msService.addPlayer(body);
   }
 

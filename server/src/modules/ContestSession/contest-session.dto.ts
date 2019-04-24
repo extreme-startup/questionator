@@ -1,3 +1,6 @@
+import { PlayerDto } from '../Player/player.dto';
+import { AskedQuestionDto } from '../Result/dto/askedQuestion.dto';
+
 export enum Status {
   CREATED = 'created',
   IN_PROGRESS = 'in progress',
@@ -13,6 +16,6 @@ export class ContestSessionDto {
   activeRound: number;
   contest: any;
   rounds: any[];
-  askedQuestions: any[];
-  players: any[];
+  askedQuestions: AskedQuestionDto[];
+  players: PlayerDto[];
 }

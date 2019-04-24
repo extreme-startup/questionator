@@ -48,8 +48,8 @@ export default {
   methods: {
     submit: function() {
       registerInCompetition({
-        userId: this.user,
-        sessionId: this.$route.params.sessionId,
+        user: this.user,
+        contestSession: this.$route.params.sessionId,
         nickname: this.nickname,
         url: this.url,
       });

@@ -2,21 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Round } from '../../entity/Round';
 import { ContestSession } from '../../entity/ContestSession';
 import { ContestSessionDto } from './contest-session.dto';
-import { Player } from '../../entity/Player';
-import { Round } from '../../entity/Round';
 import { RoundService } from './round.service';
 import { ResponseDto } from '../../models/response.dto';
+import { PlayerDto } from '../Player/player.dto';
+import { PlayerService } from '../Player/player.service';
 
 @Injectable()
 export class ContestSessionService {
   constructor(
     @InjectRepository(ContestSession)
     private msRepository: Repository<ContestSession>,
-    @InjectRepository(Player)
-    private playerRepository: Repository<Player>,
     private readonly roundService: RoundService,
+    private readonly playerService: PlayerService,
   ) {}
 
   async findAll(query): Promise<ContestSession[]> {
@@ -53,14 +53,12 @@ export class ContestSessionService {
     return this.msRepository.save(session);
   }
 
-  async addPlayer(body: { sessionId: string; playerId: string }) {
+  async addPlayer(body: Partial<PlayerDto>) {
     try {
-      const player = await this.playerRepository.findOne(body.playerId);
-      const session = await this.msRepository.findOne(body.sessionId);
-
-      session.players.push(player);
-
-      return this.msRepository.save(session);
+      await this.playerService.create(body);
+      return {
+        success: true,
+      };
     } catch (e) {
       return e;
     }

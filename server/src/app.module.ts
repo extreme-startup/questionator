@@ -17,6 +17,7 @@ import { ContenderModule } from './modules/Contender/contender.module';
 import { AskQuestionsModule } from './modules/AskQuestions/ask-questions.module';
 import { ContestSessionModule } from './modules/ContestSession/contest-session.module';
 import { ResultModule } from './modules/Result/result.module';
+import { PlayerModule } from './modules/Player/player.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ResultModule } from './modules/Result/result.module';
     AskQuestionsModule,
     ContestSessionModule,
     ResultModule,
+    PlayerModule,
   ],
 })
 export class AppModule {

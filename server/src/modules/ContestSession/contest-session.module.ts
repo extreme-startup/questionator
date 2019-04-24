@@ -7,10 +7,11 @@ import { ContestSession } from '../../entity/ContestSession';
 import { Player } from '../../entity/Player';
 import { RoundService } from './round.service';
 import { Round } from '../../entity/Round';
+import { PlayerService } from '../Player/player.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ContestSession, Player, Round])],
-  providers: [ContestSessionService, RoundService],
+  imports: [TypeOrmModule.forFeature([ContestSession, Round, Player])],
+  providers: [ContestSessionService, RoundService, PlayerService],
   controllers: [ContestSessionController],
   exports: [ContestSessionService],
 })

@@ -206,7 +206,7 @@ export class QuestionService {
     }
 
     askedQuestion.answeredOn = new Date();
-    // TODO: process player score here
+    // TODO: process Player score here
     askedQuestion.isCorrect = answer === askedQuestion.answer;
 
     try {

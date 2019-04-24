@@ -8,7 +8,7 @@
       class="body-2 bordered"
     >
       <template v-slot:items="props">
-        <td class="subheading">{{ props.item.email }}</td>
+        <td class="subheading">{{ props.item.nickname }}</td>
         <td class="subheading">{{ props.item.score }}</td>
         <td class="subheading">{{ props.item.place }}</td>
       </template>
