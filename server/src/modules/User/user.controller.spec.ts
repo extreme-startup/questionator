@@ -14,6 +14,7 @@ describe('User Controller', () => {
     sessions: [],
     trainers: [],
     players: [],
+    contests: [],
   };
 
   beforeEach(async () => {
