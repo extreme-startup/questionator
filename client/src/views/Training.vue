@@ -47,7 +47,7 @@ export default {
   computed: {
     training: function() {
       return this.$store.getters['training/trainings'].find(
-        item => item.id === parseInt(this.$route.params.id),
+        item => item.id === this.$route.params.id,
         10,
       );
     },
