@@ -11,14 +11,10 @@
             label="Nickname"
             required
           ></v-text-field>
-          <v-text-field
-            v-model="url"
-            :rules="urlRules"
-            label="Client URL"
-            required
-          ></v-text-field>
+          <v-text-field v-model="url" :rules="urlRules" label="Client URL" required></v-text-field>
           <v-btn color="success" type="submit" :disabled="!valid">Register</v-btn>
         </v-form>
+        <CompetitionRegistrationModal ref="successModal" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -27,6 +23,8 @@
 <script>
 import { getIsRequiredValidator, getLengthValidator } from '../utils/input-validators.js';
 import { registerInCompetition } from '../api/competition';
+//eslint-disable-next-line
+import CompetitionRegistrationModal from '../competition/competition-registration-modal/CompetitionRegistrationModal';
 
 export default {
   name: 'LoginForm',
@@ -52,8 +50,17 @@ export default {
         contestSession: this.$route.params.sessionId,
         nickname: this.nickname,
         url: this.url,
-      });
+      })
+        .then(() => {
+          return this.$refs.successModal.open();
+        })
+        .then(() => {
+          this.$router.push(`/training-session/${this.$route.params.sessionId}`);
+        });
     },
+  },
+  components: {
+    CompetitionRegistrationModal,
   },
 };
 </script>
