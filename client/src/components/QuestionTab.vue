@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <v-btn color="info" @click="showAddQuestion">Add new question</v-btn>
+  <v-container my-2>
+    <v-item-group class="my-4">
+      <v-btn color="info mx-0" @click="showAddQuestion">Add new question</v-btn>
+    </v-item-group>
     <DataTable :columns="columns" :data="questions" :loading="isFetching" :error="error" />
     <AddOrEditQuestion
       v-if="isFormShown && (modalType === 'edit' || modalType === 'add')"
@@ -8,7 +10,7 @@
       :modalType="modalType"
     />
     <DeleteQuestion v-if="isFormShown && modalType === 'delete'" :question="question" />
-  </div>
+  </v-container>
 </template>
 
 <script>

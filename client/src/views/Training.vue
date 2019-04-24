@@ -1,37 +1,41 @@
 <template>
-  <div>
+  <v-app>
     <Header />
-    <Section>
-      <v-layout row align-content-space-between justify-center>
-        <v-flex class="v-p-">
-          <h1 class="display-3">Training  #{{ $route.params.id }}</h1>
-          <p class="body-1">
-              {{training.description}}
-          </p>
-        </v-flex>
+    <v-card color="grey lighten-4" height="100%" flat>
+      <v-toolbar color="cyan" dark tabs>
+        <v-toolbar-side-icon></v-toolbar-side-icon>
+        <v-toolbar-title>
+            <v-layout row align-content-space-between justify-center>
+                <v-flex class="v-p-">
+                    <h1 class="display-3">Training  #{{ $route.params.id }}</h1>
+                    <p class="body-1">
+                        {{training.description}}
+                    </p>
+                </v-flex>
 
-        <v-flex align-self-center class="text-sm-right">
-          <v-btn color="error" @click="deleteTraining($route.params.id)">
-            delete
-          </v-btn>
+                <v-flex align-self-center class="text-sm-right">
+                    <v-btn color="error" @click="deleteTraining($route.params.id)">
+                        delete
+                    </v-btn>
 
-          <v-btn color="primary" @click="editTraining">
-            edit
-          </v-btn>
-        </v-flex>
-      </v-layout>
+                    <v-btn color="primary" @click="editTraining">
+                        edit
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-toolbar-title>
+      </v-toolbar>
       <TabbedPanel :tabs="tabs" />
-    </Section>
+    </v-card>
 
-    <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
-    <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>Q
-  </div>
+      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
+      <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
+  </v-app>
 </template>
 
 <script>
 import TabbedPanel from '@/components/TabbedPanel.vue';
 import Header from '@/components/Header.vue';
-import { Section } from '@/common/styledComponents';
 // eslint-disable-next-line max-len
 import ConfirmCompetitionDeletionModal from '../competition/confirm-competition-delete-modal/ConfirmCompetitionDeleteModal';
 // eslint-disable-next-line max-len
@@ -42,7 +46,6 @@ export default {
   components: {
     TabbedPanel,
     Header,
-    Section,
     ConfirmCompetitionDeletionModal,
     CompetitionDetailsModal,
   },
