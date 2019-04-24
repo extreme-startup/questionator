@@ -1,4 +1,4 @@
 import Vue from 'vue';
 
-export const registerInCompetition = ({ sessionHash, memberId, clientURL, nickname }) =>
-  Vue.axios.post('/manage-session/add-member', { sessionHash, memberId, clientURL, nickname });
+export const registerInCompetition = ({ playerId, sessionId, playerName }) =>
+  Vue.axios.post('/contest-sessions/add-player', { playerId, sessionId, playerName });

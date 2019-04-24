@@ -14,7 +14,9 @@ const store = new Vuex.Store({
     user: null,
     isUserLoggedIn: false,
   },
-  getters: {},
+  getters: {
+    userId: (state) => state.user.id
+  },
   mutations: {
     setUser(state, user) {
       state.user = user;
