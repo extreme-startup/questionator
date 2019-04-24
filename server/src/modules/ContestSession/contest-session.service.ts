@@ -26,7 +26,7 @@ export class ContestSessionService {
           startedTime: 'ASC',
         },
         where: { ...query },
-          relations: ['players', 'contests', 'rounds'],
+          relations: ['players', 'contest', 'rounds'],
         });
     } catch (e) {
       return e;

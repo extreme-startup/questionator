@@ -1,16 +1,5 @@
 <template>
   <v-container>
-    <v-layout row justify-space-between>
-      <v-flex md5 class="title font-weight-black">
-        <v-card-text>Questionaire</v-card-text>
-      </v-flex>
-      <v-flex md2>
-        <v-text-field placeholder="Search"/>
-      </v-flex>
-      <v-flex md2 subheading align-self-end>
-        <v-card-text>Profile</v-card-text>
-      </v-flex>
-    </v-layout>
     <v-layout row>
       <v-flex md2>
         <v-btn @click="backToWorkshop">Back to workshop</v-btn>
@@ -18,20 +7,20 @@
     </v-layout>
     <v-layout row>
       <v-flex md7>
-        <v-card-text class="headline font-weight-black">Session#{{sessionId}}</v-card-text>
+        <v-card-text class="headline font-weight-black">Session#{{ sessionId }}</v-card-text>
       </v-flex>
       <v-flex md2>
-        <v-card-text class="subheading">{{activeSession.status}}</v-card-text>
+        <v-card-text class="subheading">{{ activeSession.status }}</v-card-text>
       </v-flex>
       <v-flex md3 align="right">
-        <v-card-text
-                class="subheading"
-        >Trainer: {{activeSession.trainer && activeSession.trainer.email}}</v-card-text>
+        <v-card-text class="subheading">
+          Trainer: {{ activeSession.trainer && activeSession.trainer.email }}
+        </v-card-text>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex md7>
-        <v-text-field readonly v-model="sessionLink" id="activeSessionLinkId" type="text"/>
+        <v-text-field readonly v-model="sessionLink" id="activeSessionLinkId" type="text" />
       </v-flex>
       <v-flex md2>
         <v-btn v-on:click="copyGeneratedLink" dark>COPY LINK</v-btn>
@@ -42,10 +31,10 @@
     </v-layout>
     <v-layout row>
       <template v-if="!isCompleted">
-        <v-flex xl3 v-if="(!isStarted && !activeSession.startedTime)">
+        <v-flex xl3 v-if="!isStarted && !activeSession.startedTime">
           <v-btn dark @click="startActiveSession">START SESSION</v-btn>
         </v-flex>
-        <v-flex xl3 v-if="(isPaused && activeSession.startedTime)">
+        <v-flex xl3 v-if="isPaused && activeSession.startedTime">
           <v-btn dark @click="continueActiveSession">START SESSION</v-btn>
         </v-flex>
         <v-flex xl2 v-if="isStarted">
@@ -67,7 +56,7 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <contenders-table :contenders="activeSession.players"/>
+        <contenders-table :contenders="activeSession.players" />
       </v-flex>
     </v-layout>
   </v-container>

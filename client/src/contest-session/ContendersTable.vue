@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-data-table
-            :headers="headers"
-            :items="computedContenders"
-            :hide-actions="true"
-            :sort-icon="null"
-            class="body-2 bordered"
+      :headers="headers"
+      :items="computedContenders"
+      :hide-actions="true"
+      :sort-icon="null"
+      class="body-2 bordered"
     >
       <template v-slot:items="props">
         <td class="subheading">{{ props.item.email }}</td>
