@@ -77,7 +77,7 @@ export default {
       this.closeDialog();
 
       this.$store.dispatch('contestSession/addSession', {
-        contests: this.$route.params.id,
+        contest: this.$route.params.id,
       });
     },
     openActiveSession(session) {
