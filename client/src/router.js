@@ -37,7 +37,7 @@ const router = new Router({
       props: true,
     },
     {
-      path: '/participate',
+      path: '/participate/:sessionId',
       name: 'participate',
       component: Participate,
     },
