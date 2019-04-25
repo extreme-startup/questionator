@@ -13,9 +13,7 @@
         <v-card-text class="subheading">{{ activeSession.status }}</v-card-text>
       </v-flex>
       <v-flex md3 align="right">
-        <v-card-text class="subheading">
-          Trainer: {{ $store.state.user.email }}
-        </v-card-text>
+        <v-card-text class="subheading"> Trainer: {{ $store.state.user.email }} </v-card-text>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -48,7 +46,7 @@
 
     <v-layout row>
       <v-flex xl12>
-        <LeaderBoard />
+        <LeaderBoard :contestSessionId="sessionId" />
       </v-flex>
     </v-layout>
     <v-layout row mt-4>

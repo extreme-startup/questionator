@@ -73,24 +73,26 @@ const getUpdatedAnswers = (inputData, currData = {}) => {
 const getUpdatedAnswersByContender = (newAnswers, currentAnswers = []) => {
   return newAnswers.reduce((answers, answer) => {
     if (!answers.length) {
-      return answers.concat({ x: answer.answerTime, y: answer.score });
+      return answers.concat({ x: answers.length, y: answer.score });
     }
 
     const aggregatedScore = answers[answers.length - 1].y + answer.score;
 
-    return answers.concat({ x: answer.answerTime, y: aggregatedScore });
+    return answers.concat({ x: answers.length, y: aggregatedScore });
   }, currentAnswers);
 };
 
 const actions = {
-  getAnsweredQuestions: async ({ commit, state }) => {
-    const { data } = await api.getAnsweredQuestions(
-      null,
+  getAnsweredQuestions: async ({ commit, state }, contestSessionId) => {
+    const { data } = await api.resultSession(
+      contestSessionId,
       state.accumulatedAnsweredQuestions.lastUpdateDateTime,
     );
 
-    commit('setAccumulatedAnsweredQuestions', Vue._.groupBy(data, 'userid'));
-    commit('setLastUpdateDateTime', data[data.length - 1].answerTime);
+    if (data && data.length) {
+      commit('setAccumulatedAnsweredQuestions', Vue._.groupBy(data, 'contestPlayerId'));
+      commit('setLastUpdateDateTime', Number(new Date(data[data.length - 1].answeredOn)));
+    }
   },
 };
 

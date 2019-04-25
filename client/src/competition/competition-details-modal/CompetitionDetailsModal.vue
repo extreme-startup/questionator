@@ -91,8 +91,9 @@ export default {
     open(competitionDetails) {
       this.dialog = true;
 
-      this.competitionDetails = competitionDetails ?
-        Object.assign({}, competitionDetails) : new CompetitionDetails();
+      this.competitionDetails = competitionDetails
+        ? Object.assign({}, competitionDetails)
+        : new CompetitionDetails();
       this.initialCompetitionDetails = Object.assign({}, this.competitionDetails);
 
       this.canBeSaved = false;

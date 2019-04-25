@@ -24,14 +24,14 @@ export default {
           xAxes: [
             {
               type: 'linear',
-              display: false,
+              display: true,
               scaleLabel: {
                 display: true,
-                labelString: 'Date',
+                labelString: 'Questions',
               },
               ticks: {
-                max: Number(new Date()) + 3600000,
-                min: Number(new Date()),
+                suggestedMax: 100,
+                beginAtZero: true,
               },
             },
           ],
@@ -45,7 +45,7 @@ export default {
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: 'score',
+                labelString: 'Score',
               },
             },
           ],

@@ -13,10 +13,13 @@ export default {
       polling: null,
     };
   },
+  props: {
+    contestSessionId: String,
+  },
   created() {
     this.polling = setInterval(() => {
-      this.$store.dispatch('contest/getAnsweredQuestions');
-    }, 1000);
+      this.$store.dispatch('contest/getAnsweredQuestions', this.contestSessionId);
+    }, 2000);
   },
   computed: {
     answeredQuestions: function() {

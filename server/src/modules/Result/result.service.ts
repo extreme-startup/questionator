@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThan,  Not, Equal } from 'typeorm';
+import { Repository, MoreThan, Not, Equal } from 'typeorm';
 import * as dateFormat from 'dateformat';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 
@@ -11,7 +11,7 @@ export class ResultService {
   constructor(
     @InjectRepository(AskedQuestion)
     private readonly askedQuestionRepository: Repository<AskedQuestion>,
-  ) {}
+  ) { }
 
   async getAllResults(sessionId?: string, time?: number, userId?: string): Promise<AskedQuestion[]> {
     try {
@@ -29,7 +29,7 @@ export class ResultService {
         });
       }
       if (sessionId && userId) {
-        const res =  await this.askedQuestionRepository.find({
+        const res = await this.askedQuestionRepository.find({
           where: {
             contestSession: sessionId,
             answeredOn: Not(Equal(0)),
@@ -48,8 +48,7 @@ export class ResultService {
             contestSession: sessionId,
             answeredOn: Not(Equal(0)),
           },
-          select: ['score', 'answeredOn', 'player'],
-          relations: ['player', 'player.user'],
+          select: ['score', 'answeredOn', 'contestPlayerId'],
           order: {
             answeredOn: 'ASC',
           },

@@ -2,16 +2,16 @@
   <v-app>
     <Header>
       <v-layout align-center>
-        <v-toolbar-title color='grey' class="white--text">
-            Training  #{{ $route.params.id }}
+        <v-toolbar-title color="grey" class="white--text">
+          Training #{{ $route.params.id }}
 
-            <v-btn color="error" @click="deleteTraining($route.params.id)">
-                delete
-            </v-btn>
+          <v-btn color="error" @click="deleteTraining($route.params.id)">
+            delete
+          </v-btn>
 
-            <v-btn color="primary" @click="editTraining">
-                edit
-            </v-btn>
+          <v-btn color="primary" @click="editTraining">
+            edit
+          </v-btn>
         </v-toolbar-title>
       </v-layout>
     </Header>
