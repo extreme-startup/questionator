@@ -64,6 +64,9 @@ const activeSessionMutations = {
   pauseActiveSession(state) {
     state.data.status = sessionStatus.PAUSED;
   },
+  stopActiveSession(state) {
+    state.data.status = sessionStatus.COMPLETED;
+  },
 };
 
 const pollingMutations = {
@@ -92,6 +95,11 @@ const actions = {
     } finally {
       context.commit('toggleActiveSessionIsFetching');
     }
+  },
+  setActiveSessionError: (context, payload) => {
+    context.commit('setActiveSessionError', payload);
+    context.commit('toggleActiveSessionIsFetching');
+    context.dispatch('stopPollingActiveSession');
   },
   startPollingActiveSession: async (context, payload) => {
     context.commit('togglePollingIsStarted');
@@ -128,14 +136,7 @@ const actions = {
     try {
       await api.pauseSession({ id: context.state.data.id });
       context.commit('pauseActiveSession');
-    } catch (e) {
-      context.dispatch('setActiveSessionError', e);
-    }
-  },
-  continueActiveSession: async context => {
-    try {
-      await api.continueSession({ id: context.state.data.id });
-      context.commit('startActiveSession');
+      context.dispatch('stopPollingActiveSession');
     } catch (e) {
       context.dispatch('setActiveSessionError', e);
     }
@@ -144,6 +145,7 @@ const actions = {
     try {
       await api.completeSession({ id: context.state.data.id });
       context.commit('stopActiveSession');
+      context.dispatch('stopPollingActiveSession');
     } catch (e) {
       context.dispatch('setActiveSessionError', e);
     }

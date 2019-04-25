@@ -20,6 +20,7 @@ export class AskQuestionsService {
     private questionService: QuestionService,
     private contenderGateway: ContenderGateway,
   ) {
+    this.askQuestionsJobs = [];
     this.addAskQuestionJob.bind(this);
     this.startAllSchedulers.bind(this);
     this.stopAllSchedulers.bind(this);
@@ -50,10 +51,11 @@ export class AskQuestionsService {
     };
   }
 
-  public addAskQuestionJob(contenderEmail: string) {
+  public addAskQuestionJob = (contenderEmail: string) => {
     const action = this.generateAskQuestionAction(contenderEmail);
+
     this.askQuestionsJobs.push(new Scheduler(contenderEmail, action));
-  }
+  };
 
   private findAskQuestionJob(contenderEmail: string): Scheduler {
     return this.askQuestionsJobs.find(job => job.getId() === contenderEmail);
