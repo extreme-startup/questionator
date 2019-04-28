@@ -6,9 +6,9 @@ import {
   contestDto,
   updateResult,
   deleteResult,
-  insertResult,
   MockRepository,
 } from './__mocks__/mocks';
+import { RoundService } from '../ContestSession/round.service';
 
 jest.mock('./contest.service');
 jest.mock('../../entity/Contest');
@@ -20,20 +20,21 @@ describe('ContestController', () => {
   let contestService: ContestService;
 
   beforeEach(async () => {
-    contestService = new ContestService(new MockRepository());
+    contestService = new ContestService(new MockRepository(), new MockRepository(), null, new MockRepository());
     contestController = new ContestController(contestService);
   });
 
   describe('create', () => {
     it('should create contest', async () => {
       const createContestDto: ContestDto = contestDto;
+      const returnedContest = new Contest();
 
       jest
         .spyOn(contestService, 'create')
-        .mockReturnValue(Promise.resolve(insertResult));
+        .mockReturnValue(Promise.resolve(returnedContest));
 
       expect(await contestController.create(createContestDto)).toBe(
-        insertResult,
+        returnedContest,
       );
       expect(contestService.create).toHaveBeenCalledWith(createContestDto);
     });

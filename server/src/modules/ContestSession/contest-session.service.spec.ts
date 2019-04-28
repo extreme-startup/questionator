@@ -6,6 +6,14 @@ import { ContestSession } from '../../entity/ContestSession';
 import { ContestSessionDto, Status } from './contest-session.dto';
 import { RoundService } from './round.service';
 import { PlayerService } from '../Player/player.service';
+import { AskQuestionsService } from '../AskQuestions/ask-questions.service';
+
+jest.mock('../AskQuestions/ask-questions.service', () => ({
+  // tslint:disable-next-line
+  AskQuestionsService: function() {
+    this.startAllSchedulers = () => ({});
+  },
+}));
 
 function generateSession(s: Partial<ContestSessionDto> = {} as ContestSessionDto) {
   const session = new ContestSession();
@@ -24,8 +32,12 @@ describe('ContestSessionService', () => {
 
   beforeEach(async () => {
     sessionMockRepository = new Repository();
-    // @ts-ignore
-    service = new ContestSessionService(sessionMockRepository, new RoundService(), new PlayerService());
+    service = new ContestSessionService(
+      sessionMockRepository,
+      new RoundService(new Repository()),
+      new PlayerService(new Repository()),
+      new AskQuestionsService(null, null),
+    );
   });
 
   describe('manage service instantiation', () => {

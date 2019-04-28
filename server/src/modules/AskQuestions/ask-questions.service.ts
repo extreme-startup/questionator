@@ -55,7 +55,7 @@ export class AskQuestionsService {
     const action = this.generateAskQuestionAction(contenderEmail);
 
     this.askQuestionsJobs.push(new Scheduler(contenderEmail, action));
-  };
+  }
 
   private findAskQuestionJob(contenderEmail: string): Scheduler {
     return this.askQuestionsJobs.find(job => job.getId() === contenderEmail);

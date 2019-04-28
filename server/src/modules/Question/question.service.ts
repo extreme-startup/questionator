@@ -166,14 +166,12 @@ export class QuestionService {
     }
 
     const newAskedQuestion = new AskedQuestion();
-    // ToDo: Need to update this with new db structure
-    // newAskedQuestion.contestContenderId = contenderId;
-    // newAskedQuestion.questionId = questionId;
-    // newAskedQuestion.askedOn = new Date();
-    // newAskedQuestion.score = question.value;
+    newAskedQuestion.question = question;
+    newAskedQuestion.askedOn = new Date();
+    newAskedQuestion.score = question.value;
 
-    // newAskedQuestion.question = question.text;
-    // newAskedQuestion.answer = question.answer;
+    newAskedQuestion.text = question.text;
+    newAskedQuestion.answer = question.answer;
     // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
 
     try {

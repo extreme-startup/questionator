@@ -9,6 +9,8 @@ import { PlayerService } from '../Player/player.service';
 import { RoundService } from './round.service';
 import { Round } from '../../entity/Round';
 import { Player } from '../../entity/Player';
+import { AskQuestionsService } from '../AskQuestions/ask-questions.service';
+import { MockRepository } from 'dist/src/modules/Contest/__mocks__/mocks';
 
 function generateSession(s: Partial<ContestSessionDto> = {} as ContestSessionDto) {
   const session = new ContestSession();
@@ -28,6 +30,7 @@ describe('ManageSession Controller', () => {
       new Repository<ContestSession>(),
       new RoundService(new Repository<Round>()),
       new PlayerService(new Repository<Player>()),
+      new AskQuestionsService(null, null),
     );
     controller = new ContestSessionController(manageSessionService);
   });

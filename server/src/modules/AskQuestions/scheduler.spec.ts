@@ -41,13 +41,13 @@ describe('Scheduler', () => {
   describe('updateExecutionTimeout', () => {
     it('should update execution timeout', () => {
       sut.updateExecutionPeriod(NEW_EXECUTION_TIMEOUT);
-      expect((sut as any).executionTimeout).toEqual(NEW_EXECUTION_TIMEOUT);
+      expect((sut as any).executionPeriod).toEqual(NEW_EXECUTION_TIMEOUT);
     });
   });
 
   describe('getExecutionTimeout', () => {
     it('should expose private execution timeout', () => {
-      expect(sut.getExecutionPeriod()).toEqual((sut as any).executionTimeout);
+      expect(sut.getExecutionPeriod()).toEqual((sut as any).executionPeriod);
     });
   });
 
@@ -66,14 +66,14 @@ describe('Scheduler', () => {
 
     it('should wait for defined time before executing task', () => {
       sut.start().then(() => {
-        expect(delaySpy).toHaveBeenCalledWith((sut as any).executionTimeout);
+        expect(delaySpy).toHaveBeenCalledWith((sut as any).executionPeriod);
       });
     });
 
     it('should execute a task after delay', () => {
-      sut
-        .start()
-        .then(() => expect(mockTask).toHaveBeenCalledWith((sut as any).id));
+      sut.start().then(() => {
+        expect(mockTask).toHaveBeenCalled();
+      });
     });
 
     it('should subscribe to the result of provided task', () => {

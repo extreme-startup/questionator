@@ -10,7 +10,7 @@ import {
   insertResult,
   MockRepository,
 } from './__mocks__/mocks';
-import { Question } from '../../entity/Question';
+import { RoundService } from '../ContestSession/round.service';
 
 describe('ContestService', () => {
   const contestId = '1f941f0d-ab27-45ed-ba6a-72e68069dbfa';
@@ -20,7 +20,12 @@ describe('ContestService', () => {
 
   beforeEach(async () => {
     contestRepository = new MockRepository();
-    contestService = new ContestService(contestRepository);
+    contestService = new ContestService(
+      contestRepository,
+      new MockRepository(),
+      new RoundService(new MockRepository()),
+      new MockRepository(),
+    );
   });
 
   describe('findOne', () => {
@@ -66,13 +71,13 @@ describe('ContestService', () => {
     it('should create new contest', async () => {
       const newContestDto: ContestDto = contestDto;
       jest
-        .spyOn(contestRepository, 'insert')
-        .mockReturnValue(Promise.resolve(insertResult));
+        .spyOn(contestRepository, 'save')
+        .mockReturnValue(Promise.resolve(contest));
       jest.spyOn(contestRepository, 'create').mockReturnValue(contest);
 
-      expect(await contestService.create(newContestDto)).toBe(insertResult);
+      expect(await contestService.create(newContestDto)).toBe(contest);
       expect(contestRepository.create).toHaveBeenCalledWith(newContestDto);
-      expect(contestRepository.insert).toHaveBeenCalledWith(contest);
+      expect(contestRepository.save).toHaveBeenCalledWith(contest);
     });
   });
 
