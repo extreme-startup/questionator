@@ -17,6 +17,7 @@ const activeSessionState = {
     sessionHash: '',
     status: '',
     askedQuestion: [],
+    id: '',
   },
   isFetching: false,
   error: null,
@@ -116,13 +117,6 @@ const actions = {
   stopPollingActiveSession: context => {
     clearInterval(context.state.isGetActiveSessionPolling.timerId);
     context.commit('togglePollingIsStarted');
-  },
-  updateSession: async (context, payload) => {
-    try {
-      await api.updateSession(context.state.data);
-    } catch (err) {
-      context.dispatch('setActiveSessionError', err);
-    }
   },
   startActiveSession: async context => {
     try {

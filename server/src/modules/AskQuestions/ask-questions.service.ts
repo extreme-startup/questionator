@@ -5,55 +5,85 @@ import {
   MIN_ASK_QUESTION_INTERVAL_MS,
 } from './constants';
 import { Scheduler } from './scheduler';
-import { Observable, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { QuestionService } from '../Question/question.service';
 import { ContenderGateway } from '../Contender/contender.gateway';
 import { QuestionDto } from '../Question/dto/question.dto';
-
-export type AskQuestionFn = () => Observable<string>;
+import { AskedQuestion } from 'src/entity/AskedQuestion';
+import { takeUntil } from 'rxjs/internal/operators';
 
 @Injectable()
 export class AskQuestionsService {
   private askQuestionsJobs: Scheduler[];
+  private getAnswerSubjects: Array<Subject<void>>;
 
   constructor(
     private questionService: QuestionService,
     private contenderGateway: ContenderGateway,
   ) {
     this.askQuestionsJobs = [];
+    this.getAnswerSubjects = [];
     this.addAskQuestionJob.bind(this);
     this.startAllSchedulers.bind(this);
     this.stopAllSchedulers.bind(this);
+    this.increaseAskQuestionInterval.bind(this);
+    this.decreaseAskQuestionInterval.bind(this);
   }
 
-  private generateAskQuestionAction(contenderEmail: string) {
-    const { getRandom, ask, reply } = this.questionService;
-    const { getAnswer } = this.contenderGateway;
-
-    return async () => {
-      // We random question from the DB here;
+  private async askQuestionAction(
+    contenderEmail: string,
+    unsubscribe$: Subject<void>,
+  ) {
+    const { questionService } = this;
+    try {
+      // We get random question from the DB here;
       // TODO: update `getRandom` to something like `getRandomOfCurrentLevel`
-      const { data }: { data: QuestionDto } = await getRandom();
+      const { data }: { data: QuestionDto } = await questionService.getRandom();
       const questionId: string = data && data.id;
-      const question = await ask(questionId, contenderEmail); // `contenderEmail` serves as an ID here
+      const question = await questionService.ask(questionId, contenderEmail); // `contenderEmail` serves as an ID here
       // TODO: update this if needed to `contenderId`
-      let answerSubscription: Subscription;
-      try {
-        answerSubscription = getAnswer(contenderEmail, question.text).subscribe(
+      this.contenderGateway
+        .getAnswer(contenderEmail, question.text)
+        .pipe(takeUntil(unsubscribe$))
+        .subscribe(
           answer => {
-            reply(questionId, answer);
-            answerSubscription.unsubscribe();
+            questionService
+              .reply(questionId, answer)
+              .then((askedQuestion: AskedQuestion) => {
+                if (askedQuestion.isCorrect) {
+                  this.decreaseAskQuestionInterval(contenderEmail);
+                } else {
+                  this.increaseAskQuestionInterval(contenderEmail);
+                }
+              });
           },
-        );
-      } catch (err) {
-        answerSubscription.unsubscribe();
-      }
-    };
+          error => {
+            /**
+             * Here the case when a contender server does not work/respond
+             * should be handled
+             */
+            this.increaseAskQuestionInterval(contenderEmail);
+          },
+          () => {
+            unsubscribe$.next();
+          },
+        )
+        .unsubscribe();
+    } catch (err) {
+      unsubscribe$.next();
+      unsubscribe$.complete();
+    }
   }
 
   public addAskQuestionJob = (contenderEmail: string) => {
-    const action = this.generateAskQuestionAction(contenderEmail);
+    const unsubscribe$: Subject<void> = new Subject();
+    const action = this.askQuestionAction.bind(
+      this,
+      contenderEmail,
+      unsubscribe$,
+    );
 
+    this.getAnswerSubjects.push(unsubscribe$);
     this.askQuestionsJobs.push(new Scheduler(contenderEmail, action));
   }
 
@@ -96,13 +126,22 @@ export class AskQuestionsService {
   }
 
   public async startAllSchedulers() {
-    const jobStarters = this.askQuestionsJobs.map(({ start }) => start);
-    await Promise.all(jobStarters);
+    this.askQuestionsJobs.forEach(job => {
+      job.start();
+    });
   }
 
-  public stopAllSchedulers() {
-    this.askQuestionsJobs.forEach(job => {
-      job.stop();
-    }, this);
+  public async pauseAllSchedulers() {
+    this.getAnswerSubjects.forEach(subject => subject.next());
+    this.askQuestionsJobs.forEach(async job => {
+      await job.stop();
+    });
+  }
+
+  public async stopAllSchedulers() {
+    await this.pauseAllSchedulers();
+    this.getAnswerSubjects.forEach(subject => subject.complete());
+    this.getAnswerSubjects = [];
+    this.askQuestionsJobs = [];
   }
 }

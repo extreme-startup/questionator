@@ -13,12 +13,12 @@
         <v-card-text class="subheading">{{ activeSession.status }}</v-card-text>
       </v-flex>
       <v-flex md3 align="right">
-        <v-card-text class="subheading"> Trainer: {{ $store.state.user.email }} </v-card-text>
+        <v-card-text class="subheading">Trainer: {{ $store.state.user.email }}</v-card-text>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex md7>
-        <v-text-field readonly v-model="sessionLink" id="activeSessionLinkId" type="text" />
+        <v-text-field readonly v-model="sessionLink" id="activeSessionLinkId" type="text"/>
       </v-flex>
       <v-flex md2>
         <v-btn v-on:click="copyGeneratedLink" dark>COPY LINK</v-btn>
@@ -27,26 +27,21 @@
     <v-layout v-if="copyLinkErrorMessage" row>
       <div error>{{ copyLinkErrorMessage }}</div>
     </v-layout>
-    <v-layout row>
-      <template v-if="!isCompleted">
-        <v-flex xl3 v-if="!isStarted && !activeSession.startedTime">
-          <v-btn dark @click="startActiveSession">START SESSION</v-btn>
-        </v-flex>
-        <v-flex xl3 v-if="isPaused && activeSession.startedTime">
-          <v-btn dark @click="continueActiveSession">START SESSION</v-btn>
-        </v-flex>
-        <v-flex xl2 v-if="isStarted">
-          <v-btn dark @click="pauseActiveSession">PAUSE SESSION</v-btn>
-        </v-flex>
-        <v-flex xl2 v-if="isStarted">
-          <v-btn dark @click="stopActiveSession">STOP SESSION</v-btn>
-        </v-flex>
-      </template>
+    <v-layout row v-if="!isCompleted">
+      <v-flex xl3 v-if="!isStarted">
+        <v-btn dark @click="startActiveSession">START SESSION</v-btn>
+      </v-flex>
+      <v-flex xl2 v-if="isStarted">
+        <v-btn dark @click="pauseActiveSession">PAUSE SESSION</v-btn>
+      </v-flex>
+      <v-flex xl2 v-if="isStarted || isPaused">
+        <v-btn dark @click="stopActiveSession">STOP SESSION</v-btn>
+      </v-flex>
     </v-layout>
 
     <v-layout row>
       <v-flex xl12>
-        <LeaderBoard :contestSessionId="sessionId" />
+        <LeaderBoard :contestSessionId="sessionId"/>
       </v-flex>
     </v-layout>
     <v-layout row mt-4>
@@ -54,7 +49,7 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <contenders-table :contenders="activeSession.players" />
+        <contenders-table :contenders="activeSession.players"/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -73,10 +68,10 @@ export default {
     activeSession() {
       return { ...this.$store.getters['activeSession/getActiveSession'] };
     },
-    isFetching: function() {
+    isFetching() {
       return this.$store.getters['activeSession/getActiveSessionFetchingStatus'].isFetching;
     },
-    error: function() {
+    error() {
       return this.$store.getters['activeSession/getActiveSessionFetchingStatus'].error;
     },
     sessionLink() {
@@ -120,9 +115,6 @@ export default {
     },
     pauseActiveSession() {
       this.$store.dispatch('activeSession/pauseActiveSession');
-    },
-    continueActiveSession() {
-      this.$store.dispatch('activeSession/continueActiveSession');
     },
     stopActiveSession() {
       this.$store.dispatch('activeSession/stopActiveSession');

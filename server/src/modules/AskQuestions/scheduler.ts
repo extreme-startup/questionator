@@ -8,7 +8,17 @@ export class Scheduler {
     private id: string,
     private task: () => void,
     private executionPeriod: number = INITIAL_ASK_QUESTION_INTERVAL_MS,
-  ) {}
+  ) {
+    this.getId.bind(this);
+    this.updateExecutionPeriod.bind(this);
+    this.getExecutionPeriod.bind(this);
+    this.start.bind(this);
+    this.stop.bind(this);
+  }
+
+  private async getIsTicking() {
+    return await Promise.resolve(this.isTicking);
+  }
 
   private delay(timeout: number) {
     return new Promise<NodeJS.Timeout>(resolve => {
@@ -32,6 +42,7 @@ export class Scheduler {
   public getExecutionPeriod() {
     return this.executionPeriod;
   }
+
   public async start() {
     this.isTicking = true;
     while (this.isTicking) {
@@ -39,8 +50,8 @@ export class Scheduler {
     }
   }
 
-  public stop() {
-    this.isTicking = false;
+  public async stop() {
+    this.isTicking = await Promise.resolve(false);
     clearTimeout(this.currentTimer);
   }
 }

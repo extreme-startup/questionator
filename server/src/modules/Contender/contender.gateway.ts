@@ -55,7 +55,7 @@ export class ContenderGateway implements OnGatewayConnection {
     const hash = this.getHash(question);
 
     if (!contender) {
-      return Observable.throw('No such contender');
+      return throwError('No such contender');
     }
     contender.client.emit(QUESTION_MESSAGE_NAME, { question, hash });
 

@@ -37,7 +37,9 @@ export class ContestSessionService {
 
   async findById(id: string): Promise<ContestSession> {
     try {
-      return this.msRepository.findOne(id, { relations: ['players', 'rounds'] });
+      return this.msRepository.findOne(id, {
+        relations: ['players', 'rounds'],
+      });
     } catch (e) {
       return e;
     }
@@ -58,7 +60,8 @@ export class ContestSessionService {
   async addPlayer(body: Partial<PlayerDto>) {
     try {
       const playerData = await this.playerService.create(body);
-      this.askQuestionsService.addAskQuestionJob(playerData.user.email);
+      const playerId = playerData.user.email || playerData.nickname;
+      this.askQuestionsService.addAskQuestionJob(playerId);
       return {
         success: true,
       };
@@ -72,6 +75,9 @@ export class ContestSessionService {
     switch (data.status) {
       case Status.COMPLETED: {
         this.askQuestionsService.stopAllSchedulers();
+      }
+      case Status.PAUSED: {
+        this.askQuestionsService.pauseAllSchedulers();
       }
       case Status.IN_PROGRESS: {
         await this.askQuestionsService.startAllSchedulers();
