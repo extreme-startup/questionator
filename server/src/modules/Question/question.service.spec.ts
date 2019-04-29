@@ -8,11 +8,11 @@ import { QuestionType } from '../../constants';
 import { advanceTo, clear } from 'jest-date-mock';
 import { AskedQuestionDto } from './dto/askedQuestion.dto';
 import { MockRepository } from '../Contest/__mocks__/mocks';
-import { QuestionCreateDto } from 'dist/src/modules/Question/dto/question-create.dto';
-import { toQuestionDto } from 'dist/src/modules/Question/helpers/questions.helper';
-import { Contest } from 'dist/src/entity/Contest';
-import { ContestSession } from 'dist/src/entity/ContestSession';
-import { Round } from 'dist/src/entity/Round';
+import { QuestionCreateDto } from 'src/modules/Question/dto/question-create.dto';
+import { toQuestionDto } from 'src/modules/Question/helpers/questions.helper';
+import { Contest } from 'src/entity/Contest';
+import { ContestSession } from 'src/entity/ContestSession';
+import { Round } from 'src/entity/Round';
 
 function generateQuestion(q: QuestionDto | QuestionCreateDto = {} as QuestionDto | QuestionCreateDto): Question {
   const question = new Question();
