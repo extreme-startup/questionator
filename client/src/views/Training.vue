@@ -1,26 +1,25 @@
 <template>
   <v-app>
-    <Header />
-    <v-card color="grey lighten-4" height="100%" flat>
-      <v-toolbar color="cyan" dark tabs>
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>
-            Training  #{{ $route.params.id }}
+    <Header>
+      <v-layout align-center>
+        <v-toolbar-title color="grey" class="white--text">
+          Training #{{ $route.params.id }}
 
-            <v-btn color="error" @click="deleteTraining($route.params.id)">
-                delete
-            </v-btn>
+          <v-btn color="error" @click="deleteTraining($route.params.id)">
+            delete
+          </v-btn>
 
-            <v-btn color="primary" @click="editTraining">
-                edit
-            </v-btn>
+          <v-btn color="primary" @click="editTraining">
+            edit
+          </v-btn>
         </v-toolbar-title>
-      </v-toolbar>
+      </v-layout>
+    </Header>
+    <v-card color="grey lighten-4" height="100%" flat>
       <TabbedPanel :tabs="tabs" />
     </v-card>
-
-      <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
-      <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
+    <ConfirmCompetitionDeletionModal ref="confirm"> </ConfirmCompetitionDeletionModal>
+    <CompetitionDetailsModal ref="trainingDetailsModal"> </CompetitionDetailsModal>
   </v-app>
 </template>
 
@@ -48,7 +47,7 @@ export default {
   computed: {
     training: function() {
       return this.$store.getters['training/trainings'].find(
-        item => item.id === parseInt(this.$route.params.id),
+        item => item.id === this.$route.params.id,
         10,
       );
     },

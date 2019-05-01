@@ -6,34 +6,35 @@ import {
   contestDto,
   updateResult,
   deleteResult,
-  insertResult,
   MockRepository,
 } from './__mocks__/mocks';
+import { RoundService } from '../ContestSession/round.service';
 
 jest.mock('./contest.service');
 jest.mock('../../entity/Contest');
 
 describe('ContestController', () => {
-  const contestId = '1';
+  const contestId = '1f941f0d-ab27-45ed-ba6a-72e68069dbfa';
   const contest = new Contest();
   let contestController: ContestController;
   let contestService: ContestService;
 
   beforeEach(async () => {
-    contestService = new ContestService(new MockRepository());
+    contestService = new ContestService(new MockRepository(), new MockRepository(), null, new MockRepository());
     contestController = new ContestController(contestService);
   });
 
   describe('create', () => {
     it('should create contest', async () => {
       const createContestDto: ContestDto = contestDto;
+      const returnedContest = new Contest();
 
       jest
         .spyOn(contestService, 'create')
-        .mockReturnValue(Promise.resolve(insertResult));
+        .mockReturnValue(Promise.resolve(returnedContest));
 
       expect(await contestController.create(createContestDto)).toBe(
-        insertResult,
+        returnedContest,
       );
       expect(contestService.create).toHaveBeenCalledWith(createContestDto);
     });
@@ -46,9 +47,7 @@ describe('ContestController', () => {
         .mockReturnValue(Promise.resolve(contest));
 
       expect(await contestController.findOne(contestId)).toBe(contest);
-      expect(contestService.findOne).toHaveBeenCalledWith(
-        parseInt(contestId, 10),
-      );
+      expect(contestService.findOne).toHaveBeenCalledWith(contestId);
     });
   });
 
@@ -77,7 +76,7 @@ describe('ContestController', () => {
         updateResult,
       );
       expect(contestService.update).toHaveBeenCalledWith(
-        parseInt(contestId, 10),
+        contestId,
         updateParams,
       );
     });
@@ -90,9 +89,7 @@ describe('ContestController', () => {
         .mockReturnValue(Promise.resolve(deleteResult));
 
       expect(await contestController.delete(contestId)).toBe(deleteResult);
-      expect(contestService.delete).toHaveBeenCalledWith(
-        parseInt(contestId, 10),
-      );
+      expect(contestService.delete).toHaveBeenCalledWith(contestId);
     });
   });
 });

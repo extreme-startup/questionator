@@ -2,18 +2,21 @@ import { ApiModelProperty } from '@nestjs/swagger';
 import { QuestionType } from '../../../constants';
 
 export class QuestionDto {
-    @ApiModelProperty()
-    readonly type: QuestionType;
+  @ApiModelProperty()
+  public readonly id: string;
 
-    @ApiModelProperty()
-    readonly text: string;
+  @ApiModelProperty()
+  public readonly type: QuestionType;
 
-    @ApiModelProperty()
-    readonly answer: string;
+  @ApiModelProperty()
+  public readonly text: string;
 
-    @ApiModelProperty()
-    readonly value: number;
+  @ApiModelProperty()
+  public readonly answer: string;
 
-    @ApiModelProperty()
-    readonly isDeleted: boolean;
+  @ApiModelProperty()
+  public readonly value: number;
+
+  @ApiModelProperty()
+  public readonly isDeleted: boolean;
 }

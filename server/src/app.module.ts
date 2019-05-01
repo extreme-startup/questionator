@@ -5,7 +5,6 @@ import { ConfigModule } from './config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormStore } from 'typeorm-store';
 import { getConnection } from 'typeorm';
-import { CustomerModule } from './modules/Customer/customer.module';
 import { ConfigService } from './config/config.service';
 import { Session } from './entity/Session';
 import { UserModule } from './modules/User/user.module';
@@ -15,25 +14,27 @@ import { ClearCookieMiddleware } from './midelwares/clearCookie.middleware';
 import { ContestModule } from './modules/Contest/contest.module';
 import { QuestionModule } from './modules/Question/question.module';
 import { ContenderModule } from './modules/Contender/contender.module';
-import { ManageSessionModule } from './modules/manage-session/manage-session.module';
-import {ResultLoggerModule} from './modules/ResultLogger/resultLogger.module';
+import { AskQuestionsModule } from './modules/AskQuestions/ask-questions.module';
+import { ContestSessionModule } from './modules/ContestSession/contest-session.module';
+import { ResultModule } from './modules/Result/result.module';
+import { PlayerModule } from './modules/Player/player.module';
 
 @Module({
   imports: [
     ConfigModule,
     TypeOrmModule.forRoot(),
-    CustomerModule,
     UserModule,
     AuthModule,
     SessionModule,
     ContestModule,
     QuestionModule,
     ContenderModule,
-    ManageSessionModule,
-    ResultLoggerModule,
+    AskQuestionsModule,
+    ContestSessionModule,
+    ResultModule,
+    PlayerModule,
   ],
 })
-
 export class AppModule {
   constructor(private readonly configService: ConfigService) { }
 

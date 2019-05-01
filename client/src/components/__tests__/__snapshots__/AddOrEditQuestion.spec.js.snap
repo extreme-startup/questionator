@@ -1,41 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddOrEditQuestion renders add form correctly 1`] = `
-<div
-  class="hZfSeG"
-  name="modal-fade"
+<v-dialog
+  max-width="600"
+  persistent=""
 >
-  <div
-    class="kRBSif"
-  >
-    <header>
-      <button
-        class="beFTTq"
-      >
-        <v-icon>
-          close
-        </v-icon>
-      </button>
-       
-      <h1
-        class="bhoRXc"
+  <v-card>
+    <v-container>
+      <v-card-title
+        class="headline"
       >
         Add new question
-      </h1>
-    </header>
-     
-    <section>
+      </v-card-title>
        
-      <div
-        class="jKkdhY"
-      >
+      <!---->
+       
+      <v-container>
         <form
           novalidate="novalidate"
         >
-          <div
-            class="jtUfTw jwWyFP"
-          >
-            <p>
+          <v-layout>
+            <p
+              class="caption grey--text lighten-2--text"
+            >
               Type
             </p>
              
@@ -53,12 +40,14 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
                 value="dynamic"
               />
             </v-radio-group>
-          </div>
+          </v-layout>
            
           <!---->
            
-          <div
-            class="jtUfTw"
+          <v-layout
+            column=""
+            justify-space-between=""
+            mb-4=""
           >
             <v-text-field
               id="question-text-input"
@@ -71,15 +60,18 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             <!---->
              
             <!---->
-          </div>
+          </v-layout>
            
-          <div
-            class="jtUfTw"
+          <v-layout
+            column=""
+            justify-space-between=""
+            mb-4=""
           >
             <v-textarea
               id="question-answer-input"
               label="Answer*"
               name="answer"
+              no-resize=""
               placeholder="Type your answer"
               required=""
             />
@@ -87,10 +79,12 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             <!---->
              
             <!---->
-          </div>
+          </v-layout>
            
-          <div
-            class="jtUfTw"
+          <v-layout
+            column=""
+            justify-space-between=""
+            mb-4=""
           >
             <v-text-field
               id="question-value-input"
@@ -103,10 +97,16 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             <!---->
              
             <!---->
-          </div>
+          </v-layout>
+           
+          <small
+            class="grey--text lighten-2--text"
+          >
+            *indicates required field
+          </small>
            
           <div
-            class="fvVliX"
+            class="pt-4 right"
           >
             <v-btn
               color="blue darken-1"
@@ -131,75 +131,73 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             </v-btn>
           </div>
         </form>
-      </div>
-    </section>
-     
-    <footer />
-  </div>
-</div>
+      </v-container>
+       
+      <v-card-actions>
+        <v-spacer />
+         
+        <!---->
+         
+        <!---->
+      </v-card-actions>
+    </v-container>
+  </v-card>
+</v-dialog>
 `;
 
 exports[`AddOrEditQuestion renders edit form correctly 1`] = `
-<div
-  class="hZfSeG"
-  name="modal-fade"
+<v-dialog
+  max-width="600"
+  persistent=""
 >
-  <div
-    class="kRBSif"
-  >
-    <header>
-      <button
-        class="beFTTq"
-      >
-        <v-icon>
-          close
-        </v-icon>
-      </button>
-       
-      <h1
-        class="bhoRXc"
+  <v-card>
+    <v-container>
+      <v-card-title
+        class="headline"
       >
         Edit question
-      </h1>
-    </header>
-     
-    <section>
+      </v-card-title>
        
-      <div
-        class="jKkdhY"
-      >
+      <!---->
+       
+      <v-container>
         <form
           novalidate="novalidate"
         >
           <!---->
            
           <p
-            class="gYaVnZ"
+            class="pt-8"
           >
             Type: static
           </p>
            
-          <div
-            class="jtUfTw"
+          <v-layout
+            column=""
+            justify-space-between=""
+            mb-4=""
           >
             <!---->
              
             <p
-              class="gYaVnZ"
+              class="pt-8"
             >
               Question: 
             </p>
              
             <!---->
-          </div>
+          </v-layout>
            
-          <div
-            class="jtUfTw"
+          <v-layout
+            column=""
+            justify-space-between=""
+            mb-4=""
           >
             <v-textarea
               id="question-answer-input"
               label="Answer*"
               name="answer"
+              no-resize=""
               placeholder="Type your answer"
               required=""
             />
@@ -207,10 +205,12 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
             <!---->
              
             <!---->
-          </div>
+          </v-layout>
            
-          <div
-            class="jtUfTw"
+          <v-layout
+            column=""
+            justify-space-between=""
+            mb-4=""
           >
             <v-text-field
               id="question-value-input"
@@ -223,10 +223,16 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
             <!---->
              
             <!---->
-          </div>
+          </v-layout>
+           
+          <small
+            class="grey--text lighten-2--text"
+          >
+            *indicates required field
+          </small>
            
           <div
-            class="fvVliX"
+            class="pt-4 right"
           >
             <v-btn
               color="blue darken-1"
@@ -251,10 +257,16 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
             </v-btn>
           </div>
         </form>
-      </div>
-    </section>
-     
-    <footer />
-  </div>
-</div>
+      </v-container>
+       
+      <v-card-actions>
+        <v-spacer />
+         
+        <!---->
+         
+        <!---->
+      </v-card-actions>
+    </v-container>
+  </v-card>
+</v-dialog>
 `;

@@ -1,12 +1,18 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
+// tslint:disable:max-classes-per-file
+export class ContestRequestDto {
+  @ApiModelProperty()
+  public name: string;
+
+  @ApiModelProperty()
+  public description: string;
+}
+
 export class ContestDto {
   @ApiModelProperty()
-  name: string;
+  public name: string;
 
   @ApiModelProperty()
-  description: string;
-
-  @ApiModelProperty()
-  category: string;
+  public description: string;
 }

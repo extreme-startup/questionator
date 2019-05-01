@@ -47,7 +47,7 @@ export default {
     columns: Array,
     data: Array,
     loading: Boolean,
-    error: Object,
+    error: Error,
   },
   methods: {
     showEditDialog(e, item) {

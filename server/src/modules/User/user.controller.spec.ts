@@ -12,6 +12,9 @@ describe('User Controller', () => {
     id: '1',
     email: 'test@test.com',
     sessions: [],
+    trainers: [],
+    players: [],
+    contests: [],
   };
 
   beforeEach(async () => {

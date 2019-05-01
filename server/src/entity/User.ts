@@ -1,22 +1,31 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany, PrimaryColumn} from 'typeorm';
-import { ApiModelProperty } from '@nestjs/swagger';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { Session } from './Session';
+import { Player } from './Player';
+import { Contest } from './Contest';
 
-import { ManageSessionEntity } from './ManageSessionEntity';
-
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class User {
-  @ApiModelProperty()
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
-  @ApiModelProperty()
   @Column('varchar', {
     nullable: false,
     name: 'email',
   })
-  email: string;
+  public email: string;
 
-  @ApiModelProperty()
-  @OneToMany(type => ManageSessionEntity, session => session.trainer)
-  sessions: ManageSessionEntity[];
+  @OneToMany(type => Session, session => session.user)
+  public sessions: Session[];
+
+  @OneToMany(type => Player, (player: Player) => player.user)
+  public players: Player[];
+
+  @OneToMany(type => Contest, (contest: Contest) => contest.trainer)
+  public contests: Contest[];
 }

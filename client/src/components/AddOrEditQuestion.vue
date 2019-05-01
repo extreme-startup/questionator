@@ -1,8 +1,5 @@
 <template>
-  <Modal @close="close">
-    <template v-slot:header>
-      <Title>{{ titles.title }}</Title>
-    </template>
+  <Dialog :is-open="isShown" :title="titles.title" maxWidth="600" hideControls>
     <QuestionForm
       :question="question"
       :submitTitle="titles.submitTitle"
@@ -11,25 +8,12 @@
       @submit="addOrEditQuestion"
       @close="close"
     ></QuestionForm>
-  </Modal>
+  </Dialog>
 </template>
 
 <script>
-import styled from 'vue-styled-components';
-import Modal from '@/common/Modal.vue';
+import Dialog from '@/components/ConfirmDialog';
 import QuestionForm from '@/components/QuestionForm.vue';
-
-const Title = styled('h1')`
-  width: 100%;
-  padding: 30px 0 30px 60px;
-  margin: 0;
-  text-align: left;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 16px;
-  box-sizing: border-box;
-  background-color: var(--btn-color);
-`;
 
 const getModalTitles = modalType => {
   switch (modalType) {
@@ -65,8 +49,7 @@ export default {
   },
   props: ['isShown', 'question', 'modalType'],
   components: {
-    Modal,
-    Title,
+    Dialog,
     QuestionForm,
   },
   computed: {

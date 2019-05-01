@@ -1,73 +1,69 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { ApiModelProperty } from '@nestjs/swagger';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { ContestSession } from './ContestSession';
+import { Question } from './Question';
+import { Player } from './Player';
 
-import { ManageSessionEntity } from './ManageSessionEntity';
-
-@Entity({ name: 'asked_question' })
+@Entity({ name: 'asked_questions' })
 export class AskedQuestion {
-  @ApiModelProperty()
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
-  @ApiModelProperty()
   @Column('varchar', {
-    name: 'contest_contender_id',
     nullable: false,
   })
-  contestContenderId: string;
+  public text: string;
 
-  @ApiModelProperty()
-  @Column('uuid', {
-    name: 'question_id',
-    nullable: false,
-  })
-  questionId: string;
-
-  @ApiModelProperty()
   @Column('varchar', {
-    name: 'question',
     nullable: false,
   })
-  question: string;
+  public answer: string;
 
-  @ApiModelProperty()
-  @Column('varchar', {
-    name: 'answer',
-    nullable: false,
-  })
-  answer: string;
-
-  @ApiModelProperty()
   @Column('datetime', {
     name: 'asked_on',
     nullable: false,
   })
-  askedOn: Date;
+  public askedOn: Date;
 
-  @ApiModelProperty()
   @Column('datetime', {
     name: 'answered_on',
     nullable: true,
   })
-  answeredOn: Date;
+  public answeredOn: Date;
 
-  @ApiModelProperty()
-  @Column('numeric', {
-    name: 'score',
+  @Column('integer', {
     nullable: false,
     default: 0,
   })
-  score: number;
+  public score: number;
 
-  @ApiModelProperty()
   @Column('boolean', {
     name: 'is_correct',
     nullable: false,
     default: false,
   })
-  isCorrect: boolean;
+  public isCorrect: boolean;
 
-  @ApiModelProperty()
-  @ManyToOne(type => ManageSessionEntity, session => session.askedQuestion)
-  session: ManageSessionEntity;
+  @Column('varchar', {
+    name: 'contest_contender_id',
+    nullable: false,
+  })
+  public contestPlayerId: string;
+
+  @ManyToOne(
+    type => ContestSession,
+    (contestSession: ContestSession) => contestSession.askedQuestions,
+  )
+  public contestSession: ContestSession;
+
+  @ManyToOne(type => Question, (question: Question) => question.askedQuestions)
+  public question: Question;
+
+  @ManyToOne(type => Player, (player: Player) => player.askedQuestions)
+  public player: Player;
 }

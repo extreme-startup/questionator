@@ -11,7 +11,7 @@
 
 <script>
 import QuestionTab from './QuestionTab.vue';
-import ManageSession from '@/sessions/ManageSession.vue';
+import ContestSession from '@/contest-session/ContestSession.vue';
 
 export default {
   name: 'TabbedPanel',
@@ -23,7 +23,7 @@ export default {
   },
   components: {
     questions: QuestionTab,
-    sessions: ManageSession,
+    sessions: ContestSession,
   },
   computed: {
     currentTabComponent: function() {

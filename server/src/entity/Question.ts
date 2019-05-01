@@ -1,53 +1,58 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Contest } from './Contest';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { Round } from './Round';
+import { AskedQuestion } from './AskedQuestion';
 
 enum QuestionType {
-    STATIC = 'static',
-    DYNAMIC = 'dynamic',
+  STATIC = 'static',
+  DYNAMIC = 'dynamic',
 }
 
-@Entity({name: 'questions'})
+@Entity({ name: 'questions' })
 export class Question {
-    @PrimaryGeneratedColumn('uuid', { name: 'id' }) id: string;
+  @PrimaryGeneratedColumn('uuid') public id: string;
 
-    @Column('enum', {
-        name: 'type',
-        enum: QuestionType,
-        default: QuestionType.STATIC,
-        nullable: false,
-    })
-    type: QuestionType;
+  @Column('enum', {
+    enum: QuestionType,
+    default: QuestionType.STATIC,
+    nullable: false,
+  })
+  public type: QuestionType;
 
-    @Column('varchar', {
-        name: 'text',
-        nullable: false,
-    })
-    text: string;
+  @Column('varchar', {
+    nullable: false,
+  })
+  public text: string;
 
-    @Column('varchar', {
-        name: 'answer',
-        nullable: false,
-    })
-    answer: string;
+  @Column('varchar', {
+    nullable: false,
+  })
+  public answer: string;
 
-    @Column('varchar', {
-        name: 'value',
-        nullable: false,
-    })
-    value: number;
+  @Column('integer', {
+    nullable: false,
+    default: 0,
+  })
+  public value: number;
 
-    @Column('boolean', {
-        name: 'isDeleted',
-        default: false,
-    })
-    isDeleted: boolean;
+  @Column('boolean', {
+    default: false,
+  })
+  public deleted: boolean;
 
-    @ManyToOne(() => Contest, contest => contest.questions)
-    contest: Contest;
+  @ManyToMany(type => Round, (round: Round) => round.questions)
+  public rounds: Round[];
 
-    @Column('integer', {
-        name: 'contestId',
-        default: false,
-    })
-    contestId: number;
+  @OneToMany(
+    type => AskedQuestion,
+    (askedQuestion: AskedQuestion) => askedQuestion.question,
+  )
+  public askedQuestions: AskedQuestion[];
 }

@@ -7,21 +7,28 @@ import { QuestionDto } from './dto/question.dto';
 import { QuestionType } from '../../constants';
 import { advanceTo, clear } from 'jest-date-mock';
 import { AskedQuestionDto } from './dto/askedQuestion.dto';
+import { MockRepository } from '../Contest/__mocks__/mocks';
+import { QuestionCreateDto } from 'src/modules/Question/dto/question-create.dto';
+import { toQuestionDto } from 'src/modules/Question/helpers/questions.helper';
+import { Contest } from 'src/entity/Contest';
+import { ContestSession } from 'src/entity/ContestSession';
+import { Round } from 'src/entity/Round';
 
-function generateQuestion(q: QuestionDto = {} as QuestionDto): Question {
+function generateQuestion(q: QuestionDto | QuestionCreateDto = {} as QuestionDto | QuestionCreateDto): Question {
   const question = new Question();
+  question.id = undefined;
   question.text = q.text || 'What is 2 plus 2';
   question.answer = q.answer || '4';
   question.value = q.value || 10;
   question.type = q.type || QuestionType.STATIC;
-  question.isDeleted = q.isDeleted || false;
+  question.deleted = false;
 
   return question;
 }
 
 function generateAskedQuestion(q: AskedQuestionDto = {} as AskedQuestionDto): AskedQuestion {
   const askedQuestion = new AskedQuestion();
-  askedQuestion.question = q.question || 'What is 2 plus 2';
+  askedQuestion.text = q.question || 'What is 2 plus 2';
   askedQuestion.score = q.score || 10;
   askedQuestion.isCorrect = q.isCorrect || false;
 
@@ -36,12 +43,21 @@ describe('QuestionService', () => {
 
   let mockQuestionRepository: Repository<Question>;
   let mockAskedQuestionRepository: Repository<AskedQuestion>;
+  let mockContestRepository: Repository<Contest>;
+  let mockContestSessionRepository: Repository<ContestSession>;
   let service: QuestionService;
 
   beforeEach(async () => {
-    mockQuestionRepository = new Repository();
-    mockAskedQuestionRepository = new Repository();
-    service = new QuestionService(mockQuestionRepository, mockAskedQuestionRepository);
+    mockQuestionRepository = new MockRepository();
+    mockAskedQuestionRepository = new MockRepository();
+    mockContestRepository = new MockRepository();
+    mockContestSessionRepository = new MockRepository();
+    service = new QuestionService(
+      mockQuestionRepository,
+      mockAskedQuestionRepository,
+      mockContestRepository,
+      mockContestSessionRepository,
+    );
   });
 
   it('should be defined', () => {
@@ -50,12 +66,16 @@ describe('QuestionService', () => {
 
   describe('findAll', () => {
     it('should get all consents from consent repository', async () => {
-      const result: Question[] = [generateQuestion()];
+      const questions: Question[] = [generateQuestion()];
+      const result = questions.map(toQuestionDto);
       jest
         .spyOn(mockQuestionRepository, 'find')
-        .mockReturnValue(Promise.resolve(result));
+        .mockReturnValue(Promise.resolve(questions));
 
-      expect(await service.findAll()).toBe(result);
+      expect(await service.findAll()).toEqual({
+        data: result,
+        error: undefined,
+      });
       expect(mockQuestionRepository.find).toHaveBeenCalledWith();
     });
   });
@@ -63,11 +83,15 @@ describe('QuestionService', () => {
   describe('findById', () => {
     it('should get question by id from question repository', async () => {
       const question = generateQuestion();
+      const result = toQuestionDto(question);
       jest
         .spyOn(mockQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(question));
 
-      expect(await service.findById(question.id)).toBe(question);
+      expect(await service.findById(question.id)).toEqual({
+        data: result,
+        error: undefined,
+      });
       expect(mockQuestionRepository.findOne).toHaveBeenCalledWith(question.id);
     });
   });
@@ -84,20 +108,30 @@ describe('QuestionService', () => {
         .spyOn(mockQuestionRepository, 'createQueryBuilder')
         .mockReturnValue(mockQueryBuilderFn() as any);
 
-      expect(await service.getRandom()).toBeInstanceOf(Question);
+      expect((await service.getRandom()).data).toEqual(toQuestionDto(question));
     });
   });
 
   describe('insert', () => {
     it('should insert new question to the question table', async () => {
-      const newQuestion: QuestionDto = {
+      const newQuestion: QuestionCreateDto = {
         text: 'hello',
         answer: 'hey',
         type: QuestionType.STATIC,
         value: 100,
-        isDeleted: false,
+        contestId: '1',
       };
+      const contest = new Contest();
+      const contestSession = new ContestSession();
+      contestSession.rounds = [new Round()];
+      contest.contestSessions = [contestSession];
       const question = generateQuestion(newQuestion);
+      jest
+        .spyOn(mockContestRepository, 'findOne')
+        .mockReturnValue(Promise.resolve(contest));
+      jest
+        .spyOn(mockContestSessionRepository, 'findOne')
+        .mockReturnValue(Promise.resolve(contestSession));
       jest
         .spyOn(mockQuestionRepository, 'save')
         .mockReturnValue(Promise.resolve(question));
@@ -105,8 +139,11 @@ describe('QuestionService', () => {
         .spyOn(mockQuestionRepository, 'create')
         .mockReturnValue(question);
 
-      expect(await service.insert(newQuestion)).toBe(question);
-      expect(mockQuestionRepository.save).toHaveBeenCalledWith(newQuestion);
+      expect(await service.insert(newQuestion)).toEqual({
+        data: toQuestionDto(question),
+        error: undefined,
+      });
+      expect(mockQuestionRepository.save).toHaveBeenCalledWith(question);
     });
   });
 
@@ -124,11 +161,11 @@ describe('QuestionService', () => {
       await service.ask('someValidId', '123');
 
       expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
-        questionId: 'someValidId',
-        contestContenderId: '123',
+        question,
         askedOn: fakeDate,
-        question: question.text,
+        text: question.text,
         answer: question.answer,
+        score: question.value,
       }));
       clear();
     });
@@ -197,7 +234,7 @@ describe('QuestionService', () => {
 
     it('should throw exception if answer was already given', async () => {
       const askedQuestion = generateAskedQuestion();
-      askedQuestion.askedOn = fakeDate;
+      askedQuestion.answeredOn = fakeDate;
 
       jest
         .spyOn(mockAskedQuestionRepository, 'findOne')

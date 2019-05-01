@@ -1,119 +1,219 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Question } from '../../entity/Question';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
+import { toQuestionDto } from './helpers/questions.helper';
+import { ResponseDto } from '../../models/response.dto';
+import { Contest } from 'src/entity/Contest';
+import { ContestSession } from 'src/entity/ContestSession';
+import { QuestionCreateDto } from './dto/question-create.dto';
 
 @Injectable()
 export class QuestionService {
+  constructor(
+    @InjectRepository(Question)
+    private readonly questionRepository: Repository<Question>,
+    @InjectRepository(AskedQuestion)
+    private readonly askedQuestionRepository: Repository<AskedQuestion>,
+    @InjectRepository(Contest)
+    private readonly contestRepository: Repository<Contest>,
+    @InjectRepository(ContestSession)
+    private msRepository: Repository<ContestSession>,
+  ) {}
 
-    constructor(
-        @InjectRepository(Question)
-        private readonly questionRepository: Repository<Question>,
-        @InjectRepository(AskedQuestion)
-        private readonly askedQuestionRepository: Repository<AskedQuestion>,
-    ) { }
+  public async findAll(): Promise<ResponseDto<QuestionDto[]>> {
+    try {
+      const questions: Question[] = await this.questionRepository.find();
 
-    async findAll(): Promise<Question[]> {
-        try {
-            return await this.questionRepository.find();
-        } catch (err) {
-            return err;
-        }
+      return {
+        data: questions.map(toQuestionDto),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        error,
+        data: undefined,
+      };
+    }
+  }
+
+  // todo it's a temporary solution and will be implemented in #23/24 stories
+  public getRandom = async (): Promise<ResponseDto<QuestionDto>> => {
+    try {
+      const question = await this.questionRepository
+        .createQueryBuilder()
+        .orderBy('RAND()')
+        .getOne();
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
+    }
+  }
+
+  public async findById(id: string): Promise<ResponseDto<QuestionDto>> {
+    try {
+      const question: Question = await this.questionRepository.findOne(id);
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
+    }
+  }
+
+  public async insert(payload: QuestionCreateDto): Promise<ResponseDto<QuestionDto>> {
+    try {
+      const contest = await this.contestRepository.findOne({
+        relations: ['contestSessions'],
+        where: { id: payload.contestId },
+      });
+
+      const contestSession = await this.msRepository.findOne({
+        relations: ['rounds'],
+        where: { id: contest.contestSessions[0].id },
+      });
+
+      const newQuestion: Question = this.questionRepository.create({
+        ...payload,
+        rounds: [contestSession.rounds[0]],
+      });
+
+      const question: Question = await this.questionRepository.save(
+        newQuestion,
+      );
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
+    }
+  }
+
+  public async update(
+    id: string,
+    payload: QuestionDto,
+  ): Promise<ResponseDto<QuestionDto>> {
+    const oldQuestion = await this.questionRepository.findOne(id);
+    const updatedQuestion = this.questionRepository.create({
+      ...oldQuestion,
+      ...payload,
+    });
+
+    Object.keys(payload).forEach(key => {
+      updatedQuestion[key] = payload[key];
+    });
+
+    try {
+      const question: Question = await this.questionRepository.save(
+        updatedQuestion,
+      );
+
+      return {
+        data: toQuestionDto(question),
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
+    }
+  }
+
+  public async delete(id: string): Promise<ResponseDto<QuestionDto>> {
+    try {
+      const result: DeleteResult = await this.questionRepository.delete({ id });
+
+      return {
+        data: result as any,
+        error: undefined,
+      };
+    } catch (error) {
+      return {
+        data: undefined,
+        error,
+      };
+    }
+  }
+
+  public ask = async (
+    questionId: string,
+    contenderId: string,
+  ): Promise<AskedQuestion> => {
+    const question = await this.questionRepository.findOne({ id: questionId });
+
+    if (!question) {
+      throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
     }
 
-    // todo it's a temporary solution and will be implemented in #23/24 stories
-    async getRandom(): Promise<Question> {
-        try {
-            return await this.questionRepository.createQueryBuilder()
-                .orderBy('RAND()')
-                .getOne();
-        } catch (err) {
-            return err;
-        }
+    const newAskedQuestion = new AskedQuestion();
+    newAskedQuestion.question = question;
+    newAskedQuestion.askedOn = new Date();
+    newAskedQuestion.score = question.value;
+
+    newAskedQuestion.text = question.text;
+    newAskedQuestion.answer = question.answer;
+    // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
+
+    try {
+      return this.askedQuestionRepository.save(newAskedQuestion);
+    } catch (error) {
+      throw new HttpException(
+        `Can't save asked question: ${error}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  public reply = async (
+    askedQuestionId: string,
+    answer: string,
+  ): Promise<AskedQuestion> => {
+    const askedQuestion = await this.askedQuestionRepository.findOne({
+      id: askedQuestionId,
+    });
+
+    if (!askedQuestion) {
+      throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
     }
 
-    async findById(id: string): Promise<Question> {
-        try {
-            return await this.questionRepository.findOne(id);
-        } catch (err) {
-            return err;
-        }
+    if (askedQuestion.answeredOn) {
+      throw new HttpException(
+        'Asked question was already replied',
+        HttpStatus.FORBIDDEN,
+      );
     }
 
-    async insert(question: QuestionDto): Promise<Question> {
-        const newQuestion = this.questionRepository.create(question);
+    askedQuestion.answeredOn = new Date();
+    // TODO: process Player score here
+    askedQuestion.isCorrect = answer === askedQuestion.answer;
 
-        try {
-            return await this.questionRepository.save(newQuestion);
-        } catch (err) {
-            return err;
-        }
+    try {
+      return this.askedQuestionRepository.save(askedQuestion);
+    } catch (error) {
+      throw new HttpException(
+        `Can't save asked question: ${error}`,
+        HttpStatus.BAD_REQUEST,
+      );
     }
-
-    async update(oldQuestion: Question, updatedValues: QuestionDto): Promise<Question> {
-        const updatedQuestion = this.questionRepository.create({ ...oldQuestion, ...updatedValues });
-
-        try {
-            return await this.questionRepository.save(updatedQuestion);
-        } catch (err) {
-            return err;
-        }
-
-    }
-
-    async delete(id: string) {
-        try {
-            return await this.questionRepository.delete({ id });
-        } catch (err) {
-            return err;
-        }
-    }
-
-    async ask(questionId: string, contenderId: string): Promise<AskedQuestion> {
-        const question = await this.questionRepository.findOne({ id: questionId });
-
-        if (!question) {
-            throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
-        }
-
-        const newAskedQuestion = new AskedQuestion();
-        newAskedQuestion.contestContenderId = contenderId;
-        newAskedQuestion.questionId = questionId;
-        newAskedQuestion.askedOn = new Date();
-        newAskedQuestion.score = question.value;
-
-        newAskedQuestion.question = question.text;
-        newAskedQuestion.answer = question.answer;
-        // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
-
-        try {
-            return this.askedQuestionRepository.save(newAskedQuestion);
-        } catch (error) {
-            throw new HttpException(`Can't save asked question: ${error}`, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    async reply(askedQuestionId: string, answer: string): Promise<AskedQuestion> {
-        const askedQuestion = await this.askedQuestionRepository.findOne({ id: askedQuestionId });
-
-        if (!askedQuestion) {
-            throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
-        }
-
-        if (askedQuestion.answeredOn) {
-            throw new HttpException('Asked question was already replied', HttpStatus.FORBIDDEN);
-        }
-
-        askedQuestion.answeredOn = new Date();
-        // TODO: process player score here
-        askedQuestion.isCorrect = answer === askedQuestion.answer;
-
-        try {
-            return this.askedQuestionRepository.save(askedQuestion);
-        } catch (error) {
-            throw new HttpException(`Can't save asked question: ${error}`, HttpStatus.BAD_REQUEST);
-        }
-    }
+  }
 }

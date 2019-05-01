@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QuestionForm renders correctly 1`] = `
-<formwrapper-stub>
+<v-container>
   <form
     novalidate="novalidate"
   >
-    <inputswitcherwrapper-stub>
-      <p>
+    <v-layout>
+      <p
+        class="caption grey--text lighten-2--text"
+      >
         Type
       </p>
        
@@ -24,11 +26,15 @@ exports[`QuestionForm renders correctly 1`] = `
           value="dynamic"
         />
       </v-radio-group>
-    </inputswitcherwrapper-stub>
+    </v-layout>
      
     <!---->
      
-    <inputwrapper-stub>
+    <v-layout
+      column=""
+      justify-space-between=""
+      mb-4=""
+    >
       <v-text-field
         id="question-text-input"
         label="Question*"
@@ -40,13 +46,18 @@ exports[`QuestionForm renders correctly 1`] = `
       <!---->
        
       <!---->
-    </inputwrapper-stub>
+    </v-layout>
      
-    <inputwrapper-stub>
+    <v-layout
+      column=""
+      justify-space-between=""
+      mb-4=""
+    >
       <v-textarea
         id="question-answer-input"
         label="Answer*"
         name="answer"
+        no-resize=""
         placeholder="Type your answer"
         required=""
       />
@@ -54,9 +65,13 @@ exports[`QuestionForm renders correctly 1`] = `
       <!---->
        
       <!---->
-    </inputwrapper-stub>
+    </v-layout>
      
-    <inputwrapper-stub>
+    <v-layout
+      column=""
+      justify-space-between=""
+      mb-4=""
+    >
       <v-text-field
         id="question-value-input"
         label="Points*"
@@ -68,9 +83,17 @@ exports[`QuestionForm renders correctly 1`] = `
       <!---->
        
       <!---->
-    </inputwrapper-stub>
+    </v-layout>
      
-    <controlgroup-stub>
+    <small
+      class="grey--text lighten-2--text"
+    >
+      *indicates required field
+    </small>
+     
+    <div
+      class="pt-4 right"
+    >
       <v-btn
         color="blue darken-1"
         flat=""
@@ -92,7 +115,7 @@ exports[`QuestionForm renders correctly 1`] = `
         Edit question
       
       </v-btn>
-    </controlgroup-stub>
+    </div>
   </form>
-</formwrapper-stub>
+</v-container>
 `;

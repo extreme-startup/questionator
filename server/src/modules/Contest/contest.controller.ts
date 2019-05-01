@@ -19,7 +19,7 @@ export class ContestController {
   constructor(private readonly contestService: ContestService) {}
 
   @Post()
-  create(@Body() contest: ContestDto): Promise<InsertResult> {
+  create(@Body() contest: ContestDto): Promise<Contest> {
     return this.contestService.create(contest);
   }
 
@@ -32,7 +32,7 @@ export class ContestController {
   @Get(':id')
   @ApiResponse({ status: 200, type: Contest })
   findOne(@Param('id') id: string): Promise<Contest> {
-    return this.contestService.findOne(parseInt(id, 10));
+    return this.contestService.findOne(id);
   }
 
   @Put(':id')
@@ -40,16 +40,16 @@ export class ContestController {
     @Param('id') id: string,
     @Body() contest: ContestDto,
   ): Promise<UpdateResult> {
-    return this.contestService.update(parseInt(id, 10), contest);
+    return this.contestService.update(id, contest);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string): Promise<DeleteResult> {
-    return this.contestService.delete(parseInt(id, 10));
+    return this.contestService.delete(id);
   }
 
   @Get(':id/questions')
   findQuestions(@Param('id') id: string): Promise<any> {
-    return this.contestService.findAllQuestions(parseInt(id, 10));
+    return this.contestService.findAllQuestions(id);
   }
 }

@@ -3,6 +3,7 @@ import { SessionController } from './session.controller';
 import { SessionService } from './session.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Session } from '../../entity/Session';
+import { User} from '../../entity/User';
 
 describe('Session Controller', () => {
   let controller: SessionController;
@@ -13,6 +14,7 @@ describe('Session Controller', () => {
     email: 'test@test.com',
     expiresAt: 1111111,
     data: 'user data',
+    user: new User(),
     hasId: jest.fn(() => true),
     save: jest.fn(),
     remove: jest.fn(),
