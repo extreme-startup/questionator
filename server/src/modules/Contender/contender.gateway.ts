@@ -13,9 +13,13 @@ import { filter, first, switchMap } from 'rxjs/internal/operators';
 import { Contender } from './dto/Contender';
 import * as uuid from 'uuid';
 
-const JOIN_MESSAGE_NAME = 'join';
-const QUESTION_MESSAGE_NAME = 'question';
-const ANSWER_MESSAGE_NAME = 'answer';
+import {
+  JOIN_MESSAGE_NAME,
+  QUESTION_MESSAGE_NAME,
+  ANSWER_MESSAGE_NAME,
+  NO_CONTENDER_MESSAGE,
+  NO_ANSWER_MESSAGE,
+} from './constants';
 
 @WebSocketGateway()
 export class ContenderGateway implements OnGatewayConnection {
@@ -55,7 +59,7 @@ export class ContenderGateway implements OnGatewayConnection {
     const hash = this.getHash(question);
 
     if (!contender) {
-      return throwError('No such contender');
+      return throwError(NO_CONTENDER_MESSAGE);
     }
     contender.client.emit(QUESTION_MESSAGE_NAME, { question, hash });
 
@@ -66,7 +70,7 @@ export class ContenderGateway implements OnGatewayConnection {
       ),
       first(),
       switchMap(({ answer, success }: Answer) =>
-        success ? of(answer) : throwError('Could not get answer'),
+        success ? of(answer) : throwError(NO_ANSWER_MESSAGE),
       ),
     );
   }

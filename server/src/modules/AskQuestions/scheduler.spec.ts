@@ -75,18 +75,12 @@ describe('Scheduler', () => {
         expect(mockTask).toHaveBeenCalled();
       });
     });
-
-    it('should subscribe to the result of provided task', () => {
-      sut.start().then(() => {
-        expect(mockObservable.subscribe).toHaveBeenCalled();
-      });
-    });
   });
 
   describe('stop', () => {
-    it('should subscribe to the result of provided task', () => {
+    it('should switch the ticking off', async () => {
       sut.start();
-      sut.stop();
+      await sut.stop();
 
       expect((sut as any).isTicking).toEqual(false);
     });
