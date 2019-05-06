@@ -6,8 +6,8 @@ import { AskedQuestion } from '../../entity/AskedQuestion';
 import { QuestionDto } from './dto/question.dto';
 import { toQuestionDto } from './helpers/questions.helper';
 import { ResponseDto } from '../../models/response.dto';
-import { Contest } from 'src/entity/Contest';
-import { ContestSession } from 'src/entity/ContestSession';
+import { Contest } from '../../entity/Contest';
+import { ContestSession } from '../../entity/ContestSession';
 import { QuestionCreateDto } from './dto/question-create.dto';
 
 @Injectable()

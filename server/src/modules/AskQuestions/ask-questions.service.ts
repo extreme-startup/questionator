@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { QuestionService } from '../Question/question.service';
 import { ContenderGateway } from '../Contender/contender.gateway';
 import { QuestionDto } from '../Question/dto/question.dto';
-import { AskedQuestion } from 'src/entity/AskedQuestion';
+import { AskedQuestion } from '../../entity/AskedQuestion';
 import { takeUntil } from 'rxjs/internal/operators';
 
 @Injectable()

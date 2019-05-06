@@ -6,7 +6,7 @@ import { Contest } from '../../entity/Contest';
 import { ContestSession } from '../../entity/ContestSession';
 import { RoundService } from '../ContestSession/round.service';
 import { ContestDto } from './contest.dto';
-import { Question } from 'src/entity/Question';
+import { Question } from '../../entity/Question';
 
 @Injectable()
 export class ContestService {
