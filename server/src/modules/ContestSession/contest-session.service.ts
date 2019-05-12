@@ -61,7 +61,7 @@ export class ContestSessionService {
     try {
       const playerData = await this.playerService.create(body);
       const playerId = playerData.user.email || playerData.nickname;
-      this.askQuestionsService.addAskQuestionJob(playerId);
+      this.askQuestionsService.addAskQuestionJob(playerId, playerData);
       return {
         success: true,
       };

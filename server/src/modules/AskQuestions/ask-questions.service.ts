@@ -11,6 +11,7 @@ import { ContenderGateway } from '../Contender/contender.gateway';
 import { QuestionDto } from '../Question/dto/question.dto';
 import { AskedQuestion } from '../../entity/AskedQuestion';
 import { takeUntil } from 'rxjs/internal/operators';
+import { Player } from '../../entity/Player';
 
 @Injectable()
 export class AskQuestionsService {
@@ -32,6 +33,7 @@ export class AskQuestionsService {
 
   private async askQuestionAction(
     contenderEmail: string,
+    player: Player,
     unsubscribe$: Subject<void>,
   ) {
     const { questionService } = this;
@@ -40,7 +42,7 @@ export class AskQuestionsService {
       // TODO: update `getRandom` to something like `getRandomOfCurrentLevel`
       const { data }: { data: QuestionDto } = await questionService.getRandom();
       const questionId: string = data && data.id;
-      const question = await questionService.ask(questionId, contenderEmail); // `contenderEmail` serves as an ID here
+      const question = await questionService.ask(questionId, player);
       // TODO: update this if needed to `contenderId`
       this.contenderGateway
         .getAnswer(contenderEmail, question.text)
@@ -75,11 +77,12 @@ export class AskQuestionsService {
     }
   }
 
-  public addAskQuestionJob = (contenderEmail: string) => {
+  public addAskQuestionJob = (contenderEmail: string, player: Player) => {
     const unsubscribe$: Subject<void> = new Subject();
     const action = this.askQuestionAction.bind(
       this,
       contenderEmail,
+      player,
       unsubscribe$,
     );
 
