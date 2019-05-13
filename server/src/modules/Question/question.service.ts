@@ -9,6 +9,7 @@ import { ResponseDto } from '../../models/response.dto';
 import { Contest } from '../../entity/Contest';
 import { ContestSession } from '../../entity/ContestSession';
 import { QuestionCreateDto } from './dto/question-create.dto';
+import { Player } from '../../entity/Player';
 
 @Injectable()
 export class QuestionService {
@@ -157,7 +158,7 @@ export class QuestionService {
 
   public ask = async (
     questionId: string,
-    contenderId: string,
+    player: Player,
   ): Promise<AskedQuestion> => {
     const question = await this.questionRepository.findOne({ id: questionId });
 
@@ -169,6 +170,10 @@ export class QuestionService {
     newAskedQuestion.question = question;
     newAskedQuestion.askedOn = new Date();
     newAskedQuestion.score = question.value;
+
+    newAskedQuestion.contestPlayerId = player.id;
+    newAskedQuestion.player = player;
+    newAskedQuestion.contestSession = player.contestSession;
 
     newAskedQuestion.text = question.text;
     newAskedQuestion.answer = question.answer;
