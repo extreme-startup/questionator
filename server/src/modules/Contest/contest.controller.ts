@@ -19,7 +19,7 @@ export class ContestController {
   constructor(private readonly contestService: ContestService) {}
 
   @Post()
-  create(@Body() contest: ContestDto): Promise<Contest> {
+  create(@Body() contest: ContestDto & {userId: string}): Promise<Contest> {
     return this.contestService.create(contest);
   }
 

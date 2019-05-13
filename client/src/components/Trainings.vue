@@ -53,6 +53,9 @@ export default {
     competitions: function() {
       return this.$store.getters['training/trainings'];
     },
+    user: function() {
+      return this.$store.getters.userId;
+    },
   },
   async mounted() {
     this.$store.dispatch('training/getTrainings');
@@ -66,7 +69,7 @@ export default {
         if (!competitionDetails) {
           return;
         }
-        this.$store.dispatch('training/createTraining', competitionDetails);
+        this.$store.dispatch('training/createTraining', {...competitionDetails, userId: this.user});
       });
     },
   },
