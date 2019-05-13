@@ -13,6 +13,7 @@ import { toQuestionDto } from '../../modules/Question/helpers/questions.helper';
 import { Contest } from '../../entity/Contest';
 import { ContestSession } from '../../entity/ContestSession';
 import { Round } from '../../entity/Round';
+import { Player } from '../../entity/Player';
 
 function generateQuestion(q: QuestionDto | QuestionCreateDto = {} as QuestionDto | QuestionCreateDto): Question {
   const question = new Question();
@@ -158,7 +159,10 @@ describe('QuestionService', () => {
         .spyOn(mockAskedQuestionRepository, 'save')
         .mockReturnValue(Promise.resolve(generateAskedQuestion()));
       advanceTo(fakeDate.valueOf());
-      await service.ask('someValidId', '123');
+      await service.ask('someValidId', {
+        id: 'some-player-id',
+        contestSession: null,
+      } as Player);
 
       expect(mockAskedQuestionRepository.save).toHaveBeenLastCalledWith(expect.objectContaining({
         question,
@@ -170,11 +174,14 @@ describe('QuestionService', () => {
       clear();
     });
 
-    it('should throw exception if question doesn\'t exist' , async () => {
+    it('should throw exception if question doesn\'t exist', async () => {
       jest
         .spyOn(mockQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(undefined));
-      await expect(service.ask('garbageId', '321')).rejects.toThrow();
+      await expect(service.ask('garbageId', {
+        id: 'some-player-id',
+        contestSession: null,
+      } as Player)).rejects.toThrow();
       clear();
     });
   });
@@ -224,7 +231,7 @@ describe('QuestionService', () => {
       clear();
     });
 
-    it('should throw exception if asked question doesn\'t exist' , async () => {
+    it('should throw exception if asked question doesn\'t exist', async () => {
       jest
         .spyOn(mockAskedQuestionRepository, 'findOne')
         .mockReturnValue(Promise.resolve(undefined));
