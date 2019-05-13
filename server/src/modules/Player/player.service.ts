@@ -14,6 +14,10 @@ export class PlayerService {
 
   async create(data: Partial<PlayerDto>): Promise<Player> {
     const player = this.playerRepository.create(data);
-    return this.playerRepository.save(player);
+    const playerData = await this.playerRepository.save(player);
+
+    return this.playerRepository.findOne(playerData.id, {
+      relations: ['user', 'contestSession'],
+    });
   }
 }
