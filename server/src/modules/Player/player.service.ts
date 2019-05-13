@@ -10,14 +10,14 @@ export class PlayerService {
   constructor(
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
-  ) { }
+  ) {}
 
   async create(data: Partial<PlayerDto>): Promise<Player> {
     const player = this.playerRepository.create(data);
     const playerData = await this.playerRepository.save(player);
 
     return this.playerRepository.findOne(playerData.id, {
-      relations: ['user', 'contestSession']
+      relations: ['user', 'contestSession'],
     });
   }
 }
