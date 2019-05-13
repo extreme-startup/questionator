@@ -1,4 +1,5 @@
 import * as api from '@/contest-session/api';
+import router from '../router'
 
 const sessionState = {
   sessions: {
@@ -64,7 +65,8 @@ const actions = {
   addSession: async (context, payload) => {
     context.commit('addSessionIsFetching');
     try {
-      await api.addSession(payload);
+      const session = await api.addSession(payload);
+      router.push(`/training-session/${session.data.id}`);
       context.dispatch('getSessions', payload);
     } catch (e) {
       context.commit('addSessionError', e);

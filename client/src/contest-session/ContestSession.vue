@@ -1,7 +1,7 @@
 <template>
   <SessionContainer>
     <ButtonList>
-      <v-btn color="info" @click.stop="openDialog">New Session</v-btn>
+      <v-btn color="info" @click.stop="createNewSession">New Session</v-btn>
     </ButtonList>
     <v-data-table
       :headers="headers"
@@ -21,19 +21,11 @@
     </v-data-table>
     <div v-if="isFetching">Loading...</div>
     <div v-if="error">{{ error }}</div>
-
-    <ConfirmDialog
-      :agree="createNewSession"
-      :disagree="closeDialog"
-      :is-open="isDialogOpen"
-      :title="dialogTitle"
-    />
   </SessionContainer>
 </template>
 
 <script>
 import * as dateUtils from '../utils/date-formatter.js';
-import ConfirmDialog from '../components/ConfirmDialog';
 import { SessionContainer, ButtonList } from './Styled';
 
 const dialogTitle = 'Do you want to create a new session?';
@@ -43,7 +35,6 @@ export default {
   components: {
     ButtonList,
     SessionContainer,
-    ConfirmDialog,
   },
   data: () => ({
     isDialogOpen: false,
@@ -74,20 +65,12 @@ export default {
   },
   methods: {
     createNewSession() {
-      this.closeDialog();
-
       this.$store.dispatch('contestSession/addSession', {
         contest: this.$route.params.id,
       });
     },
     openActiveSession(session) {
       this.$router.push(`/training-session/${session.id}`);
-    },
-    openDialog() {
-      this.isDialogOpen = true;
-    },
-    closeDialog() {
-      this.isDialogOpen = false;
     },
   },
   mounted() {
