@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult, UpdateResult, InsertResult } from 'typeorm';
 
 import { Contest } from '../../entity/Contest';
+import { User } from '../../entity/User';
+import { UserService } from '../User/user.service';
 import { ContestSession } from '../../entity/ContestSession';
 import { RoundService } from '../ContestSession/round.service';
 import { ContestDto } from './contest.dto';
@@ -16,6 +18,7 @@ export class ContestService {
     @InjectRepository(ContestSession)
     private msRepository: Repository<ContestSession>,
     private readonly roundService: RoundService,
+    private readonly userService: UserService,
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
   ) {}
@@ -30,8 +33,9 @@ export class ContestService {
     return contests.filter((contest) => !contest.isDeleted);
   }
 
-  async create(contest: ContestDto): Promise<Contest> {
-    const newContest: Contest = this.contestRepository.create(contest);
+  async create(contest: ContestDto & { userId: string }): Promise<Contest> {
+    const user: User = await this.userService.findById(contest.userId);
+    const newContest: Contest = this.contestRepository.create({...contest, trainer: user });
     const savedContest = await this.contestRepository.save(newContest);
 
     const round = await this.roundService.create({
