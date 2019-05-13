@@ -29,6 +29,8 @@ npm run lint
 ```
 npm run start:dev
 ```
+Make sure that environment variable VUE_APP_API_URL is set up on client.
+Add .env file with VUE_APP_API_URL=http://localhost:3000/
 
 ## Development
 

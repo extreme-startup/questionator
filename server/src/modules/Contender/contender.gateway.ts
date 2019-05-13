@@ -9,7 +9,7 @@ import { JoinResponseDto } from './dto/joinResponse.dto';
 import { Answer } from './dto/answer.dto';
 import { JoinRequestDto } from './dto/joinRequest.dto';
 import { Observable, of, Subject, throwError } from 'rxjs';
-import { filter, first, switchMap } from 'rxjs/internal/operators';
+import { filter, first, switchMap } from 'rxjs/operators';
 import { Contender } from './dto/Contender';
 import * as uuid from 'uuid';
 

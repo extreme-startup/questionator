@@ -10,7 +10,8 @@ import { QuestionService } from '../Question/question.service';
 import { ContenderGateway } from '../Contender/contender.gateway';
 import { QuestionDto } from '../Question/dto/question.dto';
 import { AskedQuestion } from '../../entity/AskedQuestion';
-import { takeUntil } from 'rxjs/internal/operators';
+import { Player } from '../../entity/Player';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class AskQuestionsService {
@@ -31,7 +32,7 @@ export class AskQuestionsService {
   }
 
   private async askQuestionAction(
-    contenderEmail: string,
+    player: Player,
     unsubscribe$: Subject<void>,
   ) {
     const { questionService } = this;
@@ -40,10 +41,12 @@ export class AskQuestionsService {
       // TODO: update `getRandom` to something like `getRandomOfCurrentLevel`
       const { data }: { data: QuestionDto } = await questionService.getRandom();
       const questionId: string = data && data.id;
-      const question = await questionService.ask(questionId, contenderEmail); // `contenderEmail` serves as an ID here
-      // TODO: update this if needed to `contenderId`
+
+      const question = await questionService.ask(questionId, player);
+      // TODO: update this if needed to `playerId`
+      const playerEmail = player.user.email;
       this.contenderGateway
-        .getAnswer(contenderEmail, question.text)
+        .getAnswer(playerEmail, question.text)
         .pipe(takeUntil(unsubscribe$))
         .subscribe(
           answer => {
@@ -51,9 +54,9 @@ export class AskQuestionsService {
               .reply(questionId, answer)
               .then((askedQuestion: AskedQuestion) => {
                 if (askedQuestion.isCorrect) {
-                  this.decreaseAskQuestionInterval(contenderEmail);
+                  this.decreaseAskQuestionInterval(playerEmail);
                 } else {
-                  this.increaseAskQuestionInterval(contenderEmail);
+                  this.increaseAskQuestionInterval(playerEmail);
                 }
               });
           },
@@ -62,7 +65,7 @@ export class AskQuestionsService {
              * Here the case when a contender server does not work/respond
              * should be handled
              */
-            this.increaseAskQuestionInterval(contenderEmail);
+            this.increaseAskQuestionInterval(playerEmail);
           },
           () => {
             unsubscribe$.next();
@@ -75,24 +78,24 @@ export class AskQuestionsService {
     }
   }
 
-  public addAskQuestionJob = (contenderEmail: string) => {
+  public addAskQuestionJob = (player: Player) => {
     const unsubscribe$: Subject<void> = new Subject();
     const action = this.askQuestionAction.bind(
       this,
-      contenderEmail,
+      player,
       unsubscribe$,
     );
 
     this.getAnswerSubjects.push(unsubscribe$);
-    this.askQuestionsJobs.push(new Scheduler(contenderEmail, action));
+    this.askQuestionsJobs.push(new Scheduler(player.user.email, action));
   }
 
-  private findAskQuestionJob(contenderEmail: string): Scheduler {
-    return this.askQuestionsJobs.find(job => job.getId() === contenderEmail);
+  private findAskQuestionJob(playerEmail: string): Scheduler {
+    return this.askQuestionsJobs.find(job => job.getId() === playerEmail);
   }
 
-  private increaseAskQuestionInterval(contenderEmail: string): void {
-    const job = this.findAskQuestionJob(contenderEmail);
+  private increaseAskQuestionInterval(playerEmail: string): void {
+    const job = this.findAskQuestionJob(playerEmail);
     if (!job) {
       return;
     }
@@ -104,8 +107,8 @@ export class AskQuestionsService {
     );
   }
 
-  private decreaseAskQuestionInterval(contenderEmail: string): void {
-    const job = this.findAskQuestionJob(contenderEmail);
+  private decreaseAskQuestionInterval(playerEmail: string): void {
+    const job = this.findAskQuestionJob(playerEmail);
     if (!job) {
       return;
     }
@@ -117,12 +120,12 @@ export class AskQuestionsService {
     );
   }
 
-  public increaseMultipleAskQuestionIntervals(contenderEmails: string[]) {
-    contenderEmails.forEach(this.increaseAskQuestionInterval, this);
+  public increaseMultipleAskQuestionIntervals(playerEmails: string[]) {
+    playerEmails.forEach(this.increaseAskQuestionInterval, this);
   }
 
-  public decreaseMultipleAskQuestionIntervals(contenderEmails: string[]) {
-    contenderEmails.forEach(this.decreaseAskQuestionInterval, this);
+  public decreaseMultipleAskQuestionIntervals(playerEmails: string[]) {
+    playerEmails.forEach(this.decreaseAskQuestionInterval, this);
   }
 
   public async startAllSchedulers() {
