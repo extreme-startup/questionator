@@ -62,6 +62,8 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             <!---->
           </v-layout>
            
+          <!---->
+           
           <v-layout
             column=""
             justify-space-between=""
@@ -114,9 +116,7 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
               id="question-cancel-button"
               type="reset"
             >
-              
-        Cancel
-      
+              Cancel
             </v-btn>
              
             <v-btn
@@ -188,6 +188,8 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
             <!---->
           </v-layout>
            
+          <!---->
+           
           <v-layout
             column=""
             justify-space-between=""
@@ -240,9 +242,7 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
               id="question-cancel-button"
               type="reset"
             >
-              
-        Cancel
-      
+              Cancel
             </v-btn>
              
             <v-btn

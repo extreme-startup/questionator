@@ -28,7 +28,24 @@
         >{{ getErrorMessage(errors.text) }}</p>
       </v-layout>
 
-      <v-layout v-show="isDynamicActive" justify-space-between column mb-4>
+      <v-layout v-if="question.type === 'dynamic'" justify-space-between column mb-4>
+        <v-text-field
+          name="context"
+          label="Context*"
+          v-model.trim="question.contextGenerator"
+          id="question-context-input"
+          placeholder="Type question context"
+          required
+        ></v-text-field>
+        <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
+        <p
+          class="caption red--text"
+          id="question-text-error"
+          v-if="!isFormInputValid(errors.text)"
+        >{{ getErrorMessage(errors.text) }}</p>
+      </v-layout>
+
+      <!-- <v-layout v-show="isDynamicActive" justify-space-between column mb-4>
         <label>Question Context:</label>
         <runkit
           :source="question.contextGenerator"
@@ -40,9 +57,9 @@
       <v-layout v-show="isDynamicActive" justify-space-between column mb-4>
         <label>Answer:</label>
         <runkit :source="question.answer" ref="runkitAnswer"/>
-      </v-layout>
+      </v-layout>-->
 
-      <v-layout v-if="isStaticActive" justify-space-between column mb-4>
+      <v-layout justify-space-between column mb-4>
         <v-textarea
           :error="!isFormInputValid(errors.answer)"
           name="answer"
@@ -81,13 +98,9 @@
       </v-layout>
       <small class="grey--text lighten-2--text">*indicates required field</small>
       <div class="pt-4 right">
-        <v-btn
-          color="blue darken-1"
-          flat
-          type="reset"
-          id="question-cancel-button"
-          @click="close"
-        >Cancel</v-btn>
+        <v-btn color="blue darken-1" flat type="reset" id="question-cancel-button" @click="close">
+          Cancel
+        </v-btn>
         <v-btn color="blue darken-1" flat type="submit" id="question-save-button">
           {{ submitTitle }}
         </v-btn>
@@ -97,14 +110,14 @@
 </template>
 
 <script>
-import runkit from 'vue-runkit';
+// import runkit from 'vue-runkit';
 
 const isNumber = n => /^\d+$/.test(n);
 
 export default {
   name: 'QuestionForm',
   props: ['question', 'errors', 'submitTitle', 'editFieldsConfig'],
-  components: { runkit },
+  // components: { runkit },
   async mounted() {},
   computed: {
     isStaticActive: function() {
@@ -116,34 +129,34 @@ export default {
   },
   methods: {
     submitQuestion(event) {
-      if (this.isStaticActive) {
-        const qs = { ...this.question };
+      // if (this.isStaticActive) {
+      const qs = { ...this.question };
 
-        if (!this.formValidate(qs)) {
-          return;
-        }
-
-        const question = { ...qs, value: Number(qs.value) };
-        this.$emit('submit', question);
-        event.target.reset();
-      } else {
-        const contextNotebook = this.$refs.runkitContext.notebook;
-        const answerNotebook = this.$refs.runkitAnswer.notebook;
-
-        answerNotebook.getSource(source => {
-          const qs = { ...this.question, answer: source };
-
-          if (!this.formValidate(qs)) {
-            return;
-          }
-
-          contextNotebook.getSource(contextSource => {
-            const question = { ...qs, value: Number(qs.value), contextGenerator: contextSource };
-            this.$emit('submit', question);
-            event.target.reset();
-          });
-        });
+      if (!this.formValidate(qs)) {
+        return;
       }
+
+      const question = { ...qs, value: Number(qs.value) };
+      this.$emit('submit', question);
+      event.target.reset();
+      // } else {
+      // const contextNotebook = this.$refs.runkitContext.notebook;
+      // const answerNotebook = this.$refs.runkitAnswer.notebook;
+
+      // answerNotebook.getSource(source => {
+      //   const qs = { ...this.question, answer: source };
+
+      //   if (!this.formValidate(qs)) {
+      //     return;
+      //   }
+
+      //   contextNotebook.getSource(contextSource => {
+      //     const question = { ...qs, value: Number(qs.value), contextGenerator: contextSource };
+      //     this.$emit('submit', question);
+      //     event.target.reset();
+      //   });
+      // });
+      // }
     },
     formValidate(question) {
       const isFormValid = Object.keys(question).reduce((acc, key) => {
