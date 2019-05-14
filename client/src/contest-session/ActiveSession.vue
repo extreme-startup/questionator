@@ -13,7 +13,7 @@
         <v-card-text class="subheading">{{ activeSession.status }}</v-card-text>
       </v-flex>
       <v-flex md3 align="right">
-        <v-card-text class="subheading">Trainer: {{ $store.state.user.email }}</v-card-text>
+        <v-card-text class="subheading">Trainer: {{ activeSession.trainerName }}</v-card-text>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -66,7 +66,10 @@ export default {
   },
   computed: {
     activeSession() {
-      return { ...this.$store.getters['activeSession/getActiveSession'] };
+      const activeSession = { ...this.$store.getters['activeSession/getActiveSession'] };
+      activeSession.trainerName =
+        activeSession.contest.trainer ? activeSession.contest.trainer.email : '';
+      return activeSession;
     },
     isFetching() {
       return this.$store.getters['activeSession/getActiveSessionFetchingStatus'].isFetching;

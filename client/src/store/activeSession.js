@@ -12,7 +12,9 @@ const sessionStatus = {
 const activeSessionState = {
   data: {
     players: [],
-    trainer: null,
+    contest: {
+      trainer: {},
+    },
     startedTime: '',
     sessionHash: '',
     status: '',

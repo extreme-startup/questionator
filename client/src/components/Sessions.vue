@@ -14,7 +14,7 @@
             </router-link>
             <v-card-text>
               <div>{{ session.players.length }} members</div>
-              <div>Trainer</div>
+              <div>Trainer {{ session.trainerName }}</div>
               <div>Start time {{ session.startedTime }}</div>
             </v-card-text>
           </v-card>
@@ -35,8 +35,10 @@ export default {
   computed: {
     sessions: function() {
       const sessions = [...this.$store.getters['contestSession/sessions']];
+
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';
+        session.trainerName = session.contest.trainer ? session.contest.trainer.email : '';
         return session;
       });
     },
