@@ -9,5 +9,6 @@ export function toQuestionDto(question: Question): QuestionDto {
     answer: question && question.answer,
     value: question && question.value,
     isDeleted: question && question.deleted,
+    contextGenerator: question && question.contextGenerator,
   };
 }

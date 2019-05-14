@@ -102,7 +102,9 @@ exports[`QuestionForm renders correctly 1`] = `
         id="question-cancel-button"
         type="reset"
       >
+        
         Cancel
+      
       </v-btn>
        
       <v-btn

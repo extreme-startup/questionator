@@ -193,7 +193,7 @@ describe('QuestionService', () => {
       askedQuestion.answer = 'answer';
 
       jest
-        .spyOn(mockAskedQuestionRepository, 'findOne')
+        .spyOn(mockAskedQuestionRepository, 'findOneOrFail')
         .mockReturnValue(Promise.resolve(askedQuestion));
       jest
         .spyOn(mockAskedQuestionRepository, 'save')
@@ -215,7 +215,7 @@ describe('QuestionService', () => {
       askedQuestion.answer = 'answer';
 
       jest
-        .spyOn(mockAskedQuestionRepository, 'findOne')
+        .spyOn(mockAskedQuestionRepository, 'findOneOrFail')
         .mockReturnValue(Promise.resolve(askedQuestion));
       jest
         .spyOn(mockAskedQuestionRepository, 'save')
