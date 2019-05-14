@@ -11,6 +11,17 @@ import { ContestSession } from '../../entity/ContestSession';
 import { QuestionCreateDto } from './dto/question-create.dto';
 import { Player } from '../../entity/Player';
 
+import { QuestionType } from '../../constants';
+import { Context, runInContext, createContext } from 'vm';
+import { promisify } from 'util';
+import { compile } from 'handlebars';
+// import { get } from 'scrabbler';
+import axios from 'axios';
+import * as numberToWords from 'number-to-words';
+import * as intseq from 'integer-sequences';
+import * as _ from 'lodash';
+import * as fibonacci from 'fibonacci';
+
 @Injectable()
 export class QuestionService {
   constructor(
@@ -22,7 +33,7 @@ export class QuestionService {
     private readonly contestRepository: Repository<Contest>,
     @InjectRepository(ContestSession)
     private msRepository: Repository<ContestSession>,
-  ) {}
+  ) { }
 
   public async findAll(): Promise<ResponseDto<QuestionDto[]>> {
     try {
@@ -171,6 +182,22 @@ export class QuestionService {
     newAskedQuestion.askedOn = new Date();
     newAskedQuestion.score = question.value;
 
+    if (question.type === QuestionType.STATIC) {
+      newAskedQuestion.answer = question.answer; newAskedQuestion.question = question;
+    } else {
+      const rawContext = runInContext(
+        question.contextGenerator,
+        this.dynamicQuestionSandbox,
+      );
+      const answer = runInContext(
+        question.answer,
+        createContext({ ...this.dynamicQuestionSandbox, ...rawContext }),
+      );
+      newAskedQuestion.context = JSON.stringify(rawContext);
+      newAskedQuestion.answer = JSON.stringify(answer);
+      newAskedQuestion.question.text = compile(question.text)(rawContext); // what is {{a}} + {{b}}
+    }
+
     newAskedQuestion.contestPlayerId = player.id;
     newAskedQuestion.player = player;
     newAskedQuestion.contestSession = player.contestSession;
@@ -193,11 +220,22 @@ export class QuestionService {
     askedQuestionId: string,
     answer: string,
   ): Promise<AskedQuestion> => {
-    const askedQuestion = await this.askedQuestionRepository.findOne({
-      id: askedQuestionId,
-    });
+    let askedQuestion;
 
-    if (!askedQuestion) {
+    try {
+      if (!askedQuestion) {
+        askedQuestion = await this.askedQuestionRepository.findOneOrFail({
+          where: { id: askedQuestionId },
+          // join: {
+          //   alias: 'question',
+          //   leftJoinAndSelect: {
+          //     type: 'question.type',
+          //     answerCheck: 'question.answerCheck',
+          //   },
+          // },
+        });
+      }
+    } catch (e) {
       throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
     }
 
@@ -209,8 +247,17 @@ export class QuestionService {
     }
 
     askedQuestion.answeredOn = new Date();
-    // TODO: process Player score here
     askedQuestion.isCorrect = answer === askedQuestion.answer;
+    // TODO: process Player score here
+    // if (askedQuestion.question.type === QuestionType.STATIC) {
+    //   askedQuestion.isCorrect = answer === askedQuestion.answer;
+    // } else {
+    //   const answerCheck = runInContext(
+    //     askedQuestion.question.answerCheck,
+    //     this.dynamicQuestionSandbox,
+    //   );
+    //   askedQuestion.isCorrect = answerCheck(answer, JSON.parse(askedQuestion.context));
+    // }
 
     try {
       return this.askedQuestionRepository.save(askedQuestion);
@@ -220,5 +267,34 @@ export class QuestionService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  private readonly dynamicQuestionSandbox: Context = createContext({
+    axios,
+    numberToWords,
+    intseq,
+    _,
+    fibonacci,
+    // scrabbler: promisify(get),
+  });
+
+  private async evalInSandbox(code, ...args) {
+    let result;
+    try {
+      result = runInContext(
+        code,
+        this.dynamicQuestionSandbox,
+      );
+
+      if (typeof result === 'function') {
+        result = result(...args);
+      }
+      if (result instanceof Promise) {
+        result = await result;
+      }
+    } catch (error) {
+      throw new Error(`Cant eval stored expression: ${error}`);
+    }
+    return result;
   }
 }

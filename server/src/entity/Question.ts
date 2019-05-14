@@ -36,6 +36,12 @@ export class Question {
   })
   public answer: string;
 
+  @Column('varchar', {
+    name: 'contextGenerator',
+    nullable: true,
+  })
+  contextGenerator: string;
+
   @Column('integer', {
     nullable: false,
     default: 0,
