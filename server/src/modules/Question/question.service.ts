@@ -198,7 +198,7 @@ export class QuestionService {
       );
       newAskedQuestion.context = JSON.stringify(rawContext);
       newAskedQuestion.answer = JSON.stringify(answer);
-      newAskedQuestion.question.text = compile(question.text)(rawContext); // what is {{a}} + {{b}}
+      newAskedQuestion.question.text = compile(question.text)(rawContext);
     }
 
     newAskedQuestion.contestPlayerId = player.id;
@@ -206,8 +206,6 @@ export class QuestionService {
     newAskedQuestion.contestSession = player.contestSession;
 
     newAskedQuestion.text = question.text;
-    newAskedQuestion.answer = question.answer;
-    // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
 
     try {
       return this.askedQuestionRepository.save(newAskedQuestion);
