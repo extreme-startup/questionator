@@ -31,10 +31,7 @@ export class AskQuestionsService {
     this.decreaseAskQuestionInterval.bind(this);
   }
 
-  private async askQuestionAction(
-    player: Player,
-    unsubscribe$: Subject<void>,
-  ) {
+  private async askQuestionAction(player: Player, unsubscribe$: Subject<void>) {
     const { questionService } = this;
     try {
       // We get random question from the DB here;
@@ -61,11 +58,9 @@ export class AskQuestionsService {
               });
           },
           error => {
-            /**
-             * Here the case when a contender server does not work/respond
-             * should be handled
-             */
-            this.increaseAskQuestionInterval(playerEmail);
+            questionService.reply(question.id, error).then(() => {
+              this.increaseAskQuestionInterval(playerEmail);
+            });
           },
           () => {
             unsubscribe$.next();
@@ -79,11 +74,7 @@ export class AskQuestionsService {
 
   public addAskQuestionJob = (player: Player) => {
     const unsubscribe$: Subject<void> = new Subject();
-    const action = this.askQuestionAction.bind(
-      this,
-      player,
-      unsubscribe$,
-    );
+    const action = this.askQuestionAction.bind(this, player, unsubscribe$);
 
     this.getAnswerSubjects.push(unsubscribe$);
     this.askQuestionsJobs.push(new Scheduler(player.user.email, action));

@@ -76,7 +76,9 @@ export class QuestionService {
     }
   }
 
-  public async insert(payload: QuestionCreateDto): Promise<ResponseDto<QuestionDto>> {
+  public async insert(
+    payload: QuestionCreateDto,
+  ): Promise<ResponseDto<QuestionDto>> {
     try {
       const contest = await this.contestRepository.findOne({
         relations: ['contestSessions'],
@@ -191,7 +193,7 @@ export class QuestionService {
 
   public reply = async (
     askedQuestionId: string,
-    answer: string,
+    answer: string | Error,
   ): Promise<AskedQuestion> => {
     const askedQuestion = await this.askedQuestionRepository.findOne({
       id: askedQuestionId,
@@ -209,8 +211,14 @@ export class QuestionService {
     }
 
     askedQuestion.answeredOn = new Date();
-    // TODO: process Player score here
+
     askedQuestion.isCorrect = answer === askedQuestion.answer;
+
+    if (answer instanceof Error) {
+      askedQuestion.score = -50;
+    } else if (!askedQuestion.isCorrect) {
+      askedQuestion.score = -askedQuestion.score;
+    }
 
     try {
       return this.askedQuestionRepository.save(askedQuestion);
