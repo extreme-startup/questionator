@@ -213,7 +213,14 @@ export class QuestionService {
 
     askedQuestion.answeredOn = new Date();
 
-    askedQuestion.isCorrect = answer === askedQuestion.answer;
+// The answers convertable to a `Number` are converted under a hood for some reason
+// (say, a contender sends "10" but the answer obtained here is 10). As the `answer`
+// field of the `AskedQuestion` is of `String` type this additional usage of `toString()`
+// is necessary
+// TODO: Specify the type of the answer wanted from a contender and convert  `askedQuestion.answer`
+// and `answer` accordingly
+
+    askedQuestion.isCorrect = answer.toString() === askedQuestion.answer;
 
     if (answer === NO_ANSWER_MESSAGE ) {
       askedQuestion.score = -50;
