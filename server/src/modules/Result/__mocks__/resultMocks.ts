@@ -15,9 +15,8 @@ export const resultAllMockRepository = [
     isCorrect: true,
     sessionId: '1',
     contestSession: new ContestSession(),
-    player: {
-      id: '1',
-    },
+    player: null,
+    context: null,
   },
   {
     id: '11-22-44',
@@ -32,9 +31,8 @@ export const resultAllMockRepository = [
     isCorrect: true,
     sessionId: '2',
     contestSession: new ContestSession(),
-    player: {
-      id: '1',
-    },
+    player: null,
+    context: null,
   },
   {
     id: '11-22-55',
@@ -49,8 +47,7 @@ export const resultAllMockRepository = [
     isCorrect: true,
     sessionId: '2',
     contestSession: new ContestSession(),
-    player: {
-      id: '1',
-    },
+    player: null,
+    context: null,
   },
 ];
