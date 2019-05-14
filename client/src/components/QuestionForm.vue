@@ -9,8 +9,8 @@
         </v-radio-group>
       </v-layout>
       <p class="pt-8" v-if="!isEditable('type')">Type: {{ question.type }}</p>
-      <v-layout justify-space-between column mb-4>
-        <v-text-field
+      <v-layout justify-space-between column mb-3>
+        <v-textarea
           :error="!isFormInputValid(errors.text)"
           v-if="isEditable('text')"
           v-model.trim="question.text"
@@ -18,8 +18,9 @@
           id="question-text-input"
           label="Question*"
           placeholder="Type your question"
+          no-resize
           required
-        ></v-text-field>
+        ></v-textarea>
         <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
         <p
           class="caption red--text"
@@ -28,15 +29,16 @@
         >{{ getErrorMessage(errors.text) }}</p>
       </v-layout>
 
-      <v-layout v-if="question.type === 'dynamic'" justify-space-between column mb-4>
-        <v-text-field
+      <v-layout v-if="question.type === 'dynamic'" justify-space-between column mb-3>
+        <v-textarea
           name="context"
           label="Context*"
           v-model.trim="question.contextGenerator"
           id="question-context-input"
           placeholder="Type question context"
+          no-resize
           required
-        ></v-text-field>
+        ></v-textarea>
         <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
         <p
           class="caption red--text"
@@ -45,7 +47,7 @@
         >{{ getErrorMessage(errors.text) }}</p>
       </v-layout>
 
-      <!-- <v-layout v-show="isDynamicActive" justify-space-between column mb-4>
+      <!-- <v-layout v-show="isDynamicActive" justify-space-between column mb-3>
         <label>Question Context:</label>
         <runkit
           :source="question.contextGenerator"
@@ -54,12 +56,12 @@
         />
       </v-layout>
 
-      <v-layout v-show="isDynamicActive" justify-space-between column mb-4>
+      <v-layout v-show="isDynamicActive" justify-space-between column mb-3>
         <label>Answer:</label>
         <runkit :source="question.answer" ref="runkitAnswer"/>
       </v-layout>-->
 
-      <v-layout justify-space-between column mb-4>
+      <v-layout justify-space-between column mb-3>
         <v-textarea
           :error="!isFormInputValid(errors.answer)"
           name="answer"
@@ -78,7 +80,7 @@
           v-if="!isFormInputValid(errors.answer)"
         >{{ getErrorMessage(errors.answer) }}</p>
       </v-layout>
-      <v-layout justify-space-between column mb-4>
+      <v-layout justify-space-between column mb-3>
         <v-text-field
           :error="!isFormInputValid(errors.value)"
           v-if="isEditable('value')"
