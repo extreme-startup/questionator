@@ -35,7 +35,7 @@ describe('ResultLogger Controller', () => {
         status: (code: number) => response,
         json: (data?: any) => data,
       };
-      const result: AskedQuestionDto[] = resultAllMockRepository;
+      const result: AskedQuestion[] = resultAllMockRepository;
       jest.spyOn(service, 'getAllResults').mockReturnValue(Promise.resolve(result));
       expect(await controller.findAllResults(response, null, false)).toBe(result);
       expect(service.getAllResults).toHaveBeenCalled();
@@ -44,7 +44,7 @@ describe('ResultLogger Controller', () => {
 
   describe('findAllResultsBySessionId', () => {
     it('should return all results', async () => {
-      const result: AskedQuestionDto[] = resultAllMockRepository;
+      const result: AskedQuestion[] = resultAllMockRepository;
       const response = {
         status: (code: number) => response,
         json: (data?: any) => data,
@@ -57,7 +57,7 @@ describe('ResultLogger Controller', () => {
 
   describe('findAllResultsBySessionIdAndUserId', () => {
     it('should return all results', async () => {
-      const result: AskedQuestionDto[] = resultAllMockRepository;
+      const result: AskedQuestion[] = resultAllMockRepository;
       const response = {
         status: (code: number) => response,
         json: (data?: any) => data,
@@ -70,7 +70,7 @@ describe('ResultLogger Controller', () => {
 
   describe('findAllResultsBySessionIdAndTime', () => {
     it('should return all results', async () => {
-      const result: AskedQuestionDto[] = resultAllMockRepository;
+      const result: AskedQuestion[] = resultAllMockRepository;
       const response = {
         status: (code: number) => response,
         json: (data?: any) => data,

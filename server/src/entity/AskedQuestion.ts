@@ -20,9 +20,15 @@ export class AskedQuestion {
   public text: string;
 
   @Column('varchar', {
-    nullable: false,
+    nullable: true,
   })
   public answer: string;
+
+  @Column('varchar', {
+    name: 'context',
+    nullable: true,
+  })
+  context: string;
 
   @Column('datetime', {
     name: 'asked_on',
