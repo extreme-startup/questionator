@@ -51,7 +51,7 @@ export class AskQuestionsService {
         .subscribe(
           answer => {
             questionService
-              .reply(questionId, answer)
+              .reply(question.id, answer)
               .then((askedQuestion: AskedQuestion) => {
                 if (askedQuestion.isCorrect) {
                   this.decreaseAskQuestionInterval(playerEmail);
@@ -70,8 +70,7 @@ export class AskQuestionsService {
           () => {
             unsubscribe$.next();
           },
-        )
-        .unsubscribe();
+        );
     } catch (err) {
       unsubscribe$.next();
       unsubscribe$.complete();
