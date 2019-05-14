@@ -69,7 +69,10 @@ export default {
         if (!competitionDetails) {
           return;
         }
-        this.$store.dispatch('training/createTraining', {...competitionDetails, userId: this.user});
+        this.$store.dispatch('training/createTraining', {
+          ...competitionDetails,
+          userId: this.user,
+        });
       });
     },
   },

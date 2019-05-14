@@ -27,6 +27,7 @@ describe('ManageSession Controller', () => {
   beforeEach(async () => {
     manageSessionService = new ContestSessionService(
       new Repository<ContestSession>(),
+      new Repository(),
       new RoundService(new Repository<Round>()),
       new PlayerService(new Repository<Player>()),
       new AskQuestionsService(null, null),

@@ -11,10 +11,11 @@ import {
 
 import { ContestSessionService } from './contest-session.service';
 import { ContestSessionDto, Status } from './contest-session.dto';
+import { PlayerDto } from '../Player/player.dto';
 
 @Controller('contest-sessions')
 export class ContestSessionController {
-  constructor(private msService: ContestSessionService) {}
+  constructor(private msService: ContestSessionService) { }
 
   @Get()
   showAllSessions(
@@ -37,6 +38,16 @@ export class ContestSessionController {
   @Get(':id')
   async showSessionById(@Param() id): Promise<ContestSessionDto> {
     return await this.msService.findById(id);
+  }
+
+  @Get('result/:contestSessionId')
+  async getSessionResult(@Param() { contestSessionId }, @Query() {answerOn}): Promise<PlayerDto[]> {
+    return await this.msService.getResults(contestSessionId, new Date(answerOn));
+  }
+
+  @Get('lastAnswerOn/:contestSessionId')
+  async getLastAnswerOn(@Param() { contestSessionId }): Promise<Date> {
+    return  await this.msService.getLastAnswerOn(contestSessionId);
   }
 
   @Put('start')

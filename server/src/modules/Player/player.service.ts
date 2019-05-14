@@ -20,4 +20,29 @@ export class PlayerService {
       relations: ['user', 'contestSession'],
     });
   }
+
+  async findAll(contestSessionId: string, answerOn: Date): Promise<Player[]> {
+    try {
+      return this.playerRepository
+        .createQueryBuilder('player')
+        .leftJoin('player.contestSession', 'contestSession')
+        .leftJoinAndSelect('player.askedQuestions', 'askedQuestion')
+        .where('player.contestSessionId = :contestSessionId', {
+          contestSessionId,
+        })
+        .andWhere('askedQuestion.answeredOn IS NOT NULL')
+        .andWhere('askedQuestion.answeredOn > :answerOn ', { answerOn })
+        .select([
+          'player.id',
+          'player.nickname',
+          'askedQuestion.id',
+          'askedQuestion.answeredOn',
+          'askedQuestion.score',
+        ])
+        .orderBy('askedQuestion.answeredOn', 'ASC')
+        .getMany();
+    } catch (e) {
+      return e;
+    }
+  }
 }
