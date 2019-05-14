@@ -10,6 +10,7 @@ import { Contest } from '../../entity/Contest';
 import { ContestSession } from '../../entity/ContestSession';
 import { QuestionCreateDto } from './dto/question-create.dto';
 import { Player } from '../../entity/Player';
+import { NO_ANSWER_MESSAGE, NO_CONTENDER_MESSAGE } from '../Contender/constants';
 
 @Injectable()
 export class QuestionService {
@@ -193,7 +194,7 @@ export class QuestionService {
 
   public reply = async (
     askedQuestionId: string,
-    answer: string | Error,
+    answer: string,
   ): Promise<AskedQuestion> => {
     const askedQuestion = await this.askedQuestionRepository.findOne({
       id: askedQuestionId,
@@ -214,8 +215,10 @@ export class QuestionService {
 
     askedQuestion.isCorrect = answer === askedQuestion.answer;
 
-    if (answer instanceof Error) {
+    if (answer === NO_ANSWER_MESSAGE ) {
       askedQuestion.score = -50;
+    } else if (answer === NO_CONTENDER_MESSAGE) {
+      askedQuestion.score = -20;
     } else if (!askedQuestion.isCorrect) {
       askedQuestion.score = -askedQuestion.score;
     }
