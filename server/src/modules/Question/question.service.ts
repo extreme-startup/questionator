@@ -10,6 +10,7 @@ import { Contest } from '../../entity/Contest';
 import { ContestSession } from '../../entity/ContestSession';
 import { QuestionCreateDto } from './dto/question-create.dto';
 import { Player } from '../../entity/Player';
+import { NO_ANSWER_MESSAGE, NO_CONTENDER_MESSAGE } from '../Contender/constants';
 
 @Injectable()
 export class QuestionService {
@@ -76,7 +77,9 @@ export class QuestionService {
     }
   }
 
-  public async insert(payload: QuestionCreateDto): Promise<ResponseDto<QuestionDto>> {
+  public async insert(
+    payload: QuestionCreateDto,
+  ): Promise<ResponseDto<QuestionDto>> {
     try {
       const contest = await this.contestRepository.findOne({
         relations: ['contestSessions'],
@@ -209,8 +212,23 @@ export class QuestionService {
     }
 
     askedQuestion.answeredOn = new Date();
-    // TODO: process Player score here
-    askedQuestion.isCorrect = answer === askedQuestion.answer;
+
+// The answers convertable to a `Number` are converted under a hood for some reason
+// (say, a contender sends "10" but the answer obtained here is 10). As the `answer`
+// field of the `AskedQuestion` is of `String` type this additional usage of `toString()`
+// is necessary
+// TODO: Specify the type of the answer wanted from a contender and convert  `askedQuestion.answer`
+// and `answer` accordingly
+
+    askedQuestion.isCorrect = answer.toString() === askedQuestion.answer;
+
+    if (answer === NO_ANSWER_MESSAGE ) {
+      askedQuestion.score = -50;
+    } else if (answer === NO_CONTENDER_MESSAGE) {
+      askedQuestion.score = -20;
+    } else if (!askedQuestion.isCorrect) {
+      askedQuestion.score = -askedQuestion.score;
+    }
 
     try {
       return this.askedQuestionRepository.save(askedQuestion);
