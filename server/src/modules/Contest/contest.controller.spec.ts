@@ -20,7 +20,13 @@ describe('ContestController', () => {
   let contestService: ContestService;
 
   beforeEach(async () => {
-    contestService = new ContestService(new MockRepository(), new MockRepository(), null, new MockRepository());
+    contestService = new ContestService(
+      new MockRepository(),
+      new MockRepository(),
+      null,
+      null,
+      new MockRepository(),
+      );
     contestController = new ContestController(contestService);
   });
 
@@ -28,15 +34,15 @@ describe('ContestController', () => {
     it('should create contest', async () => {
       const createContestDto: ContestDto = contestDto;
       const returnedContest = new Contest();
+      const userId = '1';
 
       jest
         .spyOn(contestService, 'create')
         .mockReturnValue(Promise.resolve(returnedContest));
 
-      expect(await contestController.create(createContestDto)).toBe(
+      expect(await contestController.create({...createContestDto, userId})).toBe(
         returnedContest,
       );
-      expect(contestService.create).toHaveBeenCalledWith(createContestDto);
     });
   });
 

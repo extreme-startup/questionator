@@ -59,9 +59,8 @@ export class ContestSessionService {
 
   async addPlayer(body: Partial<PlayerDto>) {
     try {
-      const playerData = await this.playerService.create(body);
-      const playerId = playerData.user.email || playerData.nickname;
-      this.askQuestionsService.addAskQuestionJob(playerId);
+      const player = await this.playerService.create(body);
+      this.askQuestionsService.addAskQuestionJob(player);
       return {
         success: true,
       };

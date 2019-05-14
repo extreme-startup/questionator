@@ -3,7 +3,7 @@ node_js:
   - "8"
 dist: trusty
 env:
-  - NODE_ENV=ci PORT=3000
+  - NODE_ENV=ci PORT=3000 TAF_TOKEN=12hPd-avjJF0fiq-26TEKg
 cache:
   directories:
     - dist
@@ -13,3 +13,5 @@ install:
 script:
   - npm run lint
   - npm run test
+after_success:
+  - "curl -s -X POST -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Travis-API-Version: 3\" -H \"Authorization: token $TAF_TOKEN\" -d '{\"request\": {\"branch\":\"master\", \"message\": \"Start pipeline suite\"}}' https://api.travis-ci.org/repo/23702042/requests"
