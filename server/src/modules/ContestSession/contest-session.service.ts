@@ -24,6 +24,9 @@ export class ContestSessionService {
   async findAll(query): Promise<ContestSession[]> {
     try {
       return this.msRepository.find({
+        order: {
+          startedTime: 'ASC',
+        },
         where: {
           ...query,
         },
