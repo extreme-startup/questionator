@@ -15,7 +15,7 @@
           <td class="subheading">{{ props.item.startedTime }}</td>
           <td class="subheading">{{ props.item.status }}</td>
           <td class="subheading">{{ props.item.players.length }}</td>
-          <td class="subheading">{{ $store.state.user.email }}</td>
+          <td class="subheading">{{ props.item.trainerName }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -53,6 +53,7 @@ export default {
       return sessions.map(session => {
         session.startedTime = session.startedTime ? dateUtils.toLocalDate(session.startedTime) : '';
         session.playersCount = session.players.length;
+        session.trainerName = session.contest.trainer ? session.contest.trainer.email : '';
         return session;
       });
     },

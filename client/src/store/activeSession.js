@@ -15,7 +15,10 @@ const activeSessionState = {
     data: {},
   },
   data: {
-    trainer: null,
+    players: [],
+    contest: {
+      trainer: {},
+    },
     startedTime: '',
     sessionHash: '',
     status: '',

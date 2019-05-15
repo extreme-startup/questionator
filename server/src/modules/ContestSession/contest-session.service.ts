@@ -31,8 +31,10 @@ export class ContestSessionService {
         order: {
           startedTime: 'ASC',
         },
-        where: { ...query },
-        relations: ['players', 'contest', 'rounds'],
+        where: {
+          ...query,
+        },
+        relations: ['players', 'rounds', 'contest', 'contest.trainer'],
       });
     } catch (e) {
       return e;
@@ -41,7 +43,9 @@ export class ContestSessionService {
 
   async findById(id: string): Promise<ContestSession> {
     try {
-      return this.msRepository.findOne(id);
+      return this.msRepository.findOne(id, {
+        relations: ['players', 'rounds', 'contest', 'contest.trainer'],
+      });
     } catch (e) {
       return e;
     }
