@@ -34,6 +34,7 @@ describe('ContestSessionService', () => {
     sessionMockRepository = new Repository();
     service = new ContestSessionService(
       sessionMockRepository,
+      new Repository(),
       new RoundService(new Repository()),
       new PlayerService(new Repository()),
       new AskQuestionsService(null, null),

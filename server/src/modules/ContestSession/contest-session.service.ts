@@ -4,18 +4,22 @@ import { Repository } from 'typeorm';
 
 import { Round } from '../../entity/Round';
 import { ContestSession } from '../../entity/ContestSession';
+import { Player } from '../../entity/Player';
 import { ContestSessionDto, Status } from './contest-session.dto';
 import { RoundService } from './round.service';
 import { ResponseDto } from '../../models/response.dto';
 import { PlayerDto } from '../Player/player.dto';
 import { PlayerService } from '../Player/player.service';
 import { AskQuestionsService } from '../AskQuestions/ask-questions.service';
+import { AskedQuestion } from 'src/entity/AskedQuestion';
 
 @Injectable()
 export class ContestSessionService {
   constructor(
     @InjectRepository(ContestSession)
     private msRepository: Repository<ContestSession>,
+    @InjectRepository(AskedQuestion)
+    private readonly askedQuestionRepository: Repository<AskedQuestion>,
     private readonly roundService: RoundService,
     private readonly playerService: PlayerService,
     private readonly askQuestionsService: AskQuestionsService,
@@ -37,9 +41,33 @@ export class ContestSessionService {
 
   async findById(id: string): Promise<ContestSession> {
     try {
-      return this.msRepository.findOne(id, {
-        relations: ['players', 'rounds'],
-      });
+      return this.msRepository.findOne(id);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getResults(
+    contestSessionId: string,
+    answerOn: Date,
+  ): Promise<Player[]> {
+    try {
+      return await this.playerService.findAll(contestSessionId, answerOn);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getLastAnswerOn(contestSessionId: string): Promise<Date> {
+    try {
+      return await this.askedQuestionRepository
+        .createQueryBuilder('askedQuestion')
+        .select('MAX(askedQuestion.answeredOn)', 'answeredOn')
+        .where('askedQuestion.contestSession = :contestSessionId', {
+          contestSessionId,
+        })
+        .getRawOne()
+        .then(data => (data ? data.answeredOn : null));
     } catch (e) {
       return e;
     }

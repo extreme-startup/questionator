@@ -22,11 +22,9 @@
           required
         ></v-textarea>
         <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
-        <p
-          class="caption red--text"
-          id="question-text-error"
-          v-if="!isFormInputValid(errors.text)"
-        >{{ getErrorMessage(errors.text) }}</p>
+        <p class="caption red--text" id="question-text-error" v-if="!isFormInputValid(errors.text)">
+          {{ getErrorMessage(errors.text) }}
+        </p>
       </v-layout>
 
       <v-layout v-if="question.type === 'dynamic'" justify-space-between column mb-3>
@@ -40,11 +38,9 @@
           required
         ></v-textarea>
         <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
-        <p
-          class="caption red--text"
-          id="question-text-error"
-          v-if="!isFormInputValid(errors.text)"
-        >{{ getErrorMessage(errors.text) }}</p>
+        <p class="caption red--text" id="question-text-error" v-if="!isFormInputValid(errors.text)">
+          {{ getErrorMessage(errors.text) }}
+        </p>
       </v-layout>
 
       <!-- <v-layout v-show="isDynamicActive" justify-space-between column mb-3>
@@ -78,7 +74,9 @@
           class="caption red--text"
           id="question-answer-error"
           v-if="!isFormInputValid(errors.answer)"
-        >{{ getErrorMessage(errors.answer) }}</p>
+        >
+          {{ getErrorMessage(errors.answer) }}
+        </p>
       </v-layout>
       <v-layout justify-space-between column mb-3>
         <v-text-field
@@ -95,7 +93,9 @@
           class="caption red--text"
           id="question-value-error"
           v-if="!isFormInputValid(errors.value)"
-        >{{ getErrorMessage(errors.value) }}</p>
+        >
+          {{ getErrorMessage(errors.value) }}
+        </p>
         <p class="pt-8" v-if="!isEditable('value')">Value: {{ question.value }}</p>
       </v-layout>
       <small class="grey--text lighten-2--text">*indicates required field</small>
