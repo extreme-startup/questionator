@@ -11,7 +11,7 @@ import { ResponseDto } from '../../models/response.dto';
 import { PlayerDto } from '../Player/player.dto';
 import { PlayerService } from '../Player/player.service';
 import { AskQuestionsService } from '../AskQuestions/ask-questions.service';
-import { AskedQuestion } from 'src/entity/AskedQuestion';
+import { AskedQuestion } from '../../entity/AskedQuestion';
 
 @Injectable()
 export class ContestSessionService {
