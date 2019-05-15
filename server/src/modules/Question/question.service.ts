@@ -57,6 +57,7 @@ export class QuestionService {
     try {
       const question = await this.questionRepository
         .createQueryBuilder()
+        .where("deleted = false")
         .orderBy('RAND()')
         .getOne();
 
