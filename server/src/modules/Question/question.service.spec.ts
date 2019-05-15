@@ -101,6 +101,7 @@ describe('QuestionService', () => {
     it('should get random question from question table', async () => {
       const question = generateQuestion();
       const mockQueryBuilderFn = jest.fn(() => ({
+        where: jest.fn().mockReturnThis(),
         orderBy: jest.fn().mockReturnThis(),
         getOne: jest.fn().mockReturnValue(Promise.resolve(question)),
       }));
@@ -193,7 +194,7 @@ describe('QuestionService', () => {
       askedQuestion.answer = 'answer';
 
       jest
-        .spyOn(mockAskedQuestionRepository, 'findOne')
+        .spyOn(mockAskedQuestionRepository, 'findOneOrFail')
         .mockReturnValue(Promise.resolve(askedQuestion));
       jest
         .spyOn(mockAskedQuestionRepository, 'save')
@@ -215,7 +216,7 @@ describe('QuestionService', () => {
       askedQuestion.answer = 'answer';
 
       jest
-        .spyOn(mockAskedQuestionRepository, 'findOne')
+        .spyOn(mockAskedQuestionRepository, 'findOneOrFail')
         .mockReturnValue(Promise.resolve(askedQuestion));
       jest
         .spyOn(mockAskedQuestionRepository, 'save')

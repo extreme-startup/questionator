@@ -28,7 +28,7 @@ const question = {
   value: '',
 };
 
-describe('QuestionForm', () => {
+fdescribe('QuestionForm', () => {
   let wrapper;
   let storeMocks;
 

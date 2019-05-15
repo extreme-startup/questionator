@@ -1,5 +1,5 @@
 import * as api from '@/contest-session/api';
-import router from '../router'
+import router from '../router';
 
 const sessionState = {
   sessions: {

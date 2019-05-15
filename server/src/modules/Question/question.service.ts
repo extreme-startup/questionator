@@ -10,6 +10,18 @@ import { Contest } from '../../entity/Contest';
 import { ContestSession } from '../../entity/ContestSession';
 import { QuestionCreateDto } from './dto/question-create.dto';
 import { Player } from '../../entity/Player';
+import { NO_ANSWER_MESSAGE, NO_CONTENDER_MESSAGE } from '../Contender/constants';
+
+import { QuestionType } from '../../constants';
+import { Context, runInContext, createContext } from 'vm';
+import { promisify } from 'util';
+import { compile } from 'handlebars';
+// import { get } from 'scrabbler';
+import axios from 'axios';
+import * as numberToWords from 'number-to-words';
+import * as intseq from 'integer-sequences';
+import * as _ from 'lodash';
+import * as fibonacci from 'fibonacci';
 
 @Injectable()
 export class QuestionService {
@@ -22,7 +34,7 @@ export class QuestionService {
     private readonly contestRepository: Repository<Contest>,
     @InjectRepository(ContestSession)
     private msRepository: Repository<ContestSession>,
-  ) {}
+  ) { }
 
   public async findAll(): Promise<ResponseDto<QuestionDto[]>> {
     try {
@@ -45,6 +57,7 @@ export class QuestionService {
     try {
       const question = await this.questionRepository
         .createQueryBuilder()
+        .where('deleted = :deleted', { deleted: false })
         .orderBy('RAND()')
         .getOne();
 
@@ -76,7 +89,9 @@ export class QuestionService {
     }
   }
 
-  public async insert(payload: QuestionCreateDto): Promise<ResponseDto<QuestionDto>> {
+  public async insert(
+    payload: QuestionCreateDto,
+  ): Promise<ResponseDto<QuestionDto>> {
     try {
       const contest = await this.contestRepository.findOne({
         relations: ['contestSessions'],
@@ -171,13 +186,27 @@ export class QuestionService {
     newAskedQuestion.askedOn = new Date();
     newAskedQuestion.score = question.value;
 
+    if (question.type === QuestionType.STATIC) {
+      newAskedQuestion.answer = question.answer; newAskedQuestion.question = question;
+    } else {
+      const rawContext = runInContext(
+        question.contextGenerator,
+        this.dynamicQuestionSandbox,
+      );
+      const answer = runInContext(
+        question.answer,
+        createContext({ ...this.dynamicQuestionSandbox, ...rawContext }),
+      );
+      newAskedQuestion.context = JSON.stringify(rawContext);
+      newAskedQuestion.answer = JSON.stringify(answer);
+      newAskedQuestion.question.text = compile(question.text)(rawContext);
+    }
+
     newAskedQuestion.contestPlayerId = player.id;
     newAskedQuestion.player = player;
     newAskedQuestion.contestSession = player.contestSession;
 
     newAskedQuestion.text = question.text;
-    newAskedQuestion.answer = question.answer;
-    // TODO: #24 Set Up Dynamic questions https://github.com/extreme-startup/questionator/issues/24
 
     try {
       return this.askedQuestionRepository.save(newAskedQuestion);
@@ -193,11 +222,22 @@ export class QuestionService {
     askedQuestionId: string,
     answer: string,
   ): Promise<AskedQuestion> => {
-    const askedQuestion = await this.askedQuestionRepository.findOne({
-      id: askedQuestionId,
-    });
+    let askedQuestion;
 
-    if (!askedQuestion) {
+    try {
+      if (!askedQuestion) {
+        askedQuestion = await this.askedQuestionRepository.findOneOrFail({
+          where: { id: askedQuestionId },
+          // join: {
+          //   alias: 'question',
+          //   leftJoinAndSelect: {
+          //     type: 'question.type',
+          //     answerCheck: 'question.answerCheck',
+          //   },
+          // },
+        });
+      }
+    } catch (e) {
       throw new HttpException('Asked question not found', HttpStatus.NOT_FOUND);
     }
 
@@ -209,8 +249,23 @@ export class QuestionService {
     }
 
     askedQuestion.answeredOn = new Date();
-    // TODO: process Player score here
-    askedQuestion.isCorrect = answer === askedQuestion.answer;
+
+// The answers convertable to a `Number` are converted under a hood for some reason
+// (say, a contender sends "10" but the answer obtained here is 10). As the `answer`
+// field of the `AskedQuestion` is of `String` type this additional usage of `toString()`
+// is necessary
+// TODO: Specify the type of the answer wanted from a contender and convert  `askedQuestion.answer`
+// and `answer` accordingly
+
+    askedQuestion.isCorrect = answer.toString() === askedQuestion.answer;
+
+    if (answer === NO_ANSWER_MESSAGE ) {
+      askedQuestion.score = -50;
+    } else if (answer === NO_CONTENDER_MESSAGE) {
+      askedQuestion.score = -20;
+    } else if (!askedQuestion.isCorrect) {
+      askedQuestion.score = -askedQuestion.score;
+    }
 
     try {
       return this.askedQuestionRepository.save(askedQuestion);
@@ -220,5 +275,34 @@ export class QuestionService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  private readonly dynamicQuestionSandbox: Context = createContext({
+    axios,
+    numberToWords,
+    intseq,
+    _,
+    fibonacci,
+    // scrabbler: promisify(get),
+  });
+
+  private async evalInSandbox(code, ...args) {
+    let result;
+    try {
+      result = runInContext(
+        code,
+        this.dynamicQuestionSandbox,
+      );
+
+      if (typeof result === 'function') {
+        result = result(...args);
+      }
+      if (result instanceof Promise) {
+        result = await result;
+      }
+    } catch (error) {
+      throw new Error(`Cant eval stored expression: ${error}`);
+    }
+    return result;
   }
 }

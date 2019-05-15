@@ -15,6 +15,12 @@ export class QuestionDto {
   public readonly answer: string;
 
   @ApiModelProperty()
+  readonly contextGenerator: string;
+
+  //  @ApiModelProperty()
+  // readonly answerCheck: string;
+
+  @ApiModelProperty()
   public readonly value: number;
 
   @ApiModelProperty()

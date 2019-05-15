@@ -18,7 +18,7 @@
     </v-layout>
     <v-layout row>
       <v-flex md7>
-        <v-text-field readonly v-model="sessionLink" id="activeSessionLinkId" type="text"/>
+        <v-text-field readonly v-model="sessionLink" id="activeSessionLinkId" type="text" />
       </v-flex>
       <v-flex md2>
         <v-btn v-on:click="copyGeneratedLink" dark>COPY LINK</v-btn>
@@ -41,7 +41,7 @@
 
     <v-layout row>
       <v-flex xl12>
-        <LeaderBoard :contestSessionId="sessionId"/>
+        <LineChart :chart-data="{ datasets: answeredQuestions }"></LineChart>
       </v-flex>
     </v-layout>
     <v-layout row mt-4>
@@ -49,14 +49,14 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <contenders-table :contenders="activeSession.players"/>
+        <contenders-table :contenders="contenders" />
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import LeaderBoard from '@/contest-session/LeaderBoard.vue';
+import LineChart from './LineChart';
 import ContendersTable from './ContendersTable';
 
 export default {
@@ -70,6 +70,12 @@ export default {
       activeSession.trainerName =
         activeSession.contest.trainer ? activeSession.contest.trainer.email : '';
       return activeSession;
+    },
+    contenders() {
+      return this.$store.getters['activeSession/contenders'];
+    },
+    answeredQuestions() {
+      return this.$store.getters['activeSession/accumulatedAnsweredQuestions'];
     },
     isFetching() {
       return this.$store.getters['activeSession/getActiveSessionFetchingStatus'].isFetching;
@@ -100,7 +106,7 @@ export default {
   props: {
     sessionId: String,
   },
-  components: { ContendersTable, LeaderBoard },
+  components: { ContendersTable, LineChart },
   methods: {
     copyGeneratedLink() {
       try {

@@ -9,8 +9,8 @@
         </v-radio-group>
       </v-layout>
       <p class="pt-8" v-if="!isEditable('type')">Type: {{ question.type }}</p>
-      <v-layout justify-space-between column mb-4>
-        <v-text-field
+      <v-layout justify-space-between column mb-3>
+        <v-textarea
           :error="!isFormInputValid(errors.text)"
           v-if="isEditable('text')"
           v-model.trim="question.text"
@@ -18,14 +18,46 @@
           id="question-text-input"
           label="Question*"
           placeholder="Type your question"
+          no-resize
           required
-        ></v-text-field>
+        ></v-textarea>
         <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
         <p class="caption red--text" id="question-text-error" v-if="!isFormInputValid(errors.text)">
           {{ getErrorMessage(errors.text) }}
         </p>
       </v-layout>
-      <v-layout justify-space-between column mb-4>
+
+      <v-layout v-if="question.type === 'dynamic'" justify-space-between column mb-3>
+        <v-textarea
+          name="context"
+          label="Context*"
+          v-model.trim="question.contextGenerator"
+          id="question-context-input"
+          placeholder="Type question context"
+          no-resize
+          required
+        ></v-textarea>
+        <p class="pt-8" v-if="!isEditable('text')">Question: {{ question.text }}</p>
+        <p class="caption red--text" id="question-text-error" v-if="!isFormInputValid(errors.text)">
+          {{ getErrorMessage(errors.text) }}
+        </p>
+      </v-layout>
+
+      <!-- <v-layout v-show="isDynamicActive" justify-space-between column mb-3>
+        <label>Question Context:</label>
+        <runkit
+          :source="question.contextGenerator"
+          @evaluate="onContextEvaluate"
+          ref="runkitContext"
+        />
+      </v-layout>
+
+      <v-layout v-show="isDynamicActive" justify-space-between column mb-3>
+        <label>Answer:</label>
+        <runkit :source="question.answer" ref="runkitAnswer"/>
+      </v-layout>-->
+
+      <v-layout justify-space-between column mb-3>
         <v-textarea
           :error="!isFormInputValid(errors.answer)"
           name="answer"
@@ -46,7 +78,7 @@
           {{ getErrorMessage(errors.answer) }}
         </p>
       </v-layout>
-      <v-layout justify-space-between column mb-4>
+      <v-layout justify-space-between column mb-3>
         <v-text-field
           :error="!isFormInputValid(errors.value)"
           v-if="isEditable('value')"
@@ -80,11 +112,15 @@
 </template>
 
 <script>
+// import runkit from 'vue-runkit';
+
 const isNumber = n => /^\d+$/.test(n);
 
 export default {
   name: 'QuestionForm',
   props: ['question', 'errors', 'submitTitle', 'editFieldsConfig'],
+  // components: { runkit },
+  async mounted() {},
   computed: {
     isStaticActive: function() {
       return this.question.type === 'static';
@@ -95,13 +131,34 @@ export default {
   },
   methods: {
     submitQuestion(event) {
+      // if (this.isStaticActive) {
       const qs = { ...this.question };
+
       if (!this.formValidate(qs)) {
         return;
       }
+
       const question = { ...qs, value: Number(qs.value) };
       this.$emit('submit', question);
       event.target.reset();
+      // } else {
+      // const contextNotebook = this.$refs.runkitContext.notebook;
+      // const answerNotebook = this.$refs.runkitAnswer.notebook;
+
+      // answerNotebook.getSource(source => {
+      //   const qs = { ...this.question, answer: source };
+
+      //   if (!this.formValidate(qs)) {
+      //     return;
+      //   }
+
+      //   contextNotebook.getSource(contextSource => {
+      //     const question = { ...qs, value: Number(qs.value), contextGenerator: contextSource };
+      //     this.$emit('submit', question);
+      //     event.target.reset();
+      //   });
+      // });
+      // }
     },
     formValidate(question) {
       const isFormValid = Object.keys(question).reduce((acc, key) => {
@@ -137,6 +194,11 @@ export default {
     },
     isEditable(field) {
       return !this.editFieldsConfig || this.editFieldsConfig.includes(field);
+    },
+    onContextEvaluate(notebook) {
+      notebook.getSource(source => {
+        this.$refs.runkitAnswer.notebook.setPreamble(source, () => {});
+      });
     },
   },
 };

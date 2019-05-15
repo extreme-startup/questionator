@@ -33,12 +33,13 @@ exports[`QuestionForm renders correctly 1`] = `
     <v-layout
       column=""
       justify-space-between=""
-      mb-4=""
+      mb-3=""
     >
-      <v-text-field
+      <v-textarea
         id="question-text-input"
         label="Question*"
         name="questionText"
+        no-resize=""
         placeholder="Type your question"
         required=""
       />
@@ -48,10 +49,12 @@ exports[`QuestionForm renders correctly 1`] = `
       <!---->
     </v-layout>
      
+    <!---->
+     
     <v-layout
       column=""
       justify-space-between=""
-      mb-4=""
+      mb-3=""
     >
       <v-textarea
         id="question-answer-input"
@@ -70,7 +73,7 @@ exports[`QuestionForm renders correctly 1`] = `
     <v-layout
       column=""
       justify-space-between=""
-      mb-4=""
+      mb-3=""
     >
       <v-text-field
         id="question-value-input"

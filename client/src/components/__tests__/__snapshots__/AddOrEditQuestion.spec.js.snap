@@ -47,12 +47,13 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
           <v-layout
             column=""
             justify-space-between=""
-            mb-4=""
+            mb-3=""
           >
-            <v-text-field
+            <v-textarea
               id="question-text-input"
               label="Question*"
               name="questionText"
+              no-resize=""
               placeholder="Type your question"
               required=""
             />
@@ -62,10 +63,12 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
             <!---->
           </v-layout>
            
+          <!---->
+           
           <v-layout
             column=""
             justify-space-between=""
-            mb-4=""
+            mb-3=""
           >
             <v-textarea
               id="question-answer-input"
@@ -84,7 +87,7 @@ exports[`AddOrEditQuestion renders add form correctly 1`] = `
           <v-layout
             column=""
             justify-space-between=""
-            mb-4=""
+            mb-3=""
           >
             <v-text-field
               id="question-value-input"
@@ -175,7 +178,7 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
           <v-layout
             column=""
             justify-space-between=""
-            mb-4=""
+            mb-3=""
           >
             <!---->
              
@@ -188,10 +191,12 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
             <!---->
           </v-layout>
            
+          <!---->
+           
           <v-layout
             column=""
             justify-space-between=""
-            mb-4=""
+            mb-3=""
           >
             <v-textarea
               id="question-answer-input"
@@ -210,7 +215,7 @@ exports[`AddOrEditQuestion renders edit form correctly 1`] = `
           <v-layout
             column=""
             justify-space-between=""
-            mb-4=""
+            mb-3=""
           >
             <v-text-field
               id="question-value-input"
